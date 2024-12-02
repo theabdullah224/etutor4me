@@ -131,8 +131,8 @@ function PauseOrResign() {
           <p className="text-3xl leading-snug text-[#6B5692] mb-40">
             We understand that circumstances can change, and sometimes you may
             need to step back from your <br />
-            tutoring role. Whether you're looking to take a temporary break or
-            feel it's time to resign, we’re here to <br />
+            tutoring role. Whether you&apos;re looking to take a temporary break or
+            feel it&apos;s time to resign, we&apos;re here to <br />
             support your decision. Please choose the option that aligns with
             your current needs.
           </p>
@@ -158,7 +158,7 @@ function PauseOrResign() {
               <p className="text-3xl leading-snug text-[#6B5692] mb-40">
                 Need some time off? By pausing your tutoring sessions, you can
                 take a break without losing your eTutor <br />
-                profile, and you can easily resume tutoring when you're ready.
+                profile, and you can easily resume tutoring when you&apos;re ready.
                 This option is perfect if you plan to return in the <br />
                 near future but need some time away for personal, academic, or
                 professional reasons.

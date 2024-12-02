@@ -580,7 +580,7 @@ const ETutorSearch = ({
   const handleBookingInputChange = (field, value) => {
     setBookingInfo((prev) => ({ ...prev, [field]: value }));
   };
-  const handleDateChange = (date) => {
+  const handleDateChange = (date:any) => {
     setSelectedDate(date);
     setBookingInfo((prev) => ({ ...prev, date: date.toLocaleDateString() }));
     setIsOpen(false);
@@ -646,6 +646,7 @@ const ETutorSearch = ({
       switch (searchParams.sortBy) {
         case "createdAt":
           filteredTeachers = filteredTeachers.sort(
+            // @ts-ignore
             (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
           );
           break;
@@ -677,7 +678,7 @@ const ETutorSearch = ({
     // Filter by searchTerm
     if (searchParams.searchTerm) {
       filteredTeachers = filteredTeachers.filter(
-        (teacher) =>
+        (teacher:any) =>
           teacher.contactInformation.firstName
             .toLowerCase()
             .includes(searchParams.searchTerm.toLowerCase()) ||
@@ -697,7 +698,7 @@ const ETutorSearch = ({
 
     // Filter by subjects
     if (searchParams.subjects.length > 0) {
-      filteredTeachers = filteredTeachers.filter((teacher) =>
+      filteredTeachers = filteredTeachers.filter((teacher:any) =>
         searchParams.subjects.every((subject) =>
           teacher.experience.subjectsTutored.includes(subject)
         )
@@ -707,14 +708,14 @@ const ETutorSearch = ({
     // Filter by level
     if (searchParams.level) {
       filteredTeachers = filteredTeachers.filter(
-        (teacher) => teacher.level === searchParams.level
+        (teacher:any) => teacher.level === searchParams.level
       );
     }
 
     // Filter by gender
     if (searchParams.gender) {
       filteredTeachers = filteredTeachers.filter(
-        (teacher) => teacher.contactInformation.gender === searchParams.gender
+        (teacher:any) => teacher.contactInformation.gender === searchParams.gender
       );
     }
 
@@ -794,6 +795,7 @@ const ETutorSearch = ({
               placeholder="Search by eTutor's"
               className=" bg-[#DBCAFF] text-[#a394d6] placeholder-[#a394d6] px-10  py-2 rounded-full border border-transparent w-full  custom-xl:w-[19.4rem] focus:outline-none focus:ring-0"
               value={searchParams.searchTerm}
+              // @ts-ignore
               onChange={(e) => handleInputChange("searchTerm", e.target.value)}
             />
             <Image
@@ -845,6 +847,7 @@ const ETutorSearch = ({
                         <div className="relative">
                           <input
                             type="checkbox"
+                            // @ts-ignore
                             checked={selectedSubjects.includes(subject.value)}
                             onChange={() => {}}
                             className="absolute opacity-0 cursor-pointer"
@@ -852,12 +855,15 @@ const ETutorSearch = ({
                           <div
                             className={`h-7 w-7  border-2 border-[#6C5BAA] hover:bg-[#a394d6] hover:border-[#a394d6] rounded-md flex items-center justify-center 
                      ${
+                              // @ts-ignore
                        selectedSubjects.includes(subject.value)
                          ? "bg-[#6c5baa]"
                          : ""
                      }`}
                           >
-                            {selectedSubjects.includes(subject.value) && (
+                            
+                            {// @ts-ignore
+                            selectedSubjects.includes(subject.value) && (
                               <Check />
                             )}
                           </div>
@@ -981,7 +987,7 @@ const ETutorSearch = ({
               className="w-full scroll-smooth select-none mt-5  border-none accent-[#00DAE5]"
             />
             <p className="text-lg mt-2 mb-5 text-[#b9aed6]">
-              Slide to adjust eTutor's level
+              Slide to adjust eTutor&apos;s level
             </p>
           </div>
         </div>
@@ -1099,6 +1105,7 @@ const ETutorSearch = ({
               placeholder="Search by eTutor's"
               className=" bg-[#DBCAFF] text-[#a394d6] placeholder-[#a394d6] px-10  py-3.5 rounded-full border border-transparent w-full  custom-xl:w-[24.8rem] focus:outline-none focus:ring-0"
               value={searchParams.searchTerm}
+              // @ts-ignore
               onChange={(e) => handleInputChange("searchTerm", e.target.value)}
             />
             <Image
@@ -1120,12 +1127,14 @@ const ETutorSearch = ({
         {filteredTutors?.length > 0 &&
           filteredTutors?.map((teacher) => (
             <div
+            // @ts-ignore
               key={teacher._id}
               className="flex flex-col custom-2xl:flex-row  justify-between bg-[#A296CC] rounded-3xl px-8 py-6 gap-6"
             >
               <div className="  h-fit  w-full custom-2xl:max-w-[20rem] ">
                 <div className="flex flex-col sm:flex-row justify-start items-center gap-6">
                   <img
+                  
                     src={teacher.user.profilePicture || ""}
                     alt=""
                     // width={24}
@@ -1135,8 +1144,8 @@ const ETutorSearch = ({
 
                   <div>
                     <h2 className="text-lg sm:text-3xl font-semibold  sm:text-start text-center capitalize">
-                      {teacher.contactInformation.firstName}{" "}
-                      {teacher.contactInformation.lastName}
+                      {teacher?.contactInformation?.firstName}{" "}
+                      {teacher?.contactInformation?.lastName}
                     </h2>
                     <p className="text-md sm:text-2xl  text-[#534988] sm:text-start text-center">
                       Bio
@@ -1164,7 +1173,7 @@ const ETutorSearch = ({
                   <div className="mt-4 flex flex-col items-center sm:items-start">
                     <h3 className="text-lg text-white">Subjects:</h3>
                     <p className="text-lg text-[#473171] text-center sm:text-start">
-                      {teacher.education.major}
+                      {teacher.education?.major}
                     </p>
                   </div>
                 </div>
@@ -1178,7 +1187,7 @@ const ETutorSearch = ({
 
                 <h3 className="text-lg  mt-6">Study</h3>
                 <p className="text-lg text-[#473171]">
-                  {teacher.education.degree}
+                  {teacher.education?.degree}
                 </p>
 
                 <h3 className="text-lg  mt-6">Teaching Experience</h3>
@@ -1276,7 +1285,7 @@ const ETutorSearch = ({
                     EXPERIENCE (Formal): 1 to 3 years
                   </p>
                   <p className="text-xl text-[#534988] text-center sm:text-start">
-                    BOOKINGs: {tutor.totalbooking}
+                    BOOKINGs: {tutor?.totalbooking}
                   </p>
                 </div>
               </div>
@@ -1644,7 +1653,7 @@ const ETutorSearch = ({
   };
 
   const progressPercentage = bookingStep * 33.33;
-  const BookingView: React.FC<{ tutor: ITeacher | null }> = ({ tutor }) => {
+  const BookingView: React.FC<{ tutor: ITeacher | any }> = ({ tutor }) => {
     return (
       <div className=" flex  relative items-start">
         {/* <div className="absolute top-1 left-3.5">
@@ -1921,10 +1930,8 @@ const ETutorSearch = ({
                   p-2 text-center rounded-full text-sm sm:text-lg custom-2xl:text-2xl font-medium
                   ${day.isCurrentMonth ? "text-[#685aad] " : "text-[#d3c6ef]"}
                   ${
-                    selectedDate &&
-                    selectedDate.getDate() === day.day &&
-                    selectedDate.getMonth() === currentDate.getMonth() &&
-                    selectedDate.getFullYear() === currentDate.getFullYear()
+                  // @ts-ignore
+                    selectedDate && selectedDate.getDate() === day.day && selectedDate.getMonth() === currentDate.getMonth() && selectedDate.getFullYear() === currentDate.getFullYear()
                       ? ""
                       : ""
                   }
@@ -2018,7 +2025,7 @@ const ETutorSearch = ({
                   <div className="flex justify-between text-xl capitalize px-2 py-3 font-medium text-[#9184D2]">
                     <p>tutor</p>
                     <p className="text-[#685AAD]">
-                      {tutor.contactInformation.firstName}{" "}
+                      {tutor?.contactInformation.firstName}{" "}
                     </p>
                   </div>
 

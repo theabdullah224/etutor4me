@@ -6,7 +6,7 @@ const StayUpdated = () => {
       <div>
         <h2 className='text-[5rem] text-darkBlue font-extrabold xl:text-[4rem] lg:text-[3rem] mb:text-[1.8rem]'>Be Part of the eTutor4Me Journey!</h2>
         <p className='para-global mt-8 lg:mt-4 mb:mt-2 '>
-        We're on a mission to redefine tutoring. Check back soon, and be ready to register as one of our eTutors. Your journey with us is just beginning!
+        We&apos;re on a mission to redefine tutoring. Check back soon, and be ready to register as one of our eTutors. Your journey with us is just beginning!
         </p>
       </div>
       <div className='mt-28 xl:mt-20 lg:mt-12 mb:mt-6'>

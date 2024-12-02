@@ -19,7 +19,7 @@ const BecomeEtutor = () => {
                 <h2 className='  text-[3rem] font-extrabold mb:text-lg xl:text-4xl lg:text-3xl'>Work from Anywhere</h2>
                 <p className='max-w-[28rem] leading-tight lg:max-w-[20rem] mt-3 text-2xl bold-medium mb:text-[12px] mb:max-w-none lg:text-[20px] xl:text-2xl mb:mt-2'>
                   Enjoy the freedom to tutor from anywhere
-                  in the world, whether you're at home,
+                  in the world, whether you&apos;re at home,
                   in a café, or traveling, and connect with
                   students online for valuable sessions.
                 </p>

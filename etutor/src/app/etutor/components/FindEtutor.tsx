@@ -10,7 +10,7 @@ import {
 import searchicon from "../../../../public/search icon.svg";
 import badge from "../../../../public/badge.svg";
 import Image from "next/image";
-import BookingForm from "./BookingForm";
+// import BookingForm from "./BookingForm";
 
 const subjects = [
   { name: "Maths", levels: "11+, GCSE, KS2, KS3" },
@@ -491,7 +491,7 @@ const ETutorSearch = () => {
               className="w-full scroll-smooth select-none mt-5  border-none accent-[#00DAE5]"
             />
             <p className="text-lg mt-2 mb-5 text-[#b9aed6]">
-              Slide to adjust eTutor's level
+              Slide to adjust eTutor&apos;s level
             </p>
           </div>
         </div>

@@ -328,7 +328,7 @@ const handleSubscribe = async () => {
             </div>
             <div className="mb-6 ">
               <h3 className="text-[#5553C4]  pb-7 px-2 sm:px-4   text-2xl custom-2xl:text-4xl font-bold">
-                eTutor's Level
+                eTutor&apos;s Level
               </h3>
               <div className="flex flex-wrap gap-2">
                 {[
@@ -367,7 +367,7 @@ const handleSubscribe = async () => {
               </p>
               <p className="flex flex-col pb-4 ">
                 <span className="text-[#5553C4]      text-sm sm:text-xl custom-2xl:text-3xl font-bold">
-                  eTutor's Level
+                  eTutor&apos;s Level
                 </span>
                 <span className="text-[#8653FF] text-lg custom-2xl:text-2xl">Senior</span>
               </p>
@@ -392,7 +392,7 @@ const handleSubscribe = async () => {
             <p>
               If you decide to switch to a different eTutor at a different level
               while on an ongoing membership package, your subscription will be
-              adjusted to match the new eTutor's fee bracket. We will ask for
+              adjusted to match the new eTutor&apos;s fee bracket. We will ask for
               your confirmation before making any changes
             </p>
           </div>

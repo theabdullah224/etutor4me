@@ -31,7 +31,7 @@ const FAQHero = () => {
      <Headings className='text-[90px] font-extrabold max-w-3xl leading-normal xl:leading-normal mb:text-[35px] mb:leading-none' heading='Frequently Asked Questions'/>
         </div>
       
-      <p className='text-[42px] text-center font-medium  text-darkBlue mt-4 mb:text-lg mb:w-4/5 mb:mx-auto lg:text-[30px] xl:text-[35px]'>Here you'll find answers to the most common questions about our services
+      <p className='text-[42px] text-center font-medium  text-darkBlue mt-4 mb:text-lg mb:w-4/5 mb:mx-auto lg:text-[30px] xl:text-[35px]'>Here you&apos;ll find answers to the most common questions about our services
       </p>
       </div>
       <div className='grid  grid-cols-4 gap-y-20 gap-10 m-auto content-center justify-items-center  w-[90%] xl:py-32 py-60 pb-80 mb:grid-cols-2 lg:py-32 mb:w-full mb:gap-5 mb:py-12 tb:grid-cols-3' >

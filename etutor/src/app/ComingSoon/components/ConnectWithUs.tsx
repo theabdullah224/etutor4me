@@ -13,16 +13,16 @@ const ConnectWithUs = () => {
         </p>
         <div className='w-[60%] flex justify-between items-center pt-16 lg:w-[70%] mb:w-[90%] mb:flex-wrap mb:gap-10 tb:w-[70%]'>
             <div className='w-[7rem] relative h-[7rem] mb:w-[4rem] mb:h-[4rem] mb:rounded-xl rounded-3xl bg-[#EDE8FA]'>
-                    <Image className='absolute left-5 top-7 mb:top-3 ' src={insta} />
+                    <Image className='absolute left-5 top-7 mb:top-3 ' src={insta} alt={''} />
             </div>
             <div className='w-[7rem] relative h-[7rem] mb:w-[4rem] mb:h-[4rem] mb:rounded-xl rounded-3xl bg-[#EDE8FA]'>
-                    <Image className='absolute left-7 top-7 mb:top-3 mb:left-4' src={tiktok} />
+                    <Image className='absolute left-7 top-7 mb:top-3 mb:left-4' src={tiktok} alt={''} />
             </div>
             <div className='w-[7rem] relative h-[7rem] mb:w-[4rem] mb:h-[4rem] mb:rounded-xl rounded-3xl bg-[#EDE8FA]'>
-                    <Image className='absolute left-7 top-7 mb:top-3 mb:left-3' src={twitter} />
+                    <Image className='absolute left-7 top-7 mb:top-3 mb:left-3' src={twitter} alt={''} />
             </div>
             <div className='w-[7rem] relative h-[7rem] mb:w-[4rem] mb:h-[4rem] mb:rounded-xl rounded-3xl bg-[#EDE8FA]'>
-                    <Image className='absolute left-5 top-7 mb:top-3 mb:left-3' src={youtube} />
+                    <Image className='absolute left-5 top-7 mb:top-3 mb:left-3' src={youtube} alt={''} />
             </div>
         </div>
     </div>

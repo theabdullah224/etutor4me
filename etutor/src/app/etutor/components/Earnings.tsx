@@ -89,7 +89,7 @@ const TutoringDashboard = ({teacher}:earningprops) => {
           </h2>
           <p className="text-white text-xl font-normal mb-2">
             As a legal requirement, we need to collect your tax information. If
-            we don't receive it, we will suspend your payouts and account until
+            we don&apos;t receive it, we will suspend your payouts and account until
             you provide it. <br />
             Fill the tax information section of your Profile as soon as possible
             to keep your payouts regular.
