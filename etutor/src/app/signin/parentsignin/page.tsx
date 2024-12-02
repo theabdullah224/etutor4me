@@ -5,7 +5,7 @@ import Image from "next/image";
 import singup from "../../../../public/assets/signup/parent.png";
 import Link from "next/link";
 import google from "../../../../public/googleicon.svg";
-import line from "../../../../../../../public/assets/icons/line.svg";
+import line from "../../../../public/line.svg";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
