@@ -23,7 +23,7 @@ import RadioInput from "./components/RadioInput";
 import CheckboxInput from "./components/CheckboxInput";
 import Dropdown from "@/components/Dropdonw";
 // import DaysHeading from "@/components/DaysHeading";
-import tick from "../../../../../../public/assets/icons/tickicon.svg";
+// import tick from "../../../../../../public/assets/icons/tickicon.svg";
 import DaysOfWeek from "./components/DaysOfWeek";
 import DayRow from "./components/DayRow";
 
@@ -1115,11 +1115,7 @@ const Page = () => {
                           >
                             {clicked && (
                               // eslint-disable-next-line react/jsx-no-undef
-                              <Image
-                                src={tick} // Replace with the correct path for the tick icon
-                                alt="Tick"
-                                className="w-10 h-10"
-                              />
+                                <Check className="w-10 h-10"/>
                             )}
                           </div>
                         </div>
@@ -1371,7 +1367,7 @@ const Page = () => {
                         }`}
                       >
                         {selectedInstructionsexp.includes("1-on-1") && (
-                          <Image src={tick} alt="Tick" className="w-10 h-10" />
+                           <Check className="w-10 h-10"/>
                         )}
                       </div>
                     </div>
@@ -1410,7 +1406,7 @@ const Page = () => {
                         {selectedInstructionsexp.includes(
                           "Small group (5 to 15 students)"
                         ) && (
-                          <Image src={tick} alt="Tick" className="w-10 h-10" />
+                           <Check className="w-10 h-10"/>
                         )}
                       </div>
                     </div>
@@ -1599,11 +1595,7 @@ const Page = () => {
                                       }`}
                                     >
                                       {isChecked && (
-                                        <Image
-                                          src={tick}
-                                          alt="Tick"
-                                          className="w-10 h-10"
-                                        />
+                                          <Check className="w-10 h-10"/>
                                       )}
                                     </div>
                                   </div>
@@ -2166,11 +2158,7 @@ const Page = () => {
                                   >
                                     {clicked && (
                                       // eslint-disable-next-line react/jsx-no-undef
-                                      <Image
-                                        src={tick} // Replace with the correct path for the tick icon
-                                        alt="Tick"
-                                        className="w-10 h-10"
-                                      />
+                                      <Check className="w-10 h-10"/>
                                     )}
                                   </div>
                                 </div>
@@ -2447,11 +2435,7 @@ const Page = () => {
                                 }`}
                               >
                                 {selectedInstructionsexp.includes("1-on-1") && (
-                                  <Image
-                                    src={tick}
-                                    alt="Tick"
-                                    className="w-10 h-10"
-                                  />
+                                    <Check className="w-10 h-10"/>
                                 )}
                               </div>
                             </div>
@@ -2490,11 +2474,7 @@ const Page = () => {
                                 {selectedInstructionsexp.includes(
                                   "Small group (5 to 15 students)"
                                 ) && (
-                                  <Image
-                                    src={tick}
-                                    alt="Tick"
-                                    className="w-10 h-10"
-                                  />
+                                  <Check className="w-10 h-10"/>
                                 )}
                               </div>
                             </div>
@@ -2711,11 +2691,7 @@ const Page = () => {
                                       }`}
                                     >
                                       {isChecked && (
-                                        <Image
-                                          src={tick}
-                                          alt="Tick"
-                                          className="w-10 h-10"
-                                        />
+                                          <Check className="w-10 h-10"/>
                                       )}
                                     </div>
                                   </div>
@@ -2806,9 +2782,10 @@ const Page = () => {
                       }`}
                     >
                       {agreeterms === true && (
-                        <Image src={tick} alt="Tick" className="w-10 h-10" />
+                         <Check className="w-10 h-10"/>
                       )}
                     </div>
+                  
                   </div>
                   <label
                     className="text-[#685AAD] text-2xl pl-6"
