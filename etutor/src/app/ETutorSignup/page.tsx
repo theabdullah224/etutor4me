@@ -41,6 +41,7 @@ import {
   ChevronRight,
   ChevronUp,
   X,
+  
 } from "lucide-react";
 
 const ExperienceQuestions = ({ question, className, span }: any) => {
@@ -49,6 +50,7 @@ const ExperienceQuestions = ({ question, className, span }: any) => {
       <h2
         className={`${className} text-[#534988] py-5 text-[26px] font-medium `}
       >
+      
         {question} <span className="!font-light">{span}</span>
       </h2>
     </div>
