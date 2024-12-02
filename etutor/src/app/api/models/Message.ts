@@ -1,0 +1,55 @@
+// import mongoose, { Schema, Document } from 'mongoose';
+// import { IUser } from './User'; // Assuming you have an IUser model for User
+
+// interface IMessage extends Document {
+//   senderId: IUser["_id"];
+//   recipientId: IUser["_id"];
+//   content: string;
+//   conversationId: mongoose.Schema.Types.ObjectId;
+//   timestamp: Date;
+// }
+
+// const messageSchema = new Schema<IMessage>({
+//   senderId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+//   recipientId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+//   content: { type: String, required: true },
+//   conversationId: { type: mongoose.Schema.Types.ObjectId, ref: 'Conversation', required: true },
+//   timestamp: { type: Date, default: Date.now },
+// });
+
+// // Check if the model already exists to avoid overwriting it
+// const Message = mongoose.models.Message || mongoose.model<IMessage>('Message', messageSchema);
+
+// export default Message;
+// export type { IMessage };
+
+
+import mongoose, { Schema, Document } from 'mongoose';
+import { IUser } from './User';
+
+interface IMessage extends Document {
+  senderId: IUser["_id"];
+  recipientId: IUser["_id"];
+  content: string;
+  fileUrl?: string;
+  fileType?: string;
+  fileName?: string;
+  conversationId: mongoose.Schema.Types.ObjectId;
+  timestamp: Date;
+}
+
+const messageSchema = new Schema<IMessage>({
+  senderId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  recipientId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  content: { type: String, required: true },
+  fileUrl: { type: String },
+  fileType: { type: String },
+  fileName: { type: String },
+  conversationId: { type: mongoose.Schema.Types.ObjectId, ref: 'Conversation', required: true },
+  timestamp: { type: Date, default: Date.now },
+});
+
+const Message = mongoose.models.Message || mongoose.model<IMessage>('Message', messageSchema);
+
+export default Message;
+export type { IMessage };
