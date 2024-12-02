@@ -211,7 +211,7 @@ interface Credentials {
   password: string;
 }
 
-export const authOptions: NextAuthOptions = {
+const handler = NextAuth ({
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -304,7 +304,7 @@ export const authOptions: NextAuthOptions = {
     strategy: 'jwt',
   },
   secret: process.env.NEXTAUTH_SECRET, 
-};
+})
 
-const handler = NextAuth(authOptions);
+// const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
