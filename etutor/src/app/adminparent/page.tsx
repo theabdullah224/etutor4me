@@ -411,6 +411,7 @@ const SessionsDashboard = () => {
       currentDate.getMonth() + 1
     ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
     const session = sessionData.find((session) => session.date === dateString);
+    // @ts-ignore
     return session ? session.message : "";
   };
 

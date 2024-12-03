@@ -170,7 +170,7 @@
 // export { PhoneInput };
 import React from 'react'
 
-function phone-input() {
+function phoneinput() {
   return (
     <div>
       
@@ -178,4 +178,4 @@ function phone-input() {
   )
 }
 
-export default phone-input
+export default phoneinput
