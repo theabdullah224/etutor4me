@@ -2,7 +2,7 @@
 import { NextResponse } from 'next/server'; // Next.js server response helper
 import { connectMongoDB } from '../connection/connection';
 import { getServerSession } from 'next-auth';
-import {authOptions} from '@/app/auth/route';  
+import {authOptions} from '@/app/auth/auth';  
 import UserModel from '../models/User';
 
 

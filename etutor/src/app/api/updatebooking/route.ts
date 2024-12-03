@@ -2,7 +2,7 @@ import { connectMongoDB } from '../connection/connection';
 import TeacherModel from '../models/Teacher';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
-import {authOptions} from '@/app/auth/route'; // Update with your actual path
+import {authOptions} from '@/app/auth/auth'; // Update with your actual path
 
 export async function POST(req: Request) {
   try {

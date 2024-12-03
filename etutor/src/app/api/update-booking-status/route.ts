@@ -177,7 +177,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import BookingModel from '../models/Booking';
 import { connectMongoDB } from '../connection/connection';
-import {authOptions} from '@/app/auth/route'; 
+import {authOptions} from '@/app/auth/auth'; 
 import TeacherModel from '@/app/api/models/Teacher';
 import nodemailer from 'nodemailer';
 import UserModel from '../models/User';

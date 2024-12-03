@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
 import { getServerSession } from 'next-auth';
 import User from '../models/User';
-import {authOptions} from '@/app/auth/route'; 
+import {authOptions} from '@/app/auth/auth'; 
 
 export async function PATCH(req: Request) {
   try {
