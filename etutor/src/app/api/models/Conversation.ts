@@ -7,7 +7,7 @@ interface IConversation extends Document {
   timestamp: Date; // Timestamp of the last message or creation time
 }
 
-const conversationSchema = new Schema<IConversation>({
+const conversationSchema = new Schema<IConversation | any>({
   participants: { type: [Schema.Types.ObjectId], ref: 'User', required: true },
   lastMessage: { type: String, default:"intial message",  },
   timestamp: { type: Date, default: Date.now },
