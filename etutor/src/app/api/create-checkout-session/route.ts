@@ -2,10 +2,14 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { PlanType, TutorLevel } from "../../../../types/Stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-10-28.acacia",
-});
+// Ensure your secret key is present
+if (!process.env.STRIPE_SECRET_KEY) {
+  throw new Error('STRIPE_SECRET_KEY is missing from the environment variables');
+}
 
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: '2024-10-28.acacia',  // Confirm the version is valid
+});
 // Mapping Tutor Levels and Plans to Stripe Price IDs
 const PLAN_TUTOR_LEVEL_PRICE_IDS = {
   [PlanType.STANDARD]: {
