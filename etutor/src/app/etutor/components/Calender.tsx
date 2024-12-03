@@ -183,7 +183,7 @@ const SessionCalendarComponent = ({
     }
   };
 
-  const getSessionForDate = (date) => {
+  const getSessionForDate = (date:any) => {
     return filteredSessions.find((session) =>
       isSameDay(new Date(session.date), date)
     );
@@ -293,6 +293,7 @@ const SessionCalendarComponent = ({
                                     : "h-auto custom-2xl:h-20 transition-all duration-300 ease-out"
                                 } overflow-hidden cursor-pointer`}
                                 onMouseEnter={() =>
+                                  //@ts-ignore
                                   setexpandedRequestId(request._id)
                                 }
                                 onMouseLeave={() => setexpandedRequestId(null)}
@@ -330,7 +331,9 @@ const SessionCalendarComponent = ({
                                             Student&apos;s Note:
                                           </span>
                                           <p className="">
-                                            {request.StudentNote ||
+                                            {
+                                            //@ts-ignore
+                                            request.StudentNote ||
                                               "Not Available"}{" "}
                                           </p>
                                         </div>
@@ -342,7 +345,9 @@ const SessionCalendarComponent = ({
                                           eTutor
                                         </span>
                                         <span className="text-white text-base custom-2xl text-base:sm:text-xl ">
-                                          {request.studentdetails.firstName ||
+                                          {
+                                          //@ts-ignore
+                                          request?.studentdetails?.firstName ||
                                             "Your Student"}
                                         </span>
                                         <div
@@ -410,7 +415,9 @@ const SessionCalendarComponent = ({
                                           Duration
                                         </span>
                                         <span className="text-white text-base custom-2xl text-base:sm:text-xl">
-                                          {request.duration || ""}
+                                          {
+                                          //@ts-ignore
+                                          request?.duration || ""}
                                         </span>
                                       </div>
 
@@ -496,7 +503,7 @@ const SessionCalendarComponent = ({
                       <div className="flex flex-col gap-2 custom-xl:gap-3">
                         {requests
                           .filter((request) => request.status === "accepted")
-                          .map((request) => {
+                          .map((request:any) => {
                             const isExpanded =
                               expandedRequestId === request._id;
                             return (
@@ -508,6 +515,7 @@ const SessionCalendarComponent = ({
                                     : "h-auto custom-2xl:h-20 transition-all duration-300 ease-out"
                                 } overflow-hidden cursor-pointer`}
                                 onMouseEnter={() =>
+                                  //@ts-ignore
                                   setexpandedRequestId(request._id)
                                 }
                                 onMouseLeave={() => setexpandedRequestId(null)}
@@ -706,7 +714,7 @@ const SessionCalendarComponent = ({
                       <div className="flex flex-col gap-2 custom-xl:gap-3">
                         {requests
                           .filter((request) => request.status === "rejected")
-                          .map((request) => {
+                          .map((request:any) => {
                             const isExpanded =
                               expandedRequestId === request._id;
                             return (
@@ -1055,6 +1063,7 @@ const SessionCalendarComponent = ({
                         <>
                           <div
                             onMouseEnter={() => {
+                              //@ts-ignore
                               setpopup(day);
                             }}
                             onMouseLeave={() => {

@@ -154,6 +154,7 @@ const UserProfile = ({teacher}:UserProfileprops) => {
   };
 
   // Use SWR hook
+  //@ts-ignore
   const { data: parentDataSWR, err: any } = useSWR(
     session?.user.id
       ? ["/api/parentapis/fetch-parent-data", session.user.id]

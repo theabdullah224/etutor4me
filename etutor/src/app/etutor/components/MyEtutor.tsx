@@ -77,7 +77,7 @@ const TutorListItem = ({
   </div>
 );
 
-const ChatMessage = ({ message, isUser }) => {
+const ChatMessage = ({ message, isUser }:any) => {
   // Check if message exists and has content and timestamp
   if (!message || !message.content || !message.timestamp) return null;
 
@@ -139,6 +139,7 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
   const [recievedmessages, setRecievedmessages] = useState([]);
   const [userId, setUserId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  //@ts-ignore
   const [showmessages, setshowmessages] = useState([] || tutor);
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -199,6 +200,7 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
   // Use SWR hook
   const { data: messageData } = useSWR(
     session
+    //@ts-ignore
       ? `/api/message/conversation?userId=${userId}&recipientId=${showmessages.user?._id}`
       : null,
     fetcher,
@@ -231,6 +233,7 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           senderId: userId, // Replace with actual sender ID
+          //@ts-ignore
           recipientId: showmessages.user._id, // Replace with actual recipient ID (e.g., tutor ID)
           content: newMessage,
         }),
@@ -260,6 +263,7 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
 
   // Scroll to the latest message
   const scrollToBottom = () => {
+    //@ts-ignore
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -284,7 +288,7 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
 
             <div className=" hidden pt-6  overflow-y-auto scrollbar-thin sm:flex flex-col gap-3 custom-2xl:gap-6  scrollbar-track-transparent scrollbar-thumb-[#685aad40]  scrollbar-thumb-rounded-3xl h-[90%]  ">
               {recievedmessages.length > 0 &&
-                recievedmessages.map((message, index) => (
+                recievedmessages.map((message:any, index) => (
                   <TutorListItem
                     key={index}
                     tutor={message.details}
@@ -304,11 +308,14 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
             <div className="bg-[#A296CC] py-3 custom-2xl:py-5  px-4 flex rounded-t-3xl  pl-6 custom-2xl:pl-10   ">
               <Image
                 src={chaticon}
-                alt={showmessages.firstName}
+                //@ts-ignore
+                alt={showmessages?.firstName}
                 className=" mr-3 custom-2xl:mr-5 w-5 custom-2xl:w-8 h-5 custom-2xl:h-8 mt-1"
               />
               <h2 className="text-xl custom-2xl:text-3xl font-bold text-white">
-                {showmessages.firstName}
+                {
+                //@ts-ignore
+                showmessages?.firstName}
               </h2>
             </div>
 
@@ -321,6 +328,7 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
                       <ChatMessage
                         key={index}
                         message={msg}
+                        //@ts-ignore
                         isUser={msg.senderId === userId}
                       />
                     </>
@@ -429,7 +437,8 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
                     <div className="w-16 h-16 sm:min-w-16 sm:min-h-16 custom-2xl:w-[132px] custom-2xl:h-[132px] rounded-full border relative overflow-hidden mx-auto sm:mx-0">
                       <img
                         src={
-                          message.details.user.profilePicture ||
+                          //@ts-ignore
+                          message?.details?.user?.profilePicture ||
                           "/api/placeholder/64/64"
                         }
                         alt="Profile"
@@ -440,14 +449,18 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
                     {/* Name and Courses */}
                     <div className="flex-grow text-center sm:text-left">
                       <h2 className="font-bold text-base sm:text-lg custom-2xl:text-2xl mb-2">
-                        {message.details.firstName || ""}
+                        {
+                        //@ts-ignore
+                        message?.details?.firstName || ""}
                       </h2>
                       <div className="text-white">
                         <p className="mb-1 text-base sm:text-lg custom-2xl:text-xl">
                           Courses:
                         </p>
                         <p className="text-[#473171] text-base sm:text-lg">
-                          {message.details?.availability || ""}
+                          {
+                          //@ts-ignore
+                          message.details?.availability || ""}
                         </p>
                       </div>
                     </div>
@@ -458,7 +471,9 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
                         Subjects:
                       </h3>
                       <ul className="space-y-1 text-[#473171] text-base sm:text-lg">
-                      {message?.details?.subjectChildNeeds?.slice(0, 3).map((subject, index) => (
+                      {
+                      //@ts-ignore
+                      message?.details?.subjectChildNeeds?.slice(0, 3).map((subject, index) => (
   <li key={index}>{subject}</li>
 ))}
                        
@@ -475,7 +490,9 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
                           Grade
                         </h3>
                         <p className="text-[#473171] text-base sm:text-lg">
-                          {message.details?.grade || ""}
+                          {
+                          //@ts-ignore
+                          message.details?.grade || ""}
                         </p>
                       </div>
                       <div>
@@ -483,7 +500,9 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
                           School
                         </h3>
                         <p className="text-[#473171] text-base sm:text-lg">
-                          {message.details?.Institution || ""}
+                          {
+                          //@ts-ignore
+                          message.details?.Institution || ""}
                         </p>
                       </div>
                     </div>
@@ -497,6 +516,7 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
                           className="w-6 sm:w-6 custom-2xl:w-8 hover:cursor-pointer"
                           onClick={() => {
                             setShowChat(true);
+                            //@ts-ignore
                             setshowmessages(message.details);
                           }}
                         />
@@ -540,7 +560,9 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
                           Additional Information:
                         </h3>
                         <p className="text-[#473171] leading-relaxed text-base sm:text-lg">
-                        {message.details?.additionalInformation || ""}
+                        {
+                        //@ts-ignore
+                        message.details?.additionalInformation || ""}
                         </p>
                       </div>
 
@@ -551,7 +573,9 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
                             Signup date
                           </h3>
                           <p className="text-[#473171] text-base sm:text-lg">
-                            {message.details?.user?.createdAt ? new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit' }).format(new Date(message.details.user.createdAt)) : 'Date not available' || ""}
+                            {
+                            //@ts-ignore
+                            message.details?.user?.createdAt ? new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit' }).format(new Date(message.details.user.createdAt)) : 'Date not available' || ""}
                           </p>
                         </div>
                         <div>

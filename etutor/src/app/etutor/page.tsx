@@ -241,15 +241,21 @@ const SessionsDashboard = () => {
   useEffect(() => {
     setLoading(isLoading);
     if (error) {
+      //@ts-ignore
       setError(error.message);
     }
   }, [isLoading, error, session]);
 
   useEffect(() => {
+    //@ts-ignore
     setETokis(teacher?.user?.etokis);
+    //@ts-ignore
     setlevel(teacher?.level);
+    //@ts-ignore
     setearnedThisMonthEtokis(teacher?.EarnedThisMonth);
+    //@ts-ignore
     setFirstname(teacher?.contactInformation?.firstName);
+    //@ts-ignore
     setProfilepicture(teacher?.user?.profilePicture);
     settutorlevelleft(80);
     setCompleteprofilestatus(90);
@@ -654,7 +660,9 @@ const SessionsDashboard = () => {
                               >
                                 <div className="flex flex-col  ">
                                   <h3 className="text-[#8653FF] text-lg">
-                                    {request?.studentdetails?.firstName}
+                                    {
+                                    //@ts-ignore
+                                    request?.studentdetails?.firstName}
                                   </h3>
                                   <div className="flex justify-between gap-4 ">
                                     <span className="text-base">DATE</span>

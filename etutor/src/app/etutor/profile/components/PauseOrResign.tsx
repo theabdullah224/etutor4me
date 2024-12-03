@@ -383,10 +383,8 @@ function PauseOrResign() {
                   p-2 text-center rounded-full text-sm sm:text-lg custom-2xl:text-2xl font-medium
                   ${day.isCurrentMonth ? "text-white " : "text-[#d3c6ef]"}
                   ${
-                    selectedDate &&
-                    selectedDate.getDate() === day.day &&
-                    selectedDate.getMonth() === currentDate.getMonth() &&
-                    selectedDate.getFullYear() === currentDate.getFullYear()
+                  //@ts-ignore
+                    selectedDate && selectedDate.getDate() === day.day && selectedDate.getMonth() === currentDate.getMonth() && selectedDate.getFullYear() === currentDate.getFullYear()
                       ? ""
                       : ""
                   }

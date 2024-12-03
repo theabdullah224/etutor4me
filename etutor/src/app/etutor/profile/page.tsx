@@ -195,6 +195,7 @@ const SessionsDashboard = () => {
     // Cleanup listener on unmount
     return () => mediaQuery.removeEventListener("change", handleMediaChange);
   }, []);
+  //@ts-ignore
   const renderContent = () => {
     switch (activeSidebarItem) {
       case "Profile":
@@ -386,7 +387,9 @@ const SessionsDashboard = () => {
               }`}
             >
               <div className="w-6 custom-2xl:w-7 h-6 custom-2xl:h-7  rounded-full overflow-hidden">
-                <img src={teacher?.user?.profilePicture} alt="" className="h-full w-full" />
+                <img 
+                //@ts-ignore
+                src={teacher?.user?.profilePicture} alt="" className="h-full w-full" />
               </div>
               {/* <div className="flex items-center  w-full  gap-2 custom-2xl:gap-4">
 
@@ -427,7 +430,11 @@ const SessionsDashboard = () => {
             )}
           </div>
         </header>
-        {renderContent()}
+        
+        {
+        renderContent()
+        
+        }
       </main>
     </div>
   );

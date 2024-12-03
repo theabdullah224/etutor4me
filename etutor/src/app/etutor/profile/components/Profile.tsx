@@ -334,11 +334,12 @@ function Profile() {
   const [selectedPurposeOfAttechments, setSelectedPurposeOfAttechments] =
     useState("");
 
-  const handleFileChange = (event) => {
+  const handleFileChange = (event:any) => {
+    //@ts-ignore
     setFiles([...files, ...event.target.files]);
   };
 
-  const removeFile = (index) => {
+  const removeFile = (index:any) => {
     const updatedFiles = [...files];
     updatedFiles.splice(index, 1);
     setFiles(updatedFiles);
@@ -380,7 +381,7 @@ function Profile() {
     }
   };
 
-  const handleDeleteLanguage = (indexToDelete) => {
+  const handleDeleteLanguage = (indexToDelete:any) => {
     if (!isEditing) return;
     setLanguages(languages.filter((_, index) => index !== indexToDelete));
   };
@@ -487,6 +488,7 @@ function Profile() {
       setShippingAddress(teacher?.contactInformation?.shippingAddress || "");
       setCity(teacher?.contactInformation?.city || "");
       setPostcode(teacher?.contactInformation?.postcode || "");
+      //@ts-ignore
       setEmail(teacher?.user?.email || "");
 
       // Education
@@ -514,6 +516,7 @@ function Profile() {
 
       // Experience
       setSelectedExperience(
+        //@ts-ignore
         teacher?.experience?.experienceWithSpecialNeedsStudent || []
       );
       setTutoringExperience(teacher?.experience?.tutoringExperience || "");
@@ -524,7 +527,9 @@ function Profile() {
         teacher?.experience?.moreaboutProfessionalExperience || ""
       );
       setHasExperience(teacher?.experience?.hasExperience || false);
+      //@ts-ignore
       setSelectedSubjectsLEVEL(teacher?.experience?.tutoringLevel || []);
+      //@ts-ignore
       setSelectedSubjects(teacher?.experience?.subjectsTutored || []);
       setLanguages(teacher?.experience?.languages || [""]);
       setInstructionTypes(teacher?.experience?.instructionTypes || []);
@@ -926,6 +931,7 @@ function Profile() {
                                     <input
                                       type="checkbox"
                                       checked={selectedSubjects.includes(
+                                        //@ts-ignore
                                         subject.value
                                       )}
                                       onChange={() => {}}
@@ -933,12 +939,14 @@ function Profile() {
                                     />
                                     <div
                                       className={`h-5 w-5 rounded-sm border border-white hover:bg-[#a394d6] hover:border-[#a394d6] flex items-center justify-center ${
+                                        //@ts-ignore
                                         selectedSubjects.includes(subject.value)
                                           ? "bg-[#6c5baa] border-none p-0.5"
                                           : ""
                                       }`}
                                     >
                                       {selectedSubjects.includes(
+                                        //@ts-ignore
                                         subject.value
                                       ) && <Check className="text-white" />}
                                     </div>
@@ -1296,6 +1304,7 @@ function Profile() {
                                       type="checkbox"
                                       // @ts-ignore
                                       checked={selectedSubjectsLEVEL.includes(
+                                        //@ts-ignore
                                         subjectlevel.value
                                       )}
                                       onChange={() => {}}
@@ -1304,14 +1313,13 @@ function Profile() {
                                     <div
                                       className={`h-5 w-5 rounded-sm border border-white hover:bg-[#a394d6] hover:border-[#a394d6] flex items-center justify-center ${
                                         // @ts-ignore
-                                        selectedSubjectsLEVEL.includes(
-                                          subjectlevel.value
-                                        )
+                                        selectedSubjectsLEVEL.includes(subjectlevel.value)
                                           ? "bg-[#6c5baa] border-none p-0.5"
                                           : ""
                                       }`}
                                     >
                                       {selectedSubjectsLEVEL.includes(
+                                        //@ts-ignore
                                         subjectlevel.value
                                       ) && <Check className="text-white" />}
                                     </div>
@@ -1394,23 +1402,20 @@ function Profile() {
                                     <input
                                       type="checkbox"
                                       // @ts-ignore
-                                      checked={selectedExperience.includes(
-                                        experience.value
-                                      )}
+                                      checked={selectedExperience.includes(experience.value)}
                                       onChange={() => {}}
                                       className="absolute opacity-0 cursor-pointer"
                                     />
                                     <div
                                       className={`h-5 w-5 rounded-sm border border-white hover:bg-[#a394d6] hover:border-[#a394d6] flex items-center justify-center ${
                                         // @ts-ignore
-                                        selectedExperience.includes(
-                                          experience.value
-                                        )
+                                        selectedExperience.includes(experience.value)
                                           ? "bg-[#6c5baa] border-none p-0.5"
                                           : ""
                                       }`}
                                     >
                                       {selectedExperience.includes(
+                                        //@ts-ignore
                                         experience.value
                                       ) && <Check className="text-white" />}
                                     </div>
@@ -1708,7 +1713,9 @@ function Profile() {
                                 <XCircle fill="white" className="text-red-500 "/>
                               </span>
                               <span className=" font-medium flex gap-4 items-center">
-                                <Image src={bluefoldericon} alt="" /> {file.name}
+                                <Image src={bluefoldericon} alt="" /> {
+                                //@ts-ignore
+                                file.name}
                               </span>
                              
                               <Image  src={downloadicon} alt="" />
