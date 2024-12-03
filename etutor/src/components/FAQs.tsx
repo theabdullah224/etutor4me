@@ -8,11 +8,12 @@ import Link from 'next/link';
 interface FAQItem {
   question: string;
   answer: string;
+  display?: string;
 }
 
 interface FAQsProps {
-  faqData: FAQItem[]; // Array of FAQ items
-  display:string;
+  faqData?: FAQItem[]; // Array of FAQ items
+  display?:string;
 }
 
 const FAQ: React.FC<FAQItem> = ({ question, answer }) => {
