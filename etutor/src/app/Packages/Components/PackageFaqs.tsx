@@ -19,7 +19,7 @@ const PackageFaqs:React.FC = () => {
       ];
   return (
     <div className='py-32 pl-40 mb:py-10 xl:pl-24 lg:pl-12 mb:pl-0 '>
-      <FAQs faqData={PackageFaqs}/>
+      <FAQs faqData={PackageFaqs} display={''} morequestion={''}/>
     </div>
   )
 }
