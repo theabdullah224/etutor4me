@@ -46,7 +46,7 @@ export async function POST(req: Request) {
     await sendEmailToAdmin(userEmail, emailContent);
 
     return NextResponse.json({ message: 'Form submitted successfully' }, { status: 200 });
-  } catch (error) {
+  } catch (error:any) {
     return NextResponse.json({ message: 'Failed to submit form', error: error.message }, { status: 500 });
   }
 }

@@ -147,7 +147,7 @@ export async function PUT(req: Request) {
         verifiedUpdate: verifiedUser
       }, { status: 200 });
 
-    } catch (dbError) {
+    } catch (dbError:any) {
       console.error('Database error:', dbError);
       return NextResponse.json({ 
         message: 'Database error', 
@@ -155,7 +155,7 @@ export async function PUT(req: Request) {
       }, { status: 500 });
     }
 
-  } catch (error) {
+  } catch (error:any) {
     console.error('Error updating phone number:', error);
     return NextResponse.json({ 
       message: 'Failed to update phone number', 

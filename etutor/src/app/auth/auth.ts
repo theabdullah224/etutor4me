@@ -24,7 +24,8 @@ const authOptions: NextAuthOptions = {
           password: { label: 'Password', type: 'password' },
           role: { label: 'Role', type: 'select', options: ['parent', 'teacher', 'student'] }
         },
-        async authorize(credentials: Credentials | undefined, req) {
+        //@ts-ignore
+        async authorize(credentials: Credentials | any, req) {
           await connectMongoDB();
   
           if (!credentials) {

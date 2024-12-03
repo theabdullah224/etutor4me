@@ -41,7 +41,7 @@ export async function PUT(req: Request) {
     await currentUser.save();
 
     return NextResponse.json({ message: 'Password updated successfully' }, { status: 200 });
-  } catch (error) {
+  } catch (error:any) {
     console.error('Error updating password:', error);
     return NextResponse.json({ message: 'Failed to update password', error: error.message }, { status: 500 });
   }

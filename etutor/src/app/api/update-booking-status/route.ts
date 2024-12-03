@@ -338,11 +338,13 @@ import UserModel from '../models/User';
           attendees: [
               {
                   email: participantEmail,
+                //@ts-ignore
                   role: isTeacher ? 'CHAIR' : 'REQ-PARTICIPANT'
               }
           ],
           alarms: [
               {
+                //@ts-ignore
                   type: 'display',
                   trigger: 600 // 10 minutes before
               }
@@ -398,7 +400,7 @@ import UserModel from '../models/User';
       }
   }
   
-  async function formatDateTime(date: Date, time: string): string {
+  async function formatDateTime(date: Date, time: string) {
       const bookingDate = new Date(date);
       const formattedDate = bookingDate.toLocaleDateString('en-US', {
           weekday: 'long',
@@ -590,6 +592,7 @@ export async function POST(req: NextRequest) {
                 await sendBookingNotifications(
                     updatedBooking,
                     teacher.user.email,
+                    //@ts-ignore
                     updatedBooking.student.email
                 );
             } catch (emailError) {

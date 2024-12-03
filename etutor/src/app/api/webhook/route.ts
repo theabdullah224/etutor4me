@@ -4,7 +4,7 @@ import UserModel from "../models/User";
 import { connectMongoDB } from "../connection/connection";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2023-10-16",
+  apiVersion: "2024-10-28.acacia",
 });
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
@@ -26,9 +26,10 @@ export async function POST(req: Request) {
     switch (event.type) {
       case "checkout.session.completed":
         const session = event.data.object;
-        console.log(".......stripe session data", session);
+ 
         
 // seperate the month in number & save in dataBase
+//@ts-ignore
         const durationMonthsString = session.metadata.durationMonths || "";
         const durationMonths = parseInt(durationMonthsString.replace(/\D/g, ""), 10);
         // Ensure that we have a valid number of months
@@ -38,19 +39,21 @@ export async function POST(req: Request) {
         const subscriptionDateEnd = new Date();
         subscriptionDateEnd.setMonth(subscriptionDateEnd.getMonth() + durationMonths);
 
-
+//@ts-ignore
         const userId = session.metadata.userId;
         const savedUser = await UserModel.findByIdAndUpdate(
           userId,
           {
             stripeSubscriptionId: session.subscription,
+            //@ts-ignore
             planType: session.metadata.planType,
-            tutorLevel: session.metadata.tutorLevel,
-            durationMonths: session.metadata.durationMonths,
-            sessionsPerMonth: session.metadata.sessionsPerMonth,
+            tutorLevel: session?.metadata?.tutorLevel,
+            durationMonths: session?.metadata?.durationMonths,
+            sessionsPerMonth: session?.metadata?.sessionsPerMonth,
             subscriptionDateStart: new Date(),
              subscriptionDateEnd:subscriptionDateEnd,
-            stripeMonthlyPrice: session.amount_total / 100,
+             //@ts-ignore
+            stripeMonthlyPrice: session?.amount_total / 100,
             subscriptionIsActive: true,
           },
           { new: true } 

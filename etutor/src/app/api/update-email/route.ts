@@ -44,7 +44,7 @@ export async function PUT(req: Request) {
     await currentUser.save();
 
     return NextResponse.json({ message: 'Email updated successfully' }, { status: 200 });
-  } catch (error) {
+  } catch (error:any) {
     console.error('Error updating email:', error);
     return NextResponse.json({ message: 'Failed to update email', error: error.message }, { status: 500 });
   }
