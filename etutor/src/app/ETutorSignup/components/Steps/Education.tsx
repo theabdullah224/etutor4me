@@ -23,7 +23,7 @@ const Education = ({ NextStep }: any) => {
   const subjects = ["Computer Science", "Engineering", "Business", "Psychology"];
   const degrees = ["Bachelors", "Masters", "PhD", "Associate"];
 
-  const handleDegreeSelect = (subject) => {
+  const handleDegreeSelect = (subject:any) => {
     setSelectedDegree(subject); // Set selected degree
     setDegree(false); // Close dropdown after selection
   };

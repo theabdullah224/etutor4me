@@ -7,7 +7,7 @@ import ReviewExperience from '../ReviewComponents/ReviewExperience'
 import ConfirmBtn from '@/app/ParentSignup/Components/ConfirmBtn'
 import CheckboxInput from '../CheckboxInput'
 
-const Review = ({NextStep}) => {
+const Review = ({NextStep}:any) => {
   return (
     <div className='bg-questionbg p-14 rounded-[40px]'>
      <FormHeading className='' heading='Review Appllication' paragraph='Please review each section of your application to insure your information is correct. once you’re ready
