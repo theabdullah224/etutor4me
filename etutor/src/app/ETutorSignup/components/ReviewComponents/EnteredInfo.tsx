@@ -1,12 +1,12 @@
 import React from 'react'
 
 interface InformationProps  {
-    name:string,
-    info:string,
-    info2:string,
-    info3:string,
-    info4:string,
-    span:string
+    name?:string,
+    info?:string,
+    info2?:string,
+    info3?:string,
+    info4?:string,
+    span?:string
 }
 const EnteredInfo:React.FC<InformationProps> = ({name,info,span,info2,info3,info4}:any) => {
   return (
