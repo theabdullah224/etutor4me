@@ -63,34 +63,34 @@ const FAQsSection:React.FC = () => {
     <div>
     <div id="faq-etutor" className=' bg-cardbg w-[85%] my-32 xl:my-24 lg:my-32 mb:my-12 m-auto rounded-[3rem] mb:p-8 mb:rounded-xl p-28 xl:p-24 lg:p-16 mb:w-full '>
         <h2 className='text-darkBlue text-5xl font-extrabold  pb-4  mb:pb-0 lg:text-4xl mb:pl-0 mb:text-xl'>Become an eTutor </h2>
-      <FAQs faqData={eTutorFaqs} display='hidden' />                                                                                                                                                                                                                                                                                                                                                                                                                           </div>
+      <FAQs faqData={eTutorFaqs} display='hidden' morequestion={''} />                                                                                                                                                                                                                                                                                                                                                                                                                           </div>
     <div id='faq-for-etutors' className=' bg-cardbg w-[85%] my-60 xl:my-40 lg:my-32 mb:my-12 m-auto rounded-[3rem] mb:p-8 mb:rounded-xl p-28 xl:p-24 lg:p-16 mb:w-full'>
         <h2 className='text-darkBlue text-5xl font-extrabold  pb-8  mb:pb-0 lg:text-4xl mb:pl-0 mb:text-xl'>For eTutors</h2>
-      <FAQs faqData={PackageFaqs} display='hidden' />
+      <FAQs faqData={PackageFaqs} display='hidden' morequestion={''} />
     </div>
     <div id='faq-packages' className='  bg-cardbg w-[85%] my-60 xl:my-40 lg:my-32 mb:my-12 m-auto rounded-[3rem] mb:p-8 mb:rounded-xl p-28 xl:p-24 lg:p-16 mb:w-full'>
         <h2 className='text-darkBlue text-5xl font-extrabold  pb-8 mb:pb-0 lg:text-4xl mb:pl-0 mb:text-xl'>Packages</h2>
-      <FAQs faqData={PackageFaqs} display='hidden' />
+      <FAQs faqData={PackageFaqs} display='hidden' morequestion={''} />
     </div>
     <div id='faq-technical-questions' className='  bg-cardbg w-[85%] my-60 xl:my-40 lg:my-32 mb:my-12 m-auto rounded-[3rem] mb:p-8 mb:rounded-xl p-28 xl:p-24 lg:p-16 mb:w-full'>
         <h2 className='text-darkBlue text-5xl font-extrabold  pb-8 mb:pb-0 lg:text-4xl mb:pl-0 mb:text-xl'>Technical questions</h2>
-      <FAQs faqData={PackageFaqs} display='hidden' />
+      <FAQs faqData={PackageFaqs} display='hidden' morequestion={''} />
     </div>
     <div id='faq-general-questions' className=' bg-cardbg w-[85%] my-60 xl:my-40 lg:my-32 mb:my-12 m-auto rounded-[3rem] mb:p-8 mb:rounded-xl p-28 xl:p-24 lg:p-16 mb:w-full'>
         <h2 className='text-darkBlue text-5xl font-extrabold  pb-8  mb:pb-0 lg:text-4xl mb:pl-0 mb:text-xl'>General questions</h2>
-      <FAQs faqData={PackageFaqs} display='hidden' />
+      <FAQs faqData={PackageFaqs} display='hidden' morequestion={''} />
     </div>
     <div id='faq-booking' className=' bg-cardbg w-[85%] my-60 xl:my-40 lg:my-32 mb:my-12 m-auto rounded-[3rem] mb:p-8 mb:rounded-xl p-28 xl:p-24 lg:p-16 mb:w-full'>
         <h2 className='text-darkBlue text-5xl font-extrabold  pb-8  mb:pb-0 lg:text-4xl mb:pl-0 mb:text-xl'>Booking</h2>
-      <FAQs faqData={PackageFaqs} display='hidden' />
+      <FAQs faqData={PackageFaqs} display='hidden' morequestion={''} />
     </div>
     <div id='faq-security' className=' bg-cardbg w-[85%] my-60 xl:my-40 lg:my-32 mb:my-12 m-auto rounded-[3rem] mb:p-8 mb:rounded-xl p-28 xl:p-24 lg:p-16 mb:w-full'>
         <h2 className='text-darkBlue text-5xl font-extrabold  pb-8  mb:pb-0 lg:text-4xl mb:pl-0 mb:text-xl'>Security</h2>
-      <FAQs faqData={PackageFaqs} display='hidden' />
+      <FAQs faqData={PackageFaqs} display='hidden' morequestion={''} />
     </div>
     <div id='faq-etutor4me' className=' bg-cardbg w-[85%] my-60 xl:my-40 lg:my-32 mb:my-12 m-auto rounded-[3rem] mb:p-8 mb:rounded-xl p-28 xl:p-24 lg:p-16 mb:w-full'>
         <h2 className='text-darkBlue text-5xl font-extrabold  pb-8 mb:pb-0 lg:text-4xl mb:pl-0 mb:text-xl'>eTutor4Me</h2>
-      <FAQs faqData={PackageFaqs} display='hidden' />
+      <FAQs faqData={PackageFaqs} display='hidden' morequestion={''} />
     </div>
     </div>
     
