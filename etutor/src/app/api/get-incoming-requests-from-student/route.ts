@@ -50,9 +50,13 @@ export async function GET(req: NextRequest) {
     
     // Populate Parent or Student based on user role
     for (let booking of bookingRequests) {
-      if (booking.student.role === 'parent') {
+      // @ts-ignore
+      if (booking?.student?.role === 'parent') {
+        // @ts-ignore
         booking.studentdetails = await Parent.findOne({ user: booking.student._id }).lean();
-      } else if (booking.student.role === 'student') {
+        // @ts-ignore
+      } else if (booking?.student?.role === 'student') {
+        // @ts-ignore
         booking.studentdetails = await Student.findOne({ user: booking.student._id }).lean();
       }
     }
