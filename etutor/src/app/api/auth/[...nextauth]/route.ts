@@ -204,7 +204,7 @@ import UserModel from '../../models/User';
 import jwt from 'jsonwebtoken';
 import { sendVerificationEmail } from '../../utils/sendEmail';
 import GoogleProvider from 'next-auth/providers/google';
-import { authOptions } from './authoptions';
+import authOptions from '@/app/authoptions/authOptions';
 interface Credentials {
   role: string;
   email: string;
