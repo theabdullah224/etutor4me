@@ -86,8 +86,10 @@ const Stepper: React.FC<stepper> = ({ steps, currentStep }) => {
           {/* Step Circle */}
           <div
             className={`rounded-full transition duration-500 ease-in-out border-[6px] h-7 w-7 flex items-center justify-center ${
+                // @ts-ignore
               step.completed
                 ? "bg-white border-customBlue"
+                // @ts-ignore
                 : step.selected
                 ? "bg-customBlue border-customBlue"
                 : "bg-[#C3BAF3] border-[#C3BAF3]"
