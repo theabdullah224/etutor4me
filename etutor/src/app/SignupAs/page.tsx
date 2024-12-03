@@ -6,10 +6,12 @@ import img from "../../../public/assets/signupAs.png"
 import QuestionBtn from '../ParentSignup/Components/QuestionBtn'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 const Page = () => {
+
   const searchParams = useSearchParams();
   const refId = searchParams.get('ref');
-  //
+  
   
   useEffect(() => {
     if (refId) {
@@ -17,6 +19,8 @@ const Page = () => {
     }
   }, [refId]);
   return (
+    <Suspense>
+
     <div>
       <SignUpNavbar/>
       <div className='flex 2xl:mt-10 w-full items-center custom-2xl:items-start justify-center 2xl:w-[90%] mr-auto gap-24 custom-2xl:justify-between h-full mt-auto mb:gap-5 mb:w-full mb:p-8 mb:flex-col-reverse'>
@@ -36,6 +40,7 @@ const Page = () => {
         </div>
       </div>
     </div>
+    </Suspense>
   )
 }
 
