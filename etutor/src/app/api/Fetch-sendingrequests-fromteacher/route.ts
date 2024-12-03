@@ -69,12 +69,12 @@ export async function GET(req: NextRequest) {
   try {
     await connectMongoDB();
 
-    const { searchParams } = new URL(req.url);
-    const userId = searchParams.get('userId');
+      const { searchParams } = new URL(req.url);
+      const userId = searchParams.get('userId');
 
-    if (!userId) {
-      return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
-    }
+      if (!userId) {
+        return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
+      }
 
     // Find the user and determine role
     const user = await UserModel.findById(userId);
