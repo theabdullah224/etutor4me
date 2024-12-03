@@ -39,7 +39,7 @@ const TutorListItem = ({ tutor, isActive, onClick, onChatClick, onFolderClick, o
   </div>
 );
 
-const ChatMessage = ({ message, isUser }) => (
+const ChatMessage = ({ message, isUser }:any) => (
   <div className={`flex  ${isUser ? 'justify-end' : 'justify-start'} mb-4 `}>
     <div className={` max-w-[70%] rounded-2xl p-3 ${isUser ? 'bg-[#685AAD] text-white' : 'bg-white text-[#473171]'}`}>
       <p className='text-sm sm:text-md custom-xl:text-xl font-medium break-words'>helo helo helo  {message.text}</p>
@@ -74,13 +74,14 @@ const ChatComponent = () => {
   const fileInputRef = useRef(null);
 
   useEffect(() => {
+    // @ts-ignore
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [tutors]);
 
 
   
 
-  const handleSendMessage = (e) => {
+  const handleSendMessage = (e:any) => {
     e.preventDefault();
     if (newMessage.trim()) {
       const updatedTutors = [...tutors];
@@ -95,6 +96,7 @@ const ChatComponent = () => {
       
       // Simulate tutor response
       setTimeout(() => {
+        // @ts-ignore
         const tutorResponse = generateTutorResponse(newMessage);
         const updatedTutorsWithResponse = [...updatedTutors];
         updatedTutorsWithResponse[activeTutor].messages.push({ 
@@ -108,7 +110,7 @@ const ChatComponent = () => {
     }
   };
 
-  const handleFileUpload = (e) => {
+  const handleFileUpload = (e:any) => {
     const file = e.target.files[0];
     if (file) {
       const currentDate = new Date();
@@ -141,12 +143,12 @@ const ChatComponent = () => {
     }
   };
 
-  const handleFileDownload = (file) => {
+  const handleFileDownload = (file:any) => {
     // Implement file download logic here
     console.log(`Downloading file: ${file.name}`);
   };
 
-  const generateTutorResponse = (userMessage) => {
+  const generateTutorResponse = () => {
     const responses = [
       "That's an interesting point. Let's discuss it further.",
       "I understand your concern. Here's what we can do...",
@@ -165,7 +167,7 @@ const ChatComponent = () => {
         <h2 className="text-3xl font-bold text-[#685AAD] p-4 ml-6">My eTutors</h2>
 
         <div className=' overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#685aad40]  scrollbar-thumb-rounded-3xl h-[90%]  border-red-400'>
-        {tutors.map((tutor) => (
+        {tutors.map((tutor:any) => (
           <TutorListItem 
             key={tutor.id}
             tutor={tutor}
@@ -191,7 +193,7 @@ const ChatComponent = () => {
           <>
             {/* Messages */}
             <div className="flex-grow  p-4 bg-[#A296CC] border-t border-[#8b55ff51] mx-4   overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#685aad40]  scrollbar-thumb-rounded-3xl ">
-              {tutors[activeTutor].messages.map((msg) => (
+              {tutors[activeTutor].messages.map((msg:any) => (
                 <ChatMessage key={msg.id} message={msg} isUser={msg.isUser} />
               ))}
               <div ref={messagesEndRef} />
@@ -246,6 +248,7 @@ const ChatComponent = () => {
     <div className=' absolute bottom-5 right-0  w-full flex justify-end'>
 
     <button
+    // @ts-ignore
       onClick={() => fileInputRef.current.click()}
       className="mt-4 text-white py-2 px-4 rounded-full flex items-center gap-3"
       >

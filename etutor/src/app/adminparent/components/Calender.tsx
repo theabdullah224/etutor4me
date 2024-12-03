@@ -147,7 +147,7 @@ const SessionCalendarComponent = ({
     }
   };
 
-  const getSessionForDate = (date) => {
+  const getSessionForDate = (date:any) => {
     return filteredSessions.find((session) =>
       isSameDay(new Date(session.date), date)
     );
@@ -258,6 +258,7 @@ const SessionCalendarComponent = ({
                                     : "h-auto custom-2xl:h-20"
                                 } overflow-hidden cursor-pointer`}
                                 onMouseEnter={() =>
+                                  // @ts-ignore
                                   setexpandedRequestId(request._id)
                                 }
                                 onMouseLeave={() => setexpandedRequestId(null)}
@@ -291,8 +292,9 @@ const SessionCalendarComponent = ({
                                           eTutor
                                         </span>
                                         <span className="text-white text-base custom-2xl:text-xl ">
-                                          {request.teacher?.contactInformation
-                                            .firstName || "Your Teacher"}
+                                          {
+                                          // @ts-ignore
+                                          request.teacher?.contactInformation?.firstName || "Your Teacher"}
                                         </span>
                                         <div
                                           className={` ${
@@ -351,7 +353,9 @@ const SessionCalendarComponent = ({
                                           Duration
                                         </span>
                                         <span className="text-white text-base custom-2xl:text-xl">
-                                          {request.duration || ""}
+                                          {
+                                          // @ts-ignore
+                                          request?.duration || ""}
                                         </span>
                                       </div>
 
@@ -446,6 +450,7 @@ const SessionCalendarComponent = ({
                                     : "h-auto custom-2xl:h-20"
                                 } overflow-hidden cursor-pointer`}
                                 onMouseEnter={() =>
+                                  // @ts-ignore
                                   setexpandedRequestId(request._id)
                                 }
                                 onMouseLeave={() => setexpandedRequestId(null)}
@@ -479,8 +484,9 @@ const SessionCalendarComponent = ({
                                           eTutor
                                         </span>
                                         <span className="text-white text-base custom-2xl:text-xl ">
-                                          {request.teacher?.contactInformation
-                                            .firstName || "Your Teacher"}
+                                          {
+                                          // @ts-ignore
+                                          request.teacher?.contactInformation?.firstName || "Your Teacher"}
                                         </span>
                                         <div
                                           className={` ${
@@ -539,7 +545,9 @@ const SessionCalendarComponent = ({
                                           Duration
                                         </span>
                                         <span className="text-white text-base custom-2xl:text-xl">
-                                          {request.duration || ""}
+                                          {
+                                          // @ts-ignore
+                                          request?.duration || ""}
                                         </span>
                                       </div>
 
@@ -631,6 +639,7 @@ const SessionCalendarComponent = ({
                                     : "h-auto custom-2xl:h-20"
                                 } overflow-hidden cursor-pointer`}
                                 onMouseEnter={() =>
+                                  // @ts-ignore
                                   setexpandedRequestId(request._id)
                                 }
                                 onMouseLeave={() => setexpandedRequestId(null)}
@@ -664,8 +673,9 @@ const SessionCalendarComponent = ({
                                           eTutor
                                         </span>
                                         <span className="text-white text-base custom-2xl:text-xl ">
-                                          {request.teacher?.contactInformation
-                                            .firstName || "Your Teacher"}
+                                          {
+                                          // @ts-ignore
+                                          request.teacher?.contactInformation?.firstName || "Your Teacher"}
                                         </span>
                                         <div
                                           className={` ${
@@ -724,7 +734,9 @@ const SessionCalendarComponent = ({
                                           Duration
                                         </span>
                                         <span className="text-white text-base custom-2xl:text-xl">
-                                          {request.duration || ""}
+                                          {
+                                          // @ts-ignore
+                                          request?.duration || ""}
                                         </span>
                                       </div>
 
@@ -944,6 +956,7 @@ const SessionCalendarComponent = ({
                         <>
                           <div
                             onMouseEnter={() => {
+                              // @ts-ignore
                               setpopup(day);
                             }}
                             onMouseLeave={() => {

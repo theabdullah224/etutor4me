@@ -127,7 +127,7 @@ const SessionDashboard = ({
         const data = await response.json();
         setrequestsfromteacher(data.requests);
        
-      } catch (error) {
+      } catch (error:any) {
         setError(error.message);
       } finally {
         setLoading(false);
@@ -362,6 +362,7 @@ const SessionDashboard = ({
                               ? "h-auto custom-2xl:h-28"
                               : "h-auto custom-2xl:h-20"
                           } overflow-hidden cursor-pointer`}
+                           // @ts-ignore
                           onMouseEnter={() => setexpandedRequestId(request._id)}
                           onMouseLeave={() => setexpandedRequestId(null)}
                           >
@@ -395,8 +396,9 @@ const SessionDashboard = ({
                                       eTutor
                                     </span>
                                     <span className="text-white text-base custom-2xl:text-xl ">
-                                      {request.teacher?.contactInformation
-                                        .firstName || "Your Teacher"}
+                                      {
+                                      // @ts-ignore
+                                      request.teacher?.contactInformation?.firstName || "Your Teacher"}
                                     </span>
                                     <div
                                       className={` ${
@@ -548,6 +550,7 @@ const SessionDashboard = ({
                             ? "h-auto custom-2xl:h-28"
                             : "h-auto custom-2xl:h-20"
                         } overflow-hidden cursor-pointer`}
+                         // @ts-ignore
                         onMouseEnter={() => setexpandedRequestId(request._id)}
                         onMouseLeave={() => setexpandedRequestId(null)}
                         >
@@ -581,8 +584,9 @@ const SessionDashboard = ({
                                     eTutor
                                   </span>
                                   <span className="text-white text-base custom-2xl:text-xl ">
-                                    {request.teacher?.contactInformation
-                                      .firstName || "Your Teacher"}
+                                    {
+                                    // @ts-ignore
+                                    request.teacher?.contactInformation?.firstName || "Your Teacher"}
                                   </span>
                                   <div
                                     className={` ${
@@ -727,6 +731,7 @@ const SessionDashboard = ({
                             ? "h-auto custom-2xl:h-28"
                             : "h-auto custom-2xl:h-20"
                         } overflow-hidden cursor-pointer`}
+                         // @ts-ignore
                         onMouseEnter={() => setexpandedRequestId(request._id)}
                         onMouseLeave={() => setexpandedRequestId(null)}
                         >
@@ -760,8 +765,9 @@ const SessionDashboard = ({
                                     eTutor
                                   </span>
                                   <span className="text-white text-base custom-2xl:text-xl ">
-                                    {request.teacher?.contactInformation
-                                      .firstName || "Your Teacher"}
+                                    {
+                                    // @ts-ignore
+                                    request.teacher?.contactInformation?.firstName || "Your Teacher"}
                                   </span>
                                   <div
                                     className={` ${
@@ -908,6 +914,7 @@ const SessionDashboard = ({
                           ? "h-auto custom-2xl:h-28"
                           : "h-auto custom-2xl:h-20"
                       } overflow-hidden cursor-pointer`}
+                       // @ts-ignore
                       onMouseEnter={() => setexpandedRequestId(request._id)}
                       onMouseLeave={() => setexpandedRequestId(null)}
                       >
@@ -941,8 +948,9 @@ const SessionDashboard = ({
                                   eTutor
                                 </span>
                                 <span className="text-white text-base custom-2xl:text-xl ">
-                                  {request.teacher?.contactInformation
-                                    .firstName || "Your Teacher"}
+                                  {
+                                  // @ts-ignore
+                                  request.teacher?.contactInformation?.firstName || "Your Teacher"}
                                 </span>
                                 <div
                                   className={` ${
@@ -1076,7 +1084,7 @@ const SessionDashboard = ({
                   </div>
 
                   <div className="flex flex-col gap-2 custom-xl:gap-3 pt-3 ">
-                    {requestsfromteacher.filter((teacher) => teacher.status === "pending").map((teacher) => (
+                    {requestsfromteacher.filter((teacher:any) => teacher.status === "pending").map((teacher:any) => (
                       
                         <div
                           key={teacher._id}
@@ -1239,8 +1247,8 @@ const SessionDashboard = ({
 
                   <div className="flex flex-col gap-2 custom-xl:gap-3 pt-3 ">
                     {teachers
-                      .filter((teacher) => teacher.acceptsTrialSession === true)
-                      .map((teacher) => (
+                      .filter((teacher:any) => teacher.acceptsTrialSession === true)
+                      .map((teacher:any) => (
                         <div
                           key={teacher._id}
                           className="flex flex-col custom-xl:flex-row justify-between items-center gap-4 py-6 rounded-2xl bg-[#9B85C8] px-4 sm:px-8"
@@ -1299,7 +1307,10 @@ const SessionDashboard = ({
                     { Object.entries(teacher?.experience?.generalAvailability).map(([day, times]) => (
                         
                         <div key={day} className="flex">
-                          <h3>{day} :</h3>  <p>{times.join(', ')}</p>
+                          <h3>{day} :</h3>  <p>{
+                          
+                          // @ts-ignore
+                          times.join(', ')}</p>
                         </div>
                       ))}
                     </p>

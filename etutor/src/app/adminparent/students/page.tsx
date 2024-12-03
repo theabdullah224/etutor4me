@@ -71,7 +71,7 @@ const ParentDashboard = () => {
         {acceptedRequests.length === 0 ? (
           <p className="text-center text-gray-500 italic">No accepted requests</p>
         ) : (
-          acceptedRequests.map((request) => (
+          acceptedRequests.map((request:any) => (
             <li
               key={request.requestId}
               className="flex items-center justify-between py-3 hover:bg-gray-50 transition-colors duration-200"

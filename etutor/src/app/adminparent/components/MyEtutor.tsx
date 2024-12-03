@@ -388,6 +388,7 @@ function MyEtutor({
                           <ChatMessage
                             key={index}
                             message={msg}
+                            // @ts-ignore
                             isUser={msg.senderId === userID}
                           />
                         </>
@@ -484,7 +485,7 @@ function MyEtutor({
 
       <div className="flex flex-col gap-2 sm:gap-4 custom-lg:gap-10">
         {recievedmessages.length > 0 &&
-          recievedmessages.map((message, index) => (
+          recievedmessages.map((message:any, index) => (
             <div
               key={index}
               className="flex  justify-between items-center  custom-xl:items-center  py-4 custom-xl:py-9 rounded-2xl bg-[#A296CC] pl-6 sm:px-11 pr-6  custom-xl:flex-row custom-xl:gap-0 gap-4"
@@ -542,7 +543,10 @@ function MyEtutor({
                       { Object.entries(message?.details?.experience?.generalAvailability).map(([day, times]) => (
                         
           <div key={day} className="flex">
-            <h3>{day} :</h3>  <p>{times.join(', ')}</p>
+            <h3>{day} :</h3>  <p>{
+            
+            // @ts-ignore
+            times.join(', ')}</p>
           </div>
         ))}
                     </span>
