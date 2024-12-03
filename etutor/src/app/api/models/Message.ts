@@ -38,7 +38,7 @@ interface IMessage extends Document {
   timestamp: Date;
 }
 
-const messageSchema = new Schema<IMessage>({
+const messageSchema = new Schema<IMessage | any>({
   senderId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   recipientId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   content: { type: String, required: true },

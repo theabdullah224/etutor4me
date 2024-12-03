@@ -8,7 +8,7 @@ interface IReaction extends Document {
   reaction: string;
 }
 
-const ReactionSchema = new Schema<IReaction>(
+const ReactionSchema = new Schema<IReaction | any>(
   {
     messageId: { type: Schema.Types.ObjectId, ref: "Message", required: true },
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
@@ -18,4 +18,5 @@ const ReactionSchema = new Schema<IReaction>(
 );
 
 const Reaction = model<IReaction>("Reaction", ReactionSchema);
-export { Reaction, IReaction };
+export { Reaction };  export type { IReaction };
+
