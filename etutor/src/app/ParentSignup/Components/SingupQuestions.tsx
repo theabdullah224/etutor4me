@@ -411,9 +411,11 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
   };
   const handleSubjectClick = (subject: any) => {
     // Toggle the subject in selectedSubjects array
+    // @ts-ignore
     if (selectedSubjects.includes(subject)) {
       setSelectedSubjects(selectedSubjects.filter((item) => item !== subject));
     } else {
+      // @ts-ignore
       setSelectedSubjects([...selectedSubjects, subject]);
     }
   };
@@ -502,7 +504,7 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
     );
   };
 
-  const handleDateChange = (date) => {
+  const handleDateChange = (date:any) => {
     setSelectedDate(date);
     setdate(date);
     setIsOpen(false);
@@ -598,11 +600,11 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
   const toggleCountry = () => {
     setIsOpenCountry(!isOpenCountry);
   };
-  const handleSelect = (timezone) => {
+  const handleSelect = (timezone:any) => {
     setSelectedTimeZone(timezone);
     setIsOpenCountry(false);
   };
-  const handleCountry = (country) => {
+  const handleCountry = (country:any) => {
     setCountryInfo(country);
     setIsOpenCountry(false);
   };
@@ -615,7 +617,9 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
     setIsDropdownOpen(!isDropdownOpen);
   };
   const handleOption = (subject: any) => {
+    // @ts-ignore
     setSelectedOptions((prev) => {
+      // @ts-ignore
       if (prev.includes(subject)) {
         return prev.filter((s) => s !== subject); // Deselect if already selected
       }
@@ -636,7 +640,7 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
   };
   const [selectedGrade, setSelectedGrade] = useState(null);
 
-  const handleGradeClick = (grade) => {
+  const handleGradeClick = (grade:any) => {
     setSelectedGrade(selectedGrade === grade ? null : grade);
     setClassLevel(selectedGrade === grade ? "" : grade);
   };
@@ -693,9 +697,8 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
             <ConfirmBtn
               onClick={() => {
                 setIsGradeConfirmed(true);
-              }}
-              btnName="Confirm"
-            />
+              } }
+              btnName="Confirm" className={""}            />
           </div>
         );
       case "high":
@@ -729,9 +732,8 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
             <ConfirmBtn
               onClick={() => {
                 setIsGradeConfirmed(true);
-              }}
-              btnName="Confirm"
-            />
+              } }
+              btnName="Confirm" className={""}            />
           </div>
         );
       case "college":
@@ -757,9 +759,8 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
             <ConfirmBtn
               onClick={() => {
                 setIsGradeConfirmed(true);
-              }}
-              btnName="Confirm"
-            />
+              } }
+              btnName="Confirm" className={""}            />
           </div>
         );
       default:
@@ -814,21 +815,23 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                             <div className="relative">
                               <input
                                 type="checkbox"
-                                checked={selectedSubjects.includes(
-                                  subject.value
-                                )}
+                                // @ts-ignore
+                                checked={selectedSubjects.includes(subject.value)}
                                 onChange={() => {}}
                                 className="absolute opacity-0 cursor-pointer"
                               />
                               <div
                                 className={`h-7 w-7  border-2 border-[#6C5BAA] hover:bg-[#a394d6] hover:border-[#a394d6] rounded-md flex items-center justify-center 
                      ${
+                                  // @ts-ignore
                        selectedSubjects.includes(subject.value)
                          ? "bg-[#6c5baa]"
                          : ""
                      }`}
                               >
-                                {selectedSubjects.includes(subject.value) && (
+                                {
+                                // @ts-ignore
+                                selectedSubjects.includes(subject.value) && (
                                   <Check className="text-white" />
                                 )}
                               </div>
@@ -880,9 +883,8 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
             <ConfirmBtn
               onClick={() => {
                 setQuestionNo(QuestionNo + 1);
-              }}
-              btnName="Confirm"
-            />
+              } }
+              btnName="Confirm" className={""}            />
           </div>
         );
       // persoanl information
@@ -966,6 +968,7 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                               key={subject}
                               className="flex items-center p-2 text-darkBlue border-b     px-5 py-2 text-2xl border-darkBlue  cursor-pointer mb:text-sm placeholder-darkpurple"
                               onClick={() => {
+                                // @ts-ignore
                                 setSelectedCountry(subject); // Update the selected country when clicked
                                 setNameDropdonw(false); // Close the dropdown after selecting
                               }}
@@ -1128,8 +1131,7 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
             <div className="w-[30%] ml-auto pt-12">
               <ConfirmBtn
                 onClick={() => setQuestionNo(QuestionNo + 1)}
-                btnName="Confirm"
-              />
+                btnName="Confirm" className={""}              />
             </div>
           </div>
         );
@@ -1165,8 +1167,7 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
             <div className="w-9/12 m-auto">
               <ConfirmBtn
                 onClick={() => setQuestionNo(QuestionNo + 1)}
-                btnName="Confirm"
-              />
+                btnName="Confirm" className={""}              />
             </div>
           </div>
         );
@@ -1185,6 +1186,7 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                 >
                   <span className="text-purple-400">
                     {selectedDate
+                    // @ts-ignore
                       ? selectedDate.toLocaleDateString()
                       : "Select a date"}
                   </span>
@@ -1246,10 +1248,8 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                   p-2 text-center rounded-full text-sm sm:text-lg custom-2xl:text-2xl font-medium
                   ${day.isCurrentMonth ? "text-[#685aad] " : "text-[#d3c6ef]"}
                   ${
-                    selectedDate &&
-                    selectedDate.getDate() === day.day &&
-                    selectedDate.getMonth() === currentDate.getMonth() &&
-                    selectedDate.getFullYear() === currentDate.getFullYear()
+                  // @ts-ignore
+                    selectedDate && selectedDate.getDate() === day.day && selectedDate.getMonth() === currentDate.getMonth() && selectedDate.getFullYear() === currentDate.getFullYear()
                       ? ""
                       : ""
                   }
@@ -1502,8 +1502,7 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
               <div className="  py-16">
                 <ConfirmBtn
                   onClick={() => setQuestionNo(QuestionNo + 1)}
-                  btnName="Confirm"
-                />
+                  btnName="Confirm" className={""}                />
               </div>
             </div>
           );

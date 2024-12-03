@@ -85,7 +85,7 @@ award:award4,
       ]
   return (
     <div className='px-10 py-16 pt-64 mb:px-0 mb:py-4 xl:pt-40 lg:px-0 lg:pt-20'>
-      <Headings heading='``What our eTutors say' />
+      <Headings heading='``What our eTutors say' className={''} />
       <p className='text-darkBlue text-[30px] mb:text-xs lg:text-2xl mt-3' >98% of our eTutors say they are happy to work with us</p>
       <div className='w-full grid grid-cols-4	 gap-4 py-20 mb:flex-col xl:grid-cols-3 lg:grid-cols-3 lg:pt-16 mb:grid-cols-1 tb:grid-cols-2'>
         {
@@ -94,14 +94,14 @@ award:award4,
               <div className='flex flex-col row-gap-2' >
                 <div className='flex items-center justify-between gap-5 mb:gap-2'>
                   <div className='rounded-full w-24 h-24'>
-                    <Image src={content.img} />
+                    <Image src={content.img} alt={''} />
                   </div>
                   <div>
                     <h2 className=' font-semibold text-[#534988] text-[31px] lg:text-lg xl:text-2xl mb:text-xl'>{content.title}</h2>
                     <p  className='text-[17px]  text-[#786898] xl:text-sm mb:text-xs'>{content.date}</p>
                   </div>
                   <div className='rounded-full w-20 '>
-                    <Image className='' src={content.award} />
+                    <Image className='' src={content.award} alt={''} />
                   </div>
                 </div>
                 <p className='text-[#473171] text-xl leading-6 lg:text-sm  mb:text-xs xl:text-base pt-6 '>

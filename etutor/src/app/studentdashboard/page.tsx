@@ -171,7 +171,7 @@ const SessionsDashboard = () => {
 
   const userID = session?.user.id;
   // fetching the senders----------recieved messages-----------
-  const fetcher = async (url) => {
+  const fetcher = async (url:any) => {
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error("Failed to fetch senders");
@@ -412,6 +412,7 @@ const SessionsDashboard = () => {
       currentDate.getMonth() + 1
     ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
     const session = sessionData.find((session) => session.date === dateString);
+    // @ts-ignore
     return session ? session.message : "";
   };
 
@@ -703,7 +704,7 @@ const SessionsDashboard = () => {
                     <Image src={chat2} alt="" className="w-4 h-4" />
                   </div>
 
-                  {recievedmessages.map((message, index) => (
+                  {recievedmessages.map((message:any, index) => (
                     <div
                       key={index}
                       className="border-b-2 border-[#8b55ff39] py-2 hover:cursor-pointer"
@@ -1066,6 +1067,7 @@ const SessionsDashboard = () => {
             >
               <div className="w-6 custom-2xl:w-7 h-6 custom-2xl:h-7  rounded-full overflow-hidden">
                 <img
+                // @ts-ignore
                   src={FetchedUserData?.profilePicture}
                   alt=""
                   className="h-full w-full"

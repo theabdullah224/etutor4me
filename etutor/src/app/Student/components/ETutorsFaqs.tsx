@@ -50,7 +50,7 @@ const ETutorsFaqs :React.FC = () => {
       ];
   return (
     <div className='pt-52 pl-40  lg:pt-0 xl:pt-20 xl:pl-24 lg:pl-12 mb:pl-0 mb:pt-0  '>
-      <FAQs faqData={eTutorFaqs} />
+      <FAQs faqData={eTutorFaqs} display={''} morequestion={''} />
     </div>
   )
 }

@@ -19,8 +19,8 @@ const StudentDashboard = () => {
 
       // Update the requests state after successfully updating the status
       if (response.data.message === 'Request status updated successfully') {
-        setRequests((prevRequests) =>
-          prevRequests.map((request) =>
+        setRequests((prevRequests:any) =>
+          prevRequests.map((request:any) =>
             request.requestId === relationshipId
               ? { ...request, status: status }
               : request
@@ -55,6 +55,7 @@ const StudentDashboard = () => {
   if (loading) return <p>Loading requests...</p>;
 
   // Filter only pending requests
+  // @ts-ignore
   const pendingRequests = requests.filter(request => request.status === 'pending');
 
   return (
@@ -68,7 +69,7 @@ const StudentDashboard = () => {
         {pendingRequests.length === 0 ? (
           <p className="text-center text-gray-500 italic">No pending requests found</p>
         ) : (
-          pendingRequests.map((request) => (
+          pendingRequests.map((request:any) => (
             <li
               key={request.requestId}
               className="flex items-center justify-between py-3 hover:bg-gray-50 transition-colors duration-200"

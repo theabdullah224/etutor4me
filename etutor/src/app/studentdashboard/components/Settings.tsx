@@ -3,7 +3,7 @@ import Image from "next/image";
 import plusicon from "../../../../public/plus circle icon purple.svg";
 import editicon from "../../../../public/edit icon.svg";
 import alert2 from "../../../../public/alert.svg";
-import { PhoneInput } from "./phone-input";
+// import { PhoneInput } from "./phone-input";
 import { useSession } from "next-auth/react";
 import { ChevronDown, Edit2 } from "lucide-react";
 import Germany from "../../../../public/Flag_of_Germany.svg.webp";
@@ -202,7 +202,8 @@ const UserProfile: React.FC = () => {
   };
   
   // Use SWR hook
-  const { data: parentDataSWR, err:any } = useSWR(
+  // @ts-ignore
+  const { data: parentDataSWR, err } = useSWR(
     session?.user.id ? ["/api/parentapis/fetch-parent-data", session.user.id] : null,
     ([url, userId]) => fetcher(url, userId),
     {
@@ -277,7 +278,7 @@ const UserProfile: React.FC = () => {
   };
   const handleSaveClick = () => setIsEditing(false);
 
-  const hanldeupdatepassword = async (e) => {
+  const hanldeupdatepassword = async (e:any) => {
     e.preventDefault();
     
     setError("");

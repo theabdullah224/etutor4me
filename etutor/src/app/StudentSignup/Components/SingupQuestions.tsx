@@ -411,8 +411,8 @@ const SingupQuestions = () => {
 
       router.push("/StudentSignup/Confirmation");
 
-      console.log("Signup successful:", response.data);
-    } catch (error) {
+     
+    } catch (error:any) {
       if (error.message) {
         seterror(error.message);
         // Handle errors from the server
@@ -533,7 +533,7 @@ const SingupQuestions = () => {
     );
   };
 
-  const handleDateChange = (date) => {
+  const handleDateChange = (date:any) => {
     setSelectedDate(date);
     setdate(date);
     setIsOpen(false);
@@ -544,11 +544,11 @@ const SingupQuestions = () => {
   const toggleCountry = () => {
     setIsOpenCountry(!isOpenCountry);
   };
-  const handleSelect = (timezone) => {
+  const handleSelect = (timezone:any) => {
     setSelectedTimeZone(timezone);
     setIsOpenCountry(false);
   };
-  const handleCountry = (country) => {
+  const handleCountry = (country:any) => {
     setCountryInfo(country);
     setIsOpenCountry(false);
   };
@@ -556,14 +556,7 @@ const SingupQuestions = () => {
     setText("");
   };
 
-  const handleOption = (subject) => {
-    setSelectedOptions((prev) => {
-      if (prev.includes(subject)) {
-        return prev.filter((s) => s !== subject); // Deselect if already selected
-      }
-      return [...prev, subject]; // Select if not selected
-    });
-  };
+ 
 
   // select subject functions---------
   const toggleSubjectDropdown = () => {
@@ -572,9 +565,11 @@ const SingupQuestions = () => {
   };
   const handleSubjectClick = (subject: any) => {
     // Toggle the subject in selectedSubjects array
+    // @ts-ignore
     if (selectedSubjects.includes(subject)) {
       setSelectedSubjects(selectedSubjects.filter((item) => item !== subject));
     } else {
+      // @ts-ignore
       setSelectedSubjects([...selectedSubjects, subject]);
     }
   };
@@ -583,12 +578,12 @@ const SingupQuestions = () => {
     setSelectedSubjects(selectedSubjects.filter((item) => item !== subject));
   };
 
-  const handleOptionChange = (option) => {
+  const handleOptionChange = (option:any) => {
     setSelectedLevel(option);
     setClassLevel(""); // Reset class level when changing options
     // console.log('Option changed:', option);
   };
-  const handleCountrySelect = (country) => {
+  const handleCountrySelect = (country:any) => {
     setcountrycode(country.code); // Update country code
     setPhone(`+${country.code}`); // Set phone to include selected country code
     setIsDropdownOpen(false); // Close the dropdown after selection
@@ -600,7 +595,7 @@ const SingupQuestions = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const handleGradeClick = (grade) => {
+  const handleGradeClick = (grade:any) => {
     setSelectedGrade(selectedGrade === grade ? null : grade);
     setClassLevel(selectedGrade === grade ? "" : grade);
   };
@@ -866,21 +861,24 @@ const SingupQuestions = () => {
                             <div className="relative">
                               <input
                                 type="checkbox"
-                                checked={selectedSubjects.includes(
-                                  subject.value
-                                )}
+                                // @ts-ignore
+                                checked={selectedSubjects.includes(subject.value)}
                                 onChange={() => {}}
                                 className="absolute opacity-0 cursor-pointer"
                               />
                               <div
                                 className={`h-7 w-7  border-2 border-[#6C5BAA] hover:bg-[#a394d6] hover:border-[#a394d6] rounded-md flex items-center justify-center 
                      ${
+
+                     // @ts-ignore
                        selectedSubjects.includes(subject.value)
                          ? "bg-[#6c5baa]"
                          : ""
                      }`}
                               >
-                                {selectedSubjects.includes(subject.value) && (
+                                {
+                                // @ts-ignore
+                                selectedSubjects.includes(subject.value) && (
                                   <Check className="text-white" />
                                 )}
                               </div>
@@ -979,7 +977,7 @@ const SingupQuestions = () => {
                             id="style-2"
                             className="py-4 px-4 lg:p-4  max-h-[15rem] overflow-y-auto"
                           >
-                            {countries.map((subject) => (
+                            {countries.map((subject:any) => (
                               <div
                                 key={subject}
                                 className="flex items-center p-2 text-darkBlue border-b px-5 py-2 text-2xl border-darkBlue cursor-pointer mb:text-sm placeholder-darkpurple lg:text-xs lg:px-4"
@@ -1203,6 +1201,7 @@ const SingupQuestions = () => {
                 >
                   <span className="text-purple-400">
                     {selectedDate
+                    // @ts-ignore
                       ? selectedDate.toLocaleDateString()
                       : "Select a date"}
                   </span>
@@ -1264,10 +1263,8 @@ const SingupQuestions = () => {
                   p-2 text-center rounded-full text-sm sm:text-lg custom-2xl:text-2xl font-medium
                   ${day.isCurrentMonth ? "text-[#685aad] " : "text-[#d3c6ef]"}
                   ${
-                    selectedDate &&
-                    selectedDate.getDate() === day.day &&
-                    selectedDate.getMonth() === currentDate.getMonth() &&
-                    selectedDate.getFullYear() === currentDate.getFullYear()
+                  // @ts-ignore
+                    selectedDate && selectedDate.getDate() === day.day &&  selectedDate.getMonth() === currentDate.getMonth() && selectedDate.getFullYear() === currentDate.getFullYear()
                       ? ""
                       : ""
                   }
