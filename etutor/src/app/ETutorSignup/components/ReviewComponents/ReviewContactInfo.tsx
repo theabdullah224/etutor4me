@@ -15,12 +15,12 @@ const ReviewContactInfo = () => {
       <ReviewFormHead heading='Contact Information' EditActive={EditActive} handleEditToggle={handleEditToggle} />
       {EditActive ? <ContactInformation/>:
       <div className='grid grid-cols-2 gap-20 py-12 pl-5' >
-        <EnteredInfo name='Selected Country' info='United States' />
-        <EnteredInfo name='ZIP Code' info='12345' />
-        <EnteredInfo name='First Name' info='XXXXXXXXX' />
-        <EnteredInfo name='Email' info='email@gmail.com' />
-        <EnteredInfo name='Last Name' info='XXXXXXXXX' />
-        <EnteredInfo name='Phone Number' info='+12345678912' />
+        <EnteredInfo name='Selected Country' info='United States' info2={''} info3={''} info4={''} span={''} />
+        <EnteredInfo name='ZIP Code' info='12345' info2={''} info3={''} info4={''} span={''} />
+        <EnteredInfo name='First Name' info='XXXXXXXXX' info2={''} info3={''} info4={''} span={''} />
+        <EnteredInfo name='Email' info='email@gmail.com' info2={''} info3={''} info4={''} span={''} />
+        <EnteredInfo name='Last Name' info='XXXXXXXXX' info2={''} info3={''} info4={''} span={''} />
+        <EnteredInfo name='Phone Number' info='+12345678912' info2={''} info3={''} info4={''} span={''} />
       </div>}
       
     </div>
