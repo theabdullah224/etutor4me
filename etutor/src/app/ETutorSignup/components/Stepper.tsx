@@ -1,11 +1,11 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
 
-const Stepper = ({ steps, currentStep }) => {
+const Stepper = ({ steps, currentStep }:any) => {
     const [newStep, setNewStep] = useState([]);
     const stepRef = useRef();
 
-    const updateStep = (stepNumber, steps) => {
+    const updateStep = (stepNumber: any, steps: any) => {
         const updatedSteps = [...steps];
         for (let i = 0; i < updatedSteps.length; i++) {
             if (i === stepNumber) {
@@ -35,7 +35,7 @@ const Stepper = ({ steps, currentStep }) => {
     };
 
     useEffect(() => {
-        const stepsState = steps.map((step, index) => (
+        const stepsState = steps.map((step: any, index: number) => (
             Object.assign({}, {
                 description: step,
                 completed: false,
@@ -45,6 +45,7 @@ const Stepper = ({ steps, currentStep }) => {
         ));
         stepRef.current = stepsState;
         const current = updateStep(currentStep - 1, stepRef.current);
+        // @ts-ignore
         setNewStep(current);
     }, [steps, currentStep]);
 

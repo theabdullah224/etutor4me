@@ -1,6 +1,6 @@
 import React from 'react'
 
-const RadioInput = ({id, name, value, checked, onChange, label}) => {
+const RadioInput = ({id, name, value, checked, onChange, label}:any) => {
   return (
     <div className="flex items-center py-4">
       <input

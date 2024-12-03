@@ -6,7 +6,7 @@ const StepperControl = () => {
     <div className=''>
         <div>
 
-        <ConfirmBtn btnName='Continue' />
+        <ConfirmBtn btnName='Continue' className={''} onClick={undefined} />
         </div>
     </div>
   )

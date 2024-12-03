@@ -6,7 +6,7 @@ import edit from "../../../../public/assets/icons/editicon.svg";
 // import cancel from "../../../../public/assets/icons/cancelicon.svg"; // Add the cancel icon
 import FormHeading from './FormHeading';
 
-const ReviewFormHead = ({ heading,handleEditToggle,EditActive }) => {
+const ReviewFormHead = ({ heading,handleEditToggle,EditActive }:any) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const handleEditClick = () => {
