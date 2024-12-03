@@ -21,7 +21,7 @@ const FaqsSoon = () => {
       ];
   return (
     <div className='w-[90%] py-96 ml-auto lg:py-60 xl:py-72 mb:py-28 lg:w-[95%] xl:w-[92%] mb:w-[95%]'>
-            <FAQs faqData={PackageFaqs} morequestion='hidden' />
+            <FAQs faqData={PackageFaqs} morequestion='hidden' display={''} />
 
     </div>
   )
