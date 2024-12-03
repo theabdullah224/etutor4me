@@ -37,8 +37,8 @@ const ParentDashboard = () => {
       });
       alert('Request sent!');
       // Update local state to reflect the request sent status
-      setStudents((prevStudents) =>
-        prevStudents.map((student) =>
+      setStudents((prevStudents:any) =>
+        prevStudents.map((student:any) =>
           student._id === studentId ? { ...student, requestSent: true } : student
         )
       );
@@ -51,7 +51,7 @@ const ParentDashboard = () => {
 
   // Filter students based on the search term and exclude those who have already received a request
   const filteredStudents = students.filter(
-    (student) => !student.requestSent && `${student.firstName} ${student.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
+    (student:any) => !student.requestSent && `${student.firstName} ${student.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
