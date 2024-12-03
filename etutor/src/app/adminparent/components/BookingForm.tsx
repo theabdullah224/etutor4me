@@ -26,15 +26,12 @@ export const  BookingView = () => (
         <select
           className="w-full bg-[#e9deff] text-[#6949ff] p-2 rounded-md"
           // @ts-ignore
-          value={
-            // @ts-ignore
-            bookingInfo.subject || ""}
-          // @ts-ignore
+          value={bookingInfo.subject || ""}
           onChange={(e) => handleBookingInputChange("subject", e.target.value)}
         >
           <option value="">Select Subject</option>
           {
-          // @ts-ignore
+              // @ts-ignore
           selectedTutor?.subjects?.map((subject) => (
             <option key={subject} value={subject}>
               {subject}
@@ -45,10 +42,7 @@ export const  BookingView = () => (
         <select
           className="w-full bg-[#e9deff] text-[#6949ff] p-2 rounded-md"
           // @ts-ignore
-          value={
-            // @ts-ignore
-            bookingInfo.level || ""}
-          // @ts-ignore
+          value={bookingInfo.level || ""}
           onChange={(e) => handleBookingInputChange("level", e.target.value)}
         >
           <option value="">Select Level</option>
@@ -58,7 +52,6 @@ export const  BookingView = () => (
         </select>
 
         <button
-        // @ts-ignore
           onClick={handleNextBookingStep}
           className="w-full bg-[#6949ff] text-white p-2 rounded-md"
         >
@@ -75,20 +68,14 @@ export const  BookingView = () => (
           type="date"
           className="w-full bg-[#e9deff] text-[#6949ff] p-2 rounded-md"
           // @ts-ignore
-          value={
-            // @ts-ignore
-            bookingInfo.date || ""}
-          // @ts-ignore
+          value={bookingInfo.date || ""}
           onChange={(e) => handleBookingInputChange("date", e.target.value)}
         />
         <input
           type="time"
           className="w-full bg-[#e9deff] text-[#6949ff] p-2 rounded-md"
           // @ts-ignore
-          value={
-            // @ts-ignore
-            bookingInfo.time || ""}
-          // @ts-ignore
+          value={bookingInfo.time || ""}
           onChange={(e) => handleBookingInputChange("time", e.target.value)}
         />
         <button
@@ -106,19 +93,18 @@ export const  BookingView = () => (
       <div className="space-y-4">
         <h3 className="text-[#6949ff] font-bold">Confirm Booking</h3>
         <p>Subject: {
-        // @ts-ignore
+          // @ts-ignore
         bookingInfo.subject}</p>
         <p>Level: {
-        // @ts-ignore
+          // @ts-ignore
         bookingInfo.level}</p>
         <p>Date: {
-        // @ts-ignore
+          // @ts-ignore
         bookingInfo.date}</p>
         <p>Time: {
-        // @ts-ignore
+          // @ts-ignore
         bookingInfo.time}</p>
         <button
-        // @ts-ignore
           onClick={handleConfirmBooking}
           className="w-full bg-[#6949ff] text-white p-2 rounded-md"
         >
@@ -128,3 +114,17 @@ export const  BookingView = () => (
     )}
   </div>
   );
+
+function handleBookingInputChange(arg0: string, value: string): void {
+  throw new Error("Function not implemented.");
+}
+
+  // @ts-ignore
+function handleNextBookingStep(event: MouseEvent<HTMLButtonElement, MouseEvent>): void {
+  throw new Error("Function not implemented.");
+}
+
+  // @ts-ignore
+function handleConfirmBooking(event: MouseEvent<HTMLButtonElement, MouseEvent>): void {
+  throw new Error("Function not implemented.");
+}
