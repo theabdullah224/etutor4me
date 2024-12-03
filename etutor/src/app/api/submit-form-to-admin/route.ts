@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
 
-export async function sendEmailToAdmin(userEmail: string, content: string) {
+async function sendEmailToAdmin(userEmail: string, content: string) {
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 587,
