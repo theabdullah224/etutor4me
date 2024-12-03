@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import BookingModel from '../models/Booking'; // Adjust path as necessary
 import { connectMongoDB } from '../connection/connection';
-import {authOptions} from '@/app/api/auth/[...nextauth]/route'; // Adjust path to your NextAuth options
+import {authOptions} from '@/app/auth/route'; // Adjust path to your NextAuth options
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);

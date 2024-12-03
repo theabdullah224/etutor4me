@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
 import { getServerSession } from 'next-auth';
 import User from '../models/User'; // Import the User model
-import { authOptions } from '../auth/[...nextauth]/route';
+import {authOptions} from '@/app/auth/route'; 
 
 export async function PUT(req: Request) {
   try {

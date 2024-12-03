@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import { connectMongoDB } from '../connection/connection'; // MongoDB connection utility
 import StudentModel from '../models/Student'; // Student model import
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../auth/[...nextauth]/route';
+import {authOptions} from '@/app/auth/route'; 
 
 export async function PUT(req: Request) {
   try {

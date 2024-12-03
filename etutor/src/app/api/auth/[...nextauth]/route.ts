@@ -204,7 +204,7 @@ import UserModel from '../../models/User';
 import jwt from 'jsonwebtoken';
 import { sendVerificationEmail } from '../../utils/sendEmail';
 import GoogleProvider from 'next-auth/providers/google';
-import authOptions from '@/app/auth/route';
+import {authOptions} from '@/app/auth/route';
 interface Credentials {
   role: string;
   email: string;
@@ -307,4 +307,4 @@ interface Credentials {
 // };
 
 const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+export { handler as GET, handler as POST, authOptions };

@@ -1,7 +1,7 @@
 // app/api/teacher/update/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../../auth/[...nextauth]/route';
+import {authOptions} from '@/app/auth/route'; 
 import { connectMongoDB } from '../../connection/connection';
 import Teacher from '../../models/Teacher';
 

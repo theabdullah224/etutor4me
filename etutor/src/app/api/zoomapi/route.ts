@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
+import {authOptions} from '@/app/auth/route'; 
 
 const zoomClientID = process.env.ZOOM_CLIENT_ID;
 const zoomClientSecret = process.env.ZOOM_CLIENT_SECRET;

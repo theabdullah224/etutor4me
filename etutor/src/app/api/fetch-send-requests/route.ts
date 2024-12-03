@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import BookingModel from '../models/Booking';
 import { connectMongoDB } from '../connection/connection';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import {authOptions} from '@/app/auth/route'; 
 import StudentModel from '@/app/api/models/Parent';
 
 export async function GET(req: NextRequest) {
