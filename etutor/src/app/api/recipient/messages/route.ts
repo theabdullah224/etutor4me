@@ -62,7 +62,7 @@
 
 
 import { NextApiRequest } from 'next';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { connectMongoDB } from '../../connection/connection';
 import Conversation from '../../models/Conversation';
 import User from '../../models/User';
@@ -70,7 +70,7 @@ import Student from '../../models/Student';
 import Parent from '../../models/Parent';
 import TeacherModel from '../../models/Teacher';
 
-export async function GET(req: NextApiRequest) {
+export async function GET(req: NextRequest) {
   try {
     await connectMongoDB();
 
