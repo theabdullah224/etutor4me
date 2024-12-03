@@ -1,7 +1,16 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
 
-const Stepper = ({ steps, currentStep }:any) => {
+
+interface stepper{
+    steps:any,
+    currentStep:any,
+    step:{
+        selected:any,
+        description:any,
+    },
+}
+const Stepper: React.FC<stepper> = ({ steps, currentStep }) => {
     const [newStep, setNewStep] = useState([]);
     const stepRef = useRef();
 
@@ -76,11 +85,17 @@ const Stepper = ({ steps, currentStep }:any) => {
                     ${index === 0 ? 'items-start' : 
                       index === newStep.length - 1 ? 'items-start justify-start' : 
                       'items-start'}`}>
-                    <div className={`text-3xl text-[#534988] ${step.selected ? 'text-[#534988] ':'text-[#A9A4C3] '} font-semibold`}>
-                        {step.description}
+                    <div className={`text-3xl text-[#534988] ${
+                    // @ts-ignore
+                        step.selected ? 'text-[#534988] ':'text-[#A9A4C3] '} font-semibold`}>
+                        {// @ts-ignore
+                        step.description}
                     </div>
-                    <div className={`text-xl text-start  ${step.completed ? 'text-[#A8A3C3]' : 'text-[#534988] '}`}>
-                        {step.completed ? 'Completed' : step.selected ? 'In Progress' : ''}
+                    <div className={`text-xl text-start  ${
+                        // @ts-ignore
+                        step.completed ? 'text-[#A8A3C3]' : 'text-[#534988] '}`}>
+                        {// @ts-ignore
+                        step.completed ? 'Completed' : step.selected ? 'In Progress' : ''}
                     </div>
                 </div>
             </div>
