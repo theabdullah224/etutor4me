@@ -59,7 +59,9 @@ const Stepper = ({ steps, currentStep }:any) => {
                     </div>
                     <div className='absolute top-0 text-center mt-16 w-16 text-xs'>
                         {/* Description */}
-                        {step.description}
+                        { 
+                        // @ts-ignore
+                        step.description}
                     </div>
                 </div>
                 {index !== newStep.length - 1 && (
