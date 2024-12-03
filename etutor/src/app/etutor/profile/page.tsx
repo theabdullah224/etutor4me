@@ -196,7 +196,7 @@ const SessionsDashboard = () => {
     return () => mediaQuery.removeEventListener("change", handleMediaChange);
   }, []);
   //@ts-ignore
-  const renderContent = () => {
+  const renderContent:voide = () => {
     switch (activeSidebarItem) {
       case "Profile":
         return <Profile/>
@@ -431,10 +431,7 @@ const SessionsDashboard = () => {
           </div>
         </header>
         
-        {
-        renderContent()
-        
-        }
+        {renderContent()}
       </main>
     </div>
   );
