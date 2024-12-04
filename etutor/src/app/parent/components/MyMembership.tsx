@@ -1,7 +1,7 @@
 // pages/index.js
 import { useState } from "react";
 import Head from "next/head";
-import CurrentPackage from "../components/CurrentPackage";
+import CurrentPackage from "./CurrentPackage";
 import OtherPackages from "./OtherPackage";
 import PlanDetails from "./PlanDetail";
 import { ChevronRight,ChevronLeft, Divide } from "lucide-react";

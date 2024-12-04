@@ -21,7 +21,7 @@ function Page() {
   const router = useRouter();
 
   const handlenavigate = () => {
-    router.push("/adminparent");
+    router.push("/parent");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -42,7 +42,7 @@ function Page() {
     } else {
       setWait("Continue");
       // Handle successful sign-in (e.g., redirect or show success message)
-      router.push("/adminparent"); // Redirect to the homepage or another page
+      router.push("/parent"); // Redirect to the homepage or another page
     }
   };
 

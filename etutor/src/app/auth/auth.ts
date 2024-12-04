@@ -43,7 +43,7 @@ const authOptions: NextAuthOptions = {
           }
   
           if (!user.verified) {
-            const secret = process.env.JWT_SECRET;
+            const secret = "secretkey";
             if (!secret) {
               console.error('JWT secret is not defined');
               throw new Error('Internal server error');
