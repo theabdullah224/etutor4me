@@ -1,3 +1,6 @@
+
+export const dynamic = 'force-dynamic';
+
 import { NextApiRequest, NextApiResponse } from 'next';
 import { connectMongoDB } from '../../connection/connection';
 import Message from '../../models/Message'; // Path to your Message model

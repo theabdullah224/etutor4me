@@ -1,4 +1,6 @@
 // verify.ts
+export const dynamic = 'force-dynamic';
+
 import { NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import { connectMongoDB } from '../../connection/connection';
