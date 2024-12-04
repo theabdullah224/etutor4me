@@ -1,3 +1,7 @@
+export const dynamic = 'force-dynamic';
+
+
+
 import { connectMongoDB } from '../../connection/connection';  // Adjust the path as needed
 import TeacherModel from '../../models/Teacher';  // Adjust the import path based on your project structure
 import { NextResponse } from 'next/server';

@@ -1,4 +1,6 @@
 // app/api/get-incoming-requests/route.ts
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import BookingModel from '../models/Booking'; // Adjust path as necessary

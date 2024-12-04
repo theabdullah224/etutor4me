@@ -41,6 +41,7 @@
 //   }
 // }
 
+export const dynamic = 'force-dynamic';
 
 
 import { connectMongoDB } from '../connection/connection';

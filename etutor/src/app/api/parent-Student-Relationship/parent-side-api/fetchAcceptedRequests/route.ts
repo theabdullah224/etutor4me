@@ -1,3 +1,6 @@
+
+export const dynamic = 'force-dynamic';
+
 import { NextResponse } from 'next/server';
 import { connectMongoDB } from '../../../connection/connection'; // Database connection
 import ParentStudentRelationship from '../../../models/ParentStudentRelation'; // Parent-Student Relationship model

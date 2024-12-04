@@ -60,6 +60,7 @@
 //   }
 // }
 
+export const dynamic = 'force-dynamic';
 
 import { NextApiRequest } from 'next';
 import { NextRequest, NextResponse } from 'next/server';
