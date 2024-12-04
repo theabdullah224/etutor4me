@@ -19,7 +19,7 @@ const Page = () => {
     }
   }, [refId]);
   return (
-  
+    <Suspense fallback={<div>Loading...</div>}> 
 
     <div>
       <SignUpNavbar/>
@@ -40,7 +40,7 @@ const Page = () => {
         </div>
       </div>
     </div>
- 
+    </Suspense>
   )
 }
 
