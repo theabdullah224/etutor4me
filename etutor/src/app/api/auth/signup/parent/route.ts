@@ -72,7 +72,7 @@ export async function POST(req: Request) {
 
         await newParent.save();
 
-        const secret = "secretkey";
+        const secret = process.env.JWT_SECRET;
 
         if (!secret) {
             console.error('JWT secret is not defined');
