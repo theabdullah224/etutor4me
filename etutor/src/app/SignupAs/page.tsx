@@ -9,17 +9,17 @@ import { useSearchParams } from 'next/navigation'
 import { Suspense } from 'react'
 const Page = () => {
 
-  const searchParams = useSearchParams();
-  const refId = searchParams.get('ref');
+  // const searchParams = useSearchParams();
+  // const refId = searchParams.get('ref');
   
   
-  useEffect(() => {
-    if (refId) {
-      localStorage.setItem('referIdPerson', refId);
-    }
-  }, [refId]);
+  // useEffect(() => {
+  //   if (refId) {
+  //     localStorage.setItem('referIdPerson', refId);
+  //   }
+  // }, [refId]);
   return (
-    <Suspense fallback={<div>Loading...</div>}> 
+    
 
     <div>
       <SignUpNavbar/>
@@ -40,7 +40,7 @@ const Page = () => {
         </div>
       </div>
     </div>
-    </Suspense>
+  
   )
 }
 
