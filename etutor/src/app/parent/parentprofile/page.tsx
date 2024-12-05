@@ -240,7 +240,7 @@ const PersonalInfoForm = () => {
           <Image src={parentprofilelogo} alt="" />
 
             <div className="hidden sm:block">
-          <Link href="/adminparent">
+          <Link href="/parent">
             <div className="flex cursor-pointer  items-center ml-16">
               <ChevronLeft
                 className="mr-2 cursor-pointer text-[#685AAD]"
@@ -306,7 +306,7 @@ const PersonalInfoForm = () => {
           {isProfileOpen && (
             <div className="absolute right-0 mt-2 hover:cursor-pointer  bg-[#EDE8FA] font-bold rounded-md shadow-lg py-1 z-10 top-full w-[9rem] custom-2xl:w-[12.5rem] px-4 border border-[#685aad7a]">
               <Link
-                href="/adminparent/parentprofile"
+                href="/parent/parentprofile"
                 className="block px-2 py-2 custom-2xl:py-3 text-sm text-[#685AAD]  border-b border-[#685aad7a] "
               >
                 Profile

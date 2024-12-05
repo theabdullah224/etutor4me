@@ -21,7 +21,7 @@ const Page = ({QuestionNo}:any) => {
         {/* Only render the div containing the image if QuestionNo is not equal to 5 */}
         {QuestionNo !== 5 && (
           <div className=''>
-            <Image className={`absolute bottom-0 left-0  ${questionNo == 2 ? "w-[20rem]":"w-[59rem]"} ${questionNo == 3 ? "w-[20rem]":"w-[59rem]"} ${questionNo == 5 ? "w-[29rem]":"w-[59rem]"}   hidden custom-2xl:block  z-30`} src={singup} alt='signup'  />
+            <Image className={`absolute bottom-0 left-0  ${(questionNo == 2 || questionNo == 3 || questionNo == 5) ? "w-[20rem]":"w-[45em]"}  hidden custom-2xl:block  z-30`} src={singup} alt='signup'  />
           </div>
         )}
         <SingupQuestions questionNo={setQuestionNo}  />

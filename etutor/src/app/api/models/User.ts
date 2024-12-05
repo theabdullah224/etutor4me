@@ -45,7 +45,7 @@ const UserSchema: Schema<IUser> = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, default: null },
     role: { type: String, required: true },
-    verified: { type: Boolean, default: true },
+    verified: { type: Boolean, default: false },
     verification_token: { type: String, default: null },
     etokis: { type: Number, default: 0 },
     referralCode: { type: String, unique: true, default: null },
