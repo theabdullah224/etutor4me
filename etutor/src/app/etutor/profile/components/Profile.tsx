@@ -1379,9 +1379,7 @@ function Profile() {
                                     <div
                                       className={`h-5 w-5 rounded-sm border border-white hover:bg-[#a394d6] hover:border-[#a394d6] flex items-center justify-center ${
                                         // @ts-ignore
-                                        selectedSubjectsLEVEL.includes(
-                                          subjectlevel.value
-                                        )
+                                        selectedSubjectsLEVEL.includes(subjectlevel.value)
                                           ? "bg-[#6c5baa] border-none p-0.5"
                                           : ""
                                       }`}
@@ -1470,18 +1468,14 @@ function Profile() {
                                     <input
                                       type="checkbox"
                                       // @ts-ignore
-                                      checked={selectedExperience.includes(
-                                        experience.value
-                                      )}
+                                      checked={selectedExperience.includes(experience.value)}
                                       onChange={() => {}}
                                       className="absolute opacity-0 cursor-pointer"
                                     />
                                     <div
                                       className={`h-5 w-5 rounded-sm border border-white hover:bg-[#a394d6] hover:border-[#a394d6] flex items-center justify-center ${
                                         // @ts-ignore
-                                        selectedExperience.includes(
-                                          experience.value
-                                        )
+                                        selectedExperience.includes(experience.value)
                                           ? "bg-[#6c5baa] border-none p-0.5"
                                           : ""
                                       }`}
