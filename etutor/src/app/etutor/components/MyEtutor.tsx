@@ -434,7 +434,7 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
                   {/* Left Section (Profile, Name, Courses, Subjects) */}
                   <div className="col-span-full sm:col-span-7 flex flex-col sm:flex-row gap-4 sm:gap-8">
                     {/* Profile Image */}
-                    <div className="w-16 h-16 sm:min-w-16 sm:min-h-16 custom-2xl:w-[132px] custom-2xl:h-[132px] rounded-full border relative overflow-hidden mx-auto sm:mx-0">
+                    <div className="w-16 h-16 sm:min-w-16 sm:min-h-16 custom-2xl:min-w-[132px] custom-2xl:min-h-[132px] rounded-full  relative overflow-hidden mx-auto sm:mx-0">
                       <img
                         src={
                           //@ts-ignore

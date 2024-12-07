@@ -11,6 +11,7 @@ import level7 from "../../../../public/level-7.svg";
 import level8 from "../../../../public/level-8.svg";
 import level9 from "../../../../public/level-9.svg";
 import level10 from "../../../../public/level-10.svg";
+import { useSession } from "next-auth/react";
 import {
   ChevronDown,
   ChevronUp,
@@ -148,6 +149,7 @@ const ETutorSearch = ({
   trialrequest,
   parentdata,
 }: ETutorSearchprops) => {
+  const { data: session, status } = useSession();
   const [freetrial, setFreetrial] = useState(false);
   const [isDurationOpen, setIsDurationOpen] = useState(false);
   const [selectedDuration, setSelectedDuration] = useState(null);
@@ -410,7 +412,7 @@ const ETutorSearch = ({
     };
 
     fetchTeachers();
-  }, []);
+  }, [session]);
 
   const togglememberDropdown = () => setIsmemberOpen(!isOpen);
 
