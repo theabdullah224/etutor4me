@@ -37,7 +37,7 @@ import ContactSupport from "./components/ContactSupport";
 import ReferYourFriends from "./components/ReferYourFriends";
 import Setting from "./components/Settings";
 import UsefulLinks from "./components/UsefulLinks";
-import { useRouter } from "next/navigation";
+
 import homeinactive from "../../../public/home inactive.svg";
 import sessioninactive from "../../../public/sessionoverview inactive.svg";
 import einactive from "../../../public/e inactive.svg";
@@ -61,6 +61,7 @@ import level10 from "../../../public/level-10.svg";
 import useSWR from "swr";
 import Link from "next/link";
 import Earnings from "./components/Earnings";
+import { useRouter } from "next/navigation";
 import {
   format,
   startOfWeek,
@@ -122,7 +123,7 @@ const SessionsDashboard = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [hoveredDate, setHoveredDate] = useState<number | null>(null);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
-  const Router = useRouter();
+  const router = useRouter();
   const { data: session } = useSession(); // Get the session data
   const [teacher, setTeacher] = useState(null); // State to store teacher data
   const [loading, setLoading] = useState<boolean>(true); // Loading state
@@ -165,7 +166,7 @@ const SessionsDashboard = () => {
 
         const data = await response.json();
         setRequests(data.bookingRequests);
-        // console.log(data.bookingRequests, "Fetched booking requests");
+      
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -872,240 +873,250 @@ const SessionsDashboard = () => {
     }
   };
 
-  return (
-    <div className="flex min-h-screen bg-white relative z-0">
-      {/* Sidebar */}
-      <aside
-        className={` ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } custom-lg:translate-x-0 fixed custom-lg:static inset-y-0 left-0 z-50 max-w-[20rem] sm:max-w-[25rem] w-full  min-h-screen  rounded-tr-3xl rounded-br-3xl bg-[#E6E4F2] text-white flex flex-col transition-transform duration-300 ease-in-out pl-5 pr-9 pt-8 custom-2xl:pt-11 pb-4`}
-      >
-        <div className="flex items-center mb-[23.5%] pb-2 pl-7">
-          <Image src={logo} alt="" className="w-52 sm:w-[17rem]" />
-        </div>
-        <nav className="flex-grow flex flex-col">
-          <ul className="space-y-2 flex-grow">
-            {sidebarItems
-              .filter(
-                (item) => !["Settings", "Useful links"].includes(item.name)
-              )
-              .map((item) => (
-                <li key={item.name}>
-                  <button
-                    onClick={() => {
-                      setPreviousSidebarItem(activeSidebarItem);
-                      setActiveSidebarItem(item.name);
-                      if (window.innerWidth < 1024) {
-                        setIsSidebarOpen(false);
-                      }
-                    }}
-                    className={`flex    hover:shadow-[0px_0px_5px_1px_rgba(255,255,255,0.3)] hover:transition-all duration-1000  items-center w-full px-6 custom-2xl:px-9 py-3 sm:py-[18px] rounded-[22px]  transition-all  ${
-                      activeSidebarItem === item.name
-                        ? "bg-white  transition-all"
-                        : "hover:bg-darkpurple hover:bg-transparent transition-all"
-                    }`}
-                  >
-                    <Image
-                      src={item.icon}
-                      className="w-5 sm:w-6 h-5 sm:h-6 mr-7"
-                      alt=""
-                    />
-                    <p
-                      className={`text-[#cac7d8] text-xl font-medium ${
-                        activeSidebarItem === item.name
-                          ? "text-customBlue"
-                          : "text-darkpurple"
-                      }`}
-                    >
-                      {item.name}
-                    </p>
-                  </button>
-                </li>
-              ))}
-          </ul>
-          <ul className="space-y-2 mt-6 ">
-            {sidebarItems
-              .filter((item) =>
-                ["Settings", "Useful links"].includes(item.name)
-              )
-              .map((item) => (
-                <li key={item.name}>
-                  <button
-                    onClick={() => {
-                      setActiveSidebarItem(item.name);
-                      if (window.innerWidth < 1024) {
-                        setIsSidebarOpen(false);
-                      }
-                    }}
-                    className={`flex   hover:shadow-[0px_0px_5px_1px_rgba(255,255,255,0.3)] hover:transition-all duration-1000  items-center w-full px-6 custom-2xl:px-9 py-3 sm:py-[18px] rounded-[22px]  transition-all  ${
-                      activeSidebarItem === item.name
-                        ? "bg-white text-customBlue"
-                        : "hover:bg-darkpurple hover:bg-transparent"
-                    }`}
-                  >
-                    <Image
-                      src={item.icon}
-                      className="w-5 sm:w-6 h-5 sm:h-6 mr-7"
-                      alt=""
-                    />
-                    <p
-                      className={`text-[#cac7d8] text-xl font-medium ${
-                        activeSidebarItem === item.name
-                          ? "text-customBlue"
-                          : "text-darkpurple"
-                      }`}
-                    >
-                      {item.name}
-                    </p>
-                  </button>
-                </li>
-              ))}
-          </ul>
-        </nav>
-      </aside>
 
-      {/* Main content */}
-      <main className="flex-1 px-9 py-4 overflow-auto  bg-transparent">
-        <header
-          className={`flex justify-between items-center  ${
-            activeSidebarItem === "Session overview" ? "mb-2" : "mb-8"
-          }`}
+  if(session?.user?.role === "teacher"){
+
+    return (
+      <div className="flex min-h-screen bg-white relative z-0">
+        {/* Sidebar */}
+        <aside
+          className={` ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } custom-lg:translate-x-0 fixed custom-lg:static inset-y-0 left-0 z-50 max-w-[20rem] sm:max-w-[25rem] w-full  min-h-screen  rounded-tr-3xl rounded-br-3xl bg-[#E6E4F2] text-white flex flex-col transition-transform duration-300 ease-in-out pl-5 pr-9 pt-8 custom-2xl:pt-11 pb-4`}
         >
-          <div className="flex items-center">
-            <button
-              onClick={toggleSidebar}
-              className="custom-lg:hidden mr-4 text-darkBlue"
-            >
-              <Menu size={24} />
-            </button>
-
-            {activeSidebarItem === "Dashboard" ? (
-              <></>
-            ) : (
-              <div
-                onClick={() => {
-                  if (previousSidebarItem) {
-                    setActiveSidebarItem(previousSidebarItem); // Navigate back to previous item
-                  }
-                }}
-                className="flex cursor-pointer  items-center"
-              >
-                <ChevronLeft
-                  className="mr-2 cursor-pointer text-[#685AAD]"
-                  size={24}
-                />
-
-                <h1 className="text-[#685AAD] text-xs sm:text-sm custom-lg:text-xl hidden sm:block">
-                  Back
-                </h1>
-              </div>
-            )}
-            {activeSidebarItem === "My Sessions" && (
-              <h1 className="text-[#685AAD]  text-sm sm:text-md custom-lg:text-5xl  font-extrabold ml-0 sm:ml-6 absolute top-16 left-16 sm:static">
-                My&nbsp;Sessions
-              </h1>
-            )}
+          <div className="flex items-center mb-[23.5%] pb-2 pl-7">
+            <Image src={logo} alt="" className="w-52 sm:w-[17rem]" />
           </div>
-
-          <div
-            ref={targetRef}
-            className="flex items-center space-x-4 relative -right-4 select-none "
+          <nav className="flex-grow flex flex-col">
+            <ul className="space-y-2 flex-grow">
+              {sidebarItems
+                .filter(
+                  (item) => !["Settings", "Useful links"].includes(item.name)
+                )
+                .map((item) => (
+                  <li key={item.name}>
+                    <button
+                      onClick={() => {
+                        setPreviousSidebarItem(activeSidebarItem);
+                        setActiveSidebarItem(item.name);
+                        if (window.innerWidth < 1024) {
+                          setIsSidebarOpen(false);
+                        }
+                      }}
+                      className={`flex    hover:shadow-[0px_0px_5px_1px_rgba(255,255,255,0.3)] hover:transition-all duration-1000  items-center w-full px-6 custom-2xl:px-9 py-3 sm:py-[18px] rounded-[22px]  transition-all  ${
+                        activeSidebarItem === item.name
+                          ? "bg-white  transition-all"
+                          : "hover:bg-darkpurple hover:bg-transparent transition-all"
+                      }`}
+                    >
+                      <Image
+                        src={item.icon}
+                        className="w-5 sm:w-6 h-5 sm:h-6 mr-7"
+                        alt=""
+                      />
+                      <p
+                        className={`text-[#cac7d8] text-xl font-medium ${
+                          activeSidebarItem === item.name
+                            ? "text-customBlue"
+                            : "text-darkpurple"
+                        }`}
+                      >
+                        {item.name}
+                      </p>
+                    </button>
+                  </li>
+                ))}
+            </ul>
+            <ul className="space-y-2 mt-6 ">
+              {sidebarItems
+                .filter((item) =>
+                  ["Settings", "Useful links"].includes(item.name)
+                )
+                .map((item) => (
+                  <li key={item.name}>
+                    <button
+                      onClick={() => {
+                        setActiveSidebarItem(item.name);
+                        if (window.innerWidth < 1024) {
+                          setIsSidebarOpen(false);
+                        }
+                      }}
+                      className={`flex   hover:shadow-[0px_0px_5px_1px_rgba(255,255,255,0.3)] hover:transition-all duration-1000  items-center w-full px-6 custom-2xl:px-9 py-3 sm:py-[18px] rounded-[22px]  transition-all  ${
+                        activeSidebarItem === item.name
+                          ? "bg-white text-customBlue"
+                          : "hover:bg-darkpurple hover:bg-transparent"
+                      }`}
+                    >
+                      <Image
+                        src={item.icon}
+                        className="w-5 sm:w-6 h-5 sm:h-6 mr-7"
+                        alt=""
+                      />
+                      <p
+                        className={`text-[#cac7d8] text-xl font-medium ${
+                          activeSidebarItem === item.name
+                            ? "text-customBlue"
+                            : "text-darkpurple"
+                        }`}
+                      >
+                        {item.name}
+                      </p>
+                    </button>
+                  </li>
+                ))}
+            </ul>
+          </nav>
+        </aside>
+  
+        {/* Main content */}
+        <main className="flex-1 px-9 py-4 overflow-auto  bg-transparent">
+          <header
+            className={`flex justify-between items-center  ${
+              activeSidebarItem === "Session overview" ? "mb-2" : "mb-8"
+            }`}
           >
-            {/* <Bell size={24} className="cursor-pointer text-darkBlue" /> */}
-            <div className="flex gap-4 custom-2xl:gap-6 mr-2">
-              <Image
-                src={dark}
-                alt=""
-                className="w-5 h-5 custom-2xl:w-6 custom-2xl:h-6"
-              />
-              <Image
-                src={translate}
-                alt=""
-                className="w-5 h-5 custom-2xl:w-6 custom-2xl:h-6"
-              />
-              <Image
-                src={bell}
-                alt=""
-                className="w-5 h-5 custom-2xl:w-6 custom-2xl:h-6"
-              />
-            </div>
-
-            {/* -------profile complete------- */}
-            {activeSidebarItem === "Dashboard" && (
-              <div className=" absolute mb-28 custom-xl:mb-8 hidden sm:block right-4   top-[3.7rem] max-w-[20.5rem]  custom-xl:max-w-[21.5rem]  ">
-                <div className="flex  items-center  ">
-                  <div>
-                    <h1 className="font-bold text-xl custom-xl:text-3xl   text-[#685AAD] pr-2 custom-xl:pr-14">
-                      Complete&nbsp;your&nbsp;report
-                    </h1>
-                  </div>
-                  <Image src={rightarrow} alt="" className="w-4 h-4" />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-lg font-medium text-[#685AAD] pb-3">
-                    Monthly Student Progress Report
-                  </span>
-                  <div className="w-full bg-[#DBD8EF] h-2 rounded-full">
-                    <div
-                      className={`w-[${completeprofilestatus}%] h-full bg-[#00DAE5] rounded-full`}
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <div
-              onClick={toggleProfile}
-              className={`flex bg-[#EDE8FA] hover:cursor-pointer  px-2 py-1 justify-between w-[9rem] custom-2xl:w-[12.5rem]   h-10 custom-2xl:h-11 items-center rounded-md ${
-                isProfileOpen ? "border border-[#685aad7a]" : "border-0"
-              }`}
-            >
-              <div className="w-6 custom-2xl:w-7 h-6 custom-2xl:h-7  rounded-full overflow-hidden">
-                <img src={profilepicture} alt="" className="h-full w-full" />
-              </div>
-              {/* <div className="flex items-center  w-full  gap-2 custom-2xl:gap-4">
-
-              </div> */}
-              <span className="text-sm custom-2xl:text-base font-bold text-[#685AAD]">
-                {firstname}
-              </span>
-
-              {isProfileOpen ? (
-                <ChevronUp
-                  size={18}
-                  className="cursor-pointer  text-[#685AAD] "
-                />
+            <div className="flex items-center">
+              <button
+                onClick={toggleSidebar}
+                className="custom-lg:hidden mr-4 text-darkBlue"
+              >
+                <Menu size={24} />
+              </button>
+  
+              {activeSidebarItem === "Dashboard" ? (
+                <></>
               ) : (
-                <ChevronDown
-                  size={18}
-                  className="cursor-pointer  text-[#685AAD] "
-                />
+                <div
+                  onClick={() => {
+                    if (previousSidebarItem) {
+                      setActiveSidebarItem(previousSidebarItem); // Navigate back to previous item
+                    }
+                  }}
+                  className="flex cursor-pointer  items-center"
+                >
+                  <ChevronLeft
+                    className="mr-2 cursor-pointer text-[#685AAD]"
+                    size={24}
+                  />
+  
+                  <h1 className="text-[#685AAD] text-xs sm:text-sm custom-lg:text-xl hidden sm:block">
+                    Back
+                  </h1>
+                </div>
+              )}
+              {activeSidebarItem === "My Sessions" && (
+                <h1 className="text-[#685AAD]  text-sm sm:text-md custom-lg:text-5xl  font-extrabold ml-0 sm:ml-6 absolute top-16 left-16 sm:static">
+                  My&nbsp;Sessions
+                </h1>
               )}
             </div>
-
-            {isProfileOpen && (
-              <div className="absolute right-0 mt-2 hover:cursor-pointer  bg-[#EDE8FA] font-bold rounded-md shadow-lg py-1 z-10 top-full w-[9rem] custom-2xl:w-[12.5rem] px-4 border border-[#685aad7a]">
-                <Link
-                  href="/etutor/profile"
-                  className="block px-2 py-2 custom-2xl:py-3 text-sm text-[#685AAD]  border-b border-[#685aad7a] "
-                >
-                  Profile
-                </Link>
-
-                <a
-                  onClick={() => signOut({ callbackUrl: "/" })}
-                  className="block px-2 py-2 custom-2xl:py-3 text-sm text-[#685AAD] "
-                >
-                  Logout
-                </a>
+  
+            <div
+              ref={targetRef}
+              className="flex items-center space-x-4 relative -right-4 select-none "
+            >
+              {/* <Bell size={24} className="cursor-pointer text-darkBlue" /> */}
+              <div className="flex gap-4 custom-2xl:gap-6 mr-2">
+                <Image
+                  src={dark}
+                  alt=""
+                  className="w-5 h-5 custom-2xl:w-6 custom-2xl:h-6"
+                />
+                <Image
+                  src={translate}
+                  alt=""
+                  className="w-5 h-5 custom-2xl:w-6 custom-2xl:h-6"
+                />
+                <Image
+                  src={bell}
+                  alt=""
+                  className="w-5 h-5 custom-2xl:w-6 custom-2xl:h-6"
+                />
               </div>
-            )}
-          </div>
-        </header>
-        {renderContent()}
-      </main>
-    </div>
-  );
+  
+              {/* -------profile complete------- */}
+              {activeSidebarItem === "Dashboard" && (
+                <div className=" absolute mb-28 custom-xl:mb-8 hidden sm:block right-4   top-[3.7rem] max-w-[20.5rem]  custom-xl:max-w-[21.5rem]  ">
+                  <div className="flex  items-center  ">
+                    <div>
+                      <h1 className="font-bold text-xl custom-xl:text-3xl   text-[#685AAD] pr-2 custom-xl:pr-14">
+                        Complete&nbsp;your&nbsp;report
+                      </h1>
+                    </div>
+                    <Image src={rightarrow} alt="" className="w-4 h-4" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-lg font-medium text-[#685AAD] pb-3">
+                      Monthly Student Progress Report
+                    </span>
+                    <div className="w-full bg-[#DBD8EF] h-2 rounded-full">
+                      <div
+                        className={`w-[${completeprofilestatus}%] h-full bg-[#00DAE5] rounded-full`}
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              )}
+  
+              <div
+                onClick={toggleProfile}
+                className={`flex bg-[#EDE8FA] hover:cursor-pointer  px-2 py-1 justify-between w-[9rem] custom-2xl:w-[12.5rem]   h-10 custom-2xl:h-11 items-center rounded-md ${
+                  isProfileOpen ? "border border-[#685aad7a]" : "border-0"
+                }`}
+              >
+                <div className="w-6 custom-2xl:w-7 h-6 custom-2xl:h-7  rounded-full overflow-hidden">
+                  <img src={profilepicture} alt="" className="h-full w-full" />
+                </div>
+                {/* <div className="flex items-center  w-full  gap-2 custom-2xl:gap-4">
+  
+                </div> */}
+                <span className="text-sm custom-2xl:text-base font-bold text-[#685AAD]">
+                  {firstname}
+                </span>
+  
+                {isProfileOpen ? (
+                  <ChevronUp
+                    size={18}
+                    className="cursor-pointer  text-[#685AAD] "
+                  />
+                ) : (
+                  <ChevronDown
+                    size={18}
+                    className="cursor-pointer  text-[#685AAD] "
+                  />
+                )}
+              </div>
+  
+              {isProfileOpen && (
+                <div className="absolute right-0 mt-2 hover:cursor-pointer  bg-[#EDE8FA] font-bold rounded-md shadow-lg py-1 z-10 top-full w-[9rem] custom-2xl:w-[12.5rem] px-4 border border-[#685aad7a]">
+                  <Link
+                    href="/etutor/profile"
+                    className="block px-2 py-2 custom-2xl:py-3 text-sm text-[#685AAD]  border-b border-[#685aad7a] "
+                  >
+                    Profile
+                  </Link>
+  
+                  <a
+                    onClick={() => signOut({ callbackUrl: "/" })}
+                    className="block px-2 py-2 custom-2xl:py-3 text-sm text-[#685AAD] "
+                  >
+                    Logout
+                  </a>
+                </div>
+              )}
+            </div>
+          </header>
+          {renderContent()}
+        </main>
+      </div>
+    );
+  }else if(session?.user?.role === "parent"){
+      router.push('/parent')
+  }else if(session?.user?.role === "student"){
+      router.push('/studentdashboard')
+  }
+
+
 };
 
 export default SessionsDashboard;

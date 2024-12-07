@@ -80,7 +80,9 @@ interface sessionprops {
   setcompleted?: string;
   showchat:any,
   tutortomessage:any,
-  trialsession:any
+  trialsession:any,
+  studentdata:any
+
 }
 
 const SessionDashboard = ({
@@ -90,7 +92,8 @@ const SessionDashboard = ({
   setTutor,
   showchat,
   tutortomessage,
-  trialsession
+  trialsession,
+  studentdata
 }: sessionprops) => {
   const [activeTab, setActiveTab] = useState("individual");
   const [activeSubTab, setActiveSubTab] = useState(`${setcompleted}`);
@@ -266,14 +269,7 @@ const SessionDashboard = ({
             ""
           ) : (
             <div className="text-[#685AAD] font-bold text-xs px-2 transition-all  w-[80%]   md:text-sm custom-2xl:text-2xl h-full  rounded-md sm:rounded-xl mb-1 uppercase  bg-[#EDE8FA]  flex items-center justify-center ">
-              Sessions&nbsp;left:
-              {
-                requests.filter(
-                  (request) =>
-                    request.status === "accepted" &&
-                    request.meetingCompleted === false
-                ).length
-              }
+              Sessions&nbsp;left:{studentdata?.user?.sessionsPerMonth || 0}
             </div>
           )}
         </div>
