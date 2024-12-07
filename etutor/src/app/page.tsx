@@ -11,9 +11,9 @@ import Payment from "@/components/Payment";
 import StudentsFaqs from "@/components/StudentsFaqs";
 import WhyeTutor from "@/components/WhyeTutor";
 import Image from "next/image";
-
+import { signOut, useSession } from "next-auth/react";
 export default function Home() {
-
+  const { data: session } = useSession(); 
 
   
   
