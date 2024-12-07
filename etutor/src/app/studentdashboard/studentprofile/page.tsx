@@ -313,16 +313,11 @@ const PersonalInfoForm = () => {
               >
                 Profile
               </Link>
-              <a
-                href="#"
-                className="block px-2  py-2 custom-2xl:py-3 text-sm text-[#685AAD]  border-b border-[#685aad7a]"
-              >
-                Ryan
-              </a>
+            
               <a
                 onClick={() => {
                   localStorage.setItem("activeSidebarItem", "Settings");
-                  router.push("/adminparent");
+                  router.push("/studentdashboard");
                 }}
                 className="block px-2  py-2 custom-2xl:py-3 text-sm text-[#685AAD]  border-b border-[#685aad7a] hover:cursor-pointer"
               >

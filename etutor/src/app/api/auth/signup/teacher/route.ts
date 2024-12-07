@@ -37,7 +37,7 @@ export async function POST(req: Request) {
             education,
             experience,
             totalbooking:0,
-            isApproved: false,
+          
         });
 
         console.log('New Teacher object before saving:', newTeacher);
