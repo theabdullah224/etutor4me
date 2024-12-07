@@ -144,6 +144,7 @@ const SessionsDashboard = () => {
   const [sessionData, setRequests] = useState<BookingRequest[]>([]);
   const [level, setlevel] = useState("");
 
+
   // fetching incoming requests
   useEffect(() => {
     const fetchRequests = async () => {
@@ -513,9 +514,12 @@ const SessionsDashboard = () => {
                                   <button className="text-white bg-[#685AAD] rounded-md px-2 py-1 text-sm">
                                     Edit Session
                                   </button>
+                                  <a href={request?.joinLink || "#"}>
+
                                   <button className="text-white bg-[#8653FF] rounded-md px-2 py-1 text-sm">
                                     Meeting Link
                                   </button>
+                                  </a>
                                 </div>
                               </div>
                             );

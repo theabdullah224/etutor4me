@@ -156,7 +156,7 @@ const ETutorSearch = ({
   const [isOpentime, setIsOpentime] = useState(false);
   const [ismemberOpen, setIsmemberOpen] = useState(false);
   const [selectedMembership, setSelectedMembership] = useState(null);
-  const [selectedTime, setSelectedTime] = useState("Berlin, GMT +02:00");
+  const [selectedTime, setSelectedTime] = useState("");
   const [isGenderOpen, setIsGenderOpen] = useState(false);
   const [selectedGender, setSelectedGender] = useState("");
   const [isSubjectDropdownOpen, setIsSubjectDropdownOpen] = useState(false);
@@ -1995,14 +1995,15 @@ const ETutorSearch = ({
                     {/* Input field */}
                     <div
                       className="relative  w-full bg-[#DBCAFF] text-[#a394d6] text-sm custom-lg:text-xl custom-2xl:text-2xl pl-10 pr-3 py-2 sm:py-2 sm:pr-3 sm:pl-6 rounded-full cursor-pointer flex justify-between items-center"
-                      onClick={() => setIsOpentime(!isOpentime)}
+                      // onClick={() => setIsOpentime(!isOpentime)}
                     >
                       <span className="text-[#a394d6]">Start time</span>
 
                       <div className=" h-full w-fit sm:w-full  sm:max-w-[219px] bg-[#685AAD] rounded-full text-xs sm:text-base custom-xl:text-xl flex items-center justify-start px-4 text-white p-1.5 truncate">
-                        {selectedTime}
+                        {/* {selectedTime} */}
+                        <input value={selectedTime} onChange={(e)=>{handleTimeSelect(e.target.value)}} id="time" type="time" className="w-full text-white bg-transparent " />
 
-                        {isOpentime && (
+                        {/* {isOpentime && (
                           <div
                             onMouseLeave={() => setIsOpentime(false)}
                             className="bg-[#685AAD] text-white rounded-3xl p-2 shadow-lg absolute top-14 w-full max-w-[200px] "
@@ -2027,7 +2028,7 @@ const ETutorSearch = ({
                               ))}
                             </div>
                           </div>
-                        )}
+                        )} */}
                       </div>
                     </div>
 

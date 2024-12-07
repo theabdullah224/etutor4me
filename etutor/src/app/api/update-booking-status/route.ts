@@ -355,14 +355,14 @@ import UserModel from '../models/User';
   }
   
   async function sendEmailNotification(email: string, subject: string, htmlContent: string, booking?: any, isTeacher?: boolean) {
-      const transporter = nodemailer.createTransport({
-          host: 'smtp.gmail.com',
-          port: 587,
-          auth: {
-              user: process.env.MAIL_USERNAME,
-              pass: process.env.MAIL_PASSWORD,
-          },
-      });
+       const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 587,
+        auth: {
+            user: process.env.MAIL_USERNAME,
+            pass: process.env.MAIL_PASSWORD,
+        },
+    });
   
       let mailOptions: any = {
           from: process.env.MAIL_FROM_ADDRESS,

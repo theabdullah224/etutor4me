@@ -14,6 +14,7 @@ export async function POST(req: NextRequest) {
 
   const { teacherId, subjects, level, date, time,studentnote,IsTrialSession } = await req.json();
 
+  console.log(teacherId,subjects,level,date,time,studentnote,IsTrialSession)
   if (!teacherId || !subjects || !level || !date || !time) {
     return NextResponse.json({ error: 'All fields are required' }, { status: 400 });
   }
