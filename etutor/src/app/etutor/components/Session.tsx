@@ -512,7 +512,7 @@ const SessionDashboard = ({
   };
 
   return (
-    <div className="w-full  pt-4 bg-[#EDE8FA] rounded-3xl  relative h-full scrollbar-none">
+    <div className="w-full  pt-4 bg-[#EDE8FA] rounded-3xl  relative h-full scrollbar-none text-white">
       <div className="flex justify-between items-start mb-4 absolute top-0 left-0 w-full">
         <div className=" grid grid-cols-3   rounded-tl-3xl rounded-tr-3xl h-10 sm:h-[89px] w-full">
           {tabs.map((tab) => (
@@ -548,15 +548,9 @@ const SessionDashboard = ({
           {activeTab === "trial" ? (
             ""
           ) : (
-            <div className="text-[#685AAD] font-bold text-xs px-2 transition-all  w-[80%]   md:text-sm custom-2xl:text-2xl h-full  rounded-md sm:rounded-xl mb-1 uppercase  bg-[#EDE8FA]  flex items-center justify-center ">
+            <div className="text-transparent bg-transparent font-bold text-xs px-2 transition-all  w-[80%]   md:text-sm custom-2xl:text-2xl h-full  rounded-md sm:rounded-xl mb-1 uppercase   flex items-center justify-center ">
               Sessions&nbsp;left:
-              {
-                requests.filter(
-                  (request) =>
-                    request.status === "accepted" &&
-                    request.meetingCompleted === false
-                ).length
-              }
+             
             </div>
           )}
         </div>
@@ -1069,7 +1063,7 @@ const SessionDashboard = ({
                     </span>
                   </div>
 
-                  <div className="flex flex-col gap-2 custom-xl:gap-3">
+                  {/* <div className="flex flex-col gap-2 custom-xl:gap-3">
                     <div className="flex  justify-between custom-xl:items-center  py-2 rounded-lg bg-[#564589] pl-2 sm:pl-4 pr-2 flex-col custom-xl:flex-row">
                       <div className="w-full custom-xl:w-[65%] custom-xl:pr-6 flex justify-between ">
                         <span className="text-xs max-w-13 sm:text-sm custom-xl:text-md">
@@ -1126,7 +1120,7 @@ const SessionDashboard = ({
                         </button>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               )}
             </div>
@@ -1148,7 +1142,7 @@ const SessionDashboard = ({
                     </span>
                   </div>
 
-                  <div className="flex flex-col gap-2 custom-xl:gap-3">
+                  {/* <div className="flex flex-col gap-2 custom-xl:gap-3">
                     <div className="flex  justify-between custom-xl:items-center  py-2 rounded-lg bg-[#564589] pl-2 sm:pl-4 pr-2 flex-col custom-xl:flex-row">
                       <div className="w-full custom-xl:w-[65%] custom-xl:pr-6 flex justify-between ">
                         <span className="text-xs max-w-13 sm:text-sm custom-xl:text-md">
@@ -1181,7 +1175,7 @@ const SessionDashboard = ({
                         </span>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               )}
             </div>

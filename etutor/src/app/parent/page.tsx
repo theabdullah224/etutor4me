@@ -812,8 +812,10 @@ const SessionsDashboard = () => {
             setcompleted={comingvalue}
             setTutor={setTutor}
             showchat={setchat}
-            tutortomessage={settutortomessage} 
-            trialsession={setTrial}          />
+            tutortomessage={settutortomessage}
+            trialsession={setTrial} 
+            parentdata={parentData}          />
+            
         );
 
       case "Calendar":
@@ -848,7 +850,7 @@ const SessionsDashboard = () => {
           </div>
         );
       case "My Membership":
-        return <MyMembership />;
+        return <MyMembership parentdata={parentData} />;
       case "Contact Support":
         return <ContactSupport />;
       case "Refer your Friends":

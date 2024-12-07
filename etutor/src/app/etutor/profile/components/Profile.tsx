@@ -143,88 +143,126 @@ const subjectOptions = [
   },
 ];
 const subjectLevelOptions = [
-  { value: "Mathematics", label: "Mathematics" },
-  { value: "Algebra", label: "Algebra" },
-  { value: "Geometry", label: "Geometry" },
-  { value: "Calculus", label: "Calculus" },
-  { value: "Trigonometry", label: "Trigonometry" },
-  { value: "Statistics", label: "Statistics" },
-  { value: "Science", label: "Science" },
-  { value: "Biology", label: "Biology" },
-  { value: "Chemistry", label: "Chemistry" },
-  { value: "Physics", label: "Physics" },
-  { value: "Environmental Science", label: "Environmental Science" },
-  { value: "Earth Science", label: "Earth Science" },
-  { value: "English Language Arts", label: "English Language Arts" },
-  { value: "Grammar", label: "Grammar" },
-  { value: "Literature", label: "Literature" },
-  { value: "Writing", label: "Writing" },
-  { value: "Reading Comprehension", label: "Reading Comprehension" },
-  { value: "Social Studies", label: "Social Studies" },
-  {
-    value: "History (World, U.S., Ancient)",
-    label: "History (World, U.S., Ancient)",
-  },
-  { value: "Geography", label: "Geography" },
-  { value: "Economics", label: "Economics" },
-  { value: "Political Science", label: "Political Science" },
-  { value: "Foreign Languages", label: "Foreign Languages" },
-  { value: "Spanish", label: "Spanish" },
-  { value: "French", label: "French" },
-  { value: "German", label: "German" },
-  { value: "Chinese (Mandarin)", label: "Chinese (Mandarin)" },
-  { value: "Japanese", label: "Japanese" },
-  { value: "Arabic", label: "Arabic" },
-  { value: "Russian", label: "Russian" },
-  {
-    value: "Specialized & Advanced Subjects",
-    label: "Specialized & Advanced Subjects",
-  },
-  { value: "Advanced Mathematics", label: "Advanced Mathematics" },
-  { value: "Differential Equations", label: "Differential Equations" },
-  { value: "Linear Algebra", label: "Linear Algebra" },
-  { value: "Discrete Math", label: "Discrete Math" },
-  {
-    value: "Computer Science & Technology",
-    label: "Computer Science & Technology",
-  },
-  {
-    value: "Programming (Python, Java, C++)",
-    label: "Programming (Python, Java, C++)",
-  },
-  { value: "Web Development", label: "Web Development" },
-  { value: "Data Science", label: "Data Science" },
-  { value: "Cybersecurity", label: "Cybersecurity" },
-  { value: "AI and Machine Learning", label: "AI and Machine Learning" },
-  { value: "Business & Economics", label: "Business & Economics" },
-  { value: "Accounting", label: "Accounting" },
-  { value: "Marketing", label: "Marketing" },
-  { value: "Finance", label: "Finance" },
-  { value: "Entrepreneurship", label: "Entrepreneurship" },
-  {
-    value: "Microeconomics/Macroeconomics",
-    label: "Microeconomics/Macroeconomics",
-  },
+  
+  { value: "Pre-Kindergarten", label: "Pre-Kindergarten" },
+  { value: "Kindergarten-2nd grade", label: "Kindergarten-2nd grade" },
+  { value: "3rd-5th Grade", label: "3rd-5th Grade" },
+  { value: "Middle School", label: "Middle School" },
+  { value: "High School", label: "High School" },
+  { value: "College", label: "College" },
+  { value: "Graduate", label: "Graduate" },
+  { value: "Adult", label: "Adult" },
 ];
 
+
 const experienceoptions = [
-  { value: "Finance", label: "Finance" },
-  { value: "Entrepreneurship", label: "Entrepreneurship" },
+ 
+  { value: "Autism Spectrum Disorder (ASD)", label: "Autism Spectrum Disorder (ASD)" },
+  { value: "Attention Deficit Hyperactivity Disorder (ADHD)", label: "Attention Deficit Hyperactivity Disorder (ADHD)" },
+  { value: "Dyslexia", label: "Dyslexia" },
+  { value: "Dyscalculia", label: "Dyscalculia" },
+  { value: "Dysgraphia", label: "Dysgraphia" },
+  { value: "Intellectual Disabilities", label: "Intellectual Disabilities" },
+  { value: "Speech and Language Disorders", label: "Speech and Language Disorders" },
+  { value: "Emotional and Behavioral Disorders", label: "Emotional and Behavioral Disorders" },
+  { value: "Hearing Impairments", label: "Hearing Impairments" },
+  { value: "Visual Impairments", label: "Visual Impairments" },
+  { value: "Traumatic Brain Injury (TBI)", label: "Traumatic Brain Injury (TBI)" },
+  { value: "Developmental Coordination Disorder (Dyspraxia)", label: "Developmental Coordination Disorder (Dyspraxia)" },
+  { value: "Sensory Processing Disorder", label: "Sensory Processing Disorder" },
+  { value: "Multiple Disabilities", label: "Multiple Disabilities" },
 ];
+
 const genderOptions = [
   { value: "male", label: "Male" },
   { value: "female", label: "Female" },
   { value: "other", label: "Other" },
 ];
 const countryoptions = [
-  { value: "pak", label: "Pak" },
-  { value: "in", label: "in" },
-  { value: "other", label: "Other" },
+  { value: "USA", label: "USA" },
+  { value: "United States", label: "United States" },
+  { value: "United Kingdom", label: "United Kingdom" },
+  { value: "Ireland", label: "Ireland" },
+  { value: "Canada", label: "Canada" },
+  { value: "Malta", label: "Malta" },
+  { value: "Belize", label: "Belize" },
+  { value: "France", label: "France" },
+  { value: "Canada (especially Quebec)", label: "Canada (especially Quebec)" },
+  { value: "Belgium", label: "Belgium" },
+  { value: "Switzerland", label: "Switzerland" },
+  { value: "Luxembourg", label: "Luxembourg" },
+  { value: "Monaco", label: "Monaco" },
+  { value: "Haiti", label: "Haiti" },
+  { value: "Germany", label: "Germany" },
+  { value: "Austria", label: "Austria" },
+  { value: "Liechtenstein", label: "Liechtenstein" },
 ];
 const timezoneoptions = [
-  { value: "pakctimezoneoptions", label: "Pak" },
-  { value: "in", label: "in" },
-  { value: "other", label: "Other" },
+  { label: "Baker Island, GMT -12:00", value: "Baker Island, GMT -12:00" },
+  { label: "American Samoa, GMT -11:00", value: "American Samoa, GMT -11:00" },
+  { label: "Hawaii, GMT -10:00", value: "Hawaii, GMT -10:00" },
+  { label: "Alaska, GMT -09:00", value: "Alaska, GMT -09:00" },
+  {
+    label: "Pacific Time (US & Canada), GMT -08:00",
+    value: "Pacific Time (US & Canada), GMT -08:00",
+  },
+  {
+    label: "Mountain Time (US & Canada), GMT -07:00",
+    value: "Mountain Time (US & Canada), GMT -07:00",
+  },
+  {
+    label: "Central Time (US & Canada), GMT -06:00",
+    value: "Central Time (US & Canada), GMT -06:00",
+  },
+  {
+    label: "Eastern Time (US & Canada), GMT -05:00",
+    value: "Eastern Time (US & Canada), GMT -05:00",
+  },
+  { label: "Caracas, GMT -04:00", value: "Caracas, GMT -04:00" },
+  { label: "Buenos Aires, GMT -03:00", value: "Buenos Aires, GMT -03:00" },
+  { label: "South Georgia, GMT -02:00", value: "South Georgia, GMT -02:00" },
+  { label: "Cape Verde, GMT -01:00", value: "Cape Verde, GMT -01:00" },
+  { label: "London, GMT ±00:00", value: "London, GMT ±00:00" },
+  { label: "Berlin, GMT +01:00", value: "Berlin, GMT +01:00" },
+  { label: "Cairo, GMT +02:00", value: "Cairo, GMT +02:00" },
+  { label: "Moscow, GMT +03:00", value: "Moscow, GMT +03:00" },
+  { label: "Dubai, GMT +04:00", value: "Dubai, GMT +04:00" },
+  { label: "Islamabad, GMT +05:00", value: "Islamabad, GMT +05:00" },
+  {
+    label: "India Standard Time, GMT +05:30",
+    value: "India Standard Time, GMT +05:30",
+  },
+  { label: "Nepal, GMT +05:45", value: "Nepal, GMT +05:45" },
+  { label: "Dhaka, GMT +06:00", value: "Dhaka, GMT +06:00" },
+  { label: "Myanmar, GMT +06:30", value: "Myanmar, GMT +06:30" },
+  { label: "Bangkok, GMT +07:00", value: "Bangkok, GMT +07:00" },
+  { label: "Beijing, GMT +08:00", value: "Beijing, GMT +08:00" },
+  {
+    label: "Australia Central Time, GMT +08:45",
+    value: "Australia Central Time, GMT +08:45",
+  },
+  { label: "Tokyo, GMT +09:00", value: "Tokyo, GMT +09:00" },
+  {
+    label: "Australia Central Time, GMT +09:30",
+    value: "Australia Central Time, GMT +09:30",
+  },
+  { label: "Sydney, GMT +10:00", value: "Sydney, GMT +10:00" },
+  {
+    label: "Lord Howe Island, GMT +10:30",
+    value: "Lord Howe Island, GMT +10:30",
+  },
+  {
+    label: "Solomon Islands, GMT +11:00",
+    value: "Solomon Islands, GMT +11:00",
+  },
+  { label: "Norfolk Island, GMT +11:30", value: "Norfolk Island, GMT +11:30" },
+  { label: "Auckland, GMT +12:00", value: "Auckland, GMT +12:00" },
+  {
+    label: "Chatham Islands, GMT +12:45",
+    value: "Chatham Islands, GMT +12:45",
+  },
+  { label: "Nuku'alofa, GMT +13:00", value: "Nuku'alofa, GMT +13:00" },
+  { label: "Kiritimati, GMT +14:00", value: "Kiritimati, GMT +14:00" },
 ];
 function Profile() {
   const [files, setFiles] = useState([]);
@@ -334,12 +372,12 @@ function Profile() {
   const [selectedPurposeOfAttechments, setSelectedPurposeOfAttechments] =
     useState("");
 
-  const handleFileChange = (event:any) => {
+  const handleFileChange = (event: any) => {
     //@ts-ignore
     setFiles([...files, ...event.target.files]);
   };
 
-  const removeFile = (index:any) => {
+  const removeFile = (index: any) => {
     const updatedFiles = [...files];
     updatedFiles.splice(index, 1);
     setFiles(updatedFiles);
@@ -381,7 +419,7 @@ function Profile() {
     }
   };
 
-  const handleDeleteLanguage = (indexToDelete:any) => {
+  const handleDeleteLanguage = (indexToDelete: any) => {
     if (!isEditing) return;
     setLanguages(languages.filter((_, index) => index !== indexToDelete));
   };
@@ -641,13 +679,21 @@ function Profile() {
     }
   };
   const toggleCountryDropdown = () => {
-    setIsCountryOpen(!isCountryOpen);
+    if (isEditing) {
+      setIsCountryOpen(!isCountryOpen);
+    }
   };
   const toggleTimezoneDropdown = () => {
-    setIsTimezoneOpen(!isTimezoneOpen);
+    if(isEditing){
+
+      setIsTimezoneOpen(!isTimezoneOpen);
+    }
   };
   const toggleAcedmicCountrydown = () => {
-    setisAcademicCountryopen(!isAcademicCountryopen);
+    if(isEditing){
+
+      setisAcademicCountryopen(!isAcademicCountryopen);
+    }
   };
 
   const handleGenderClick = (value: string) => {
@@ -808,7 +854,6 @@ function Profile() {
                     </label>
                     <input
                       type="text"
-                      
                       className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
                       value={day}
                       onChange={(e) => {
@@ -1151,16 +1196,25 @@ function Profile() {
                       )}
                     </div>
                     {isCountryOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-2 bg-[#B4A5D7] text-white rounded-lg overflow-hidden z-10 w-[97%] mx-auto py-2">
-                        {countryoptions.map((country) => (
-                          <div
-                            key={country.value}
-                            className="py-2 text-lg  border-b px-3 hover:cursor-pointer last:border-b-0  w-[80%] mx-auto"
-                            onClick={() => handleCountryClick(country.value)}
-                          >
-                            {country.label}
-                          </div>
-                        ))}
+                      <div className="absolute top-full left-0 right-0 px-8 mt-2 bg-[#B4A5D7] text-white rounded-lg overflow-hidden z-10 w-[97%] mx-auto py-3 ">
+                        <div
+                          id="style-2"
+                          className="max-h-[16.4rem] overflow-y-scroll  "
+                        >
+                          {countryoptions.map((country) => (
+                            <div
+                              key={country.value}
+                              className="py-2 cursor-pointer flex items-center"
+                              onClick={() => handleCountryClick(country.value)}
+                            >
+                              <div className=" border-b border-white py-2 flex  gap-4  w-full px-4 max-w-[22rem] truncate">
+                                <span className="ml-2 text-xl text-white ">
+                                  {country.label}
+                                </span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -1184,16 +1238,28 @@ function Profile() {
                       )}
                     </div>
                     {isTimezoneOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-2 bg-[#B4A5D7] text-white rounded-lg overflow-hidden z-10 w-[97%] mx-auto py-2">
+                      <div className="absolute top-full left-0 right-0 px-8 mt-2 bg-[#B4A5D7] text-white rounded-lg overflow-hidden z-10 w-[97%] mx-auto py-3  ">
+                        <div
+                         id="style-2"
+                  className="max-h-[16.4rem] overflow-y-scroll  "
+                        >
+
                         {timezoneoptions.map((time) => (
                           <div
                             key={time.value}
-                            className="py-2 text-lg  border-b px-3 hover:cursor-pointer last:border-b-0  w-[80%] mx-auto"
+                            className=" py-2 cursor-pointer flex items-center"
                             onClick={() => handletimezoneClick(time.value)}
                           >
-                            {time.label}
+                          
+
+                            <div className=" border-b border-white py-2 flex  gap-4  w-full px-4 max-w-[22rem] truncate">
+                        <span className="ml-2 text-xl text-white ">
+                        {time.label}
+                        </span>
+                      </div>
                           </div>
                         ))}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -1313,7 +1379,9 @@ function Profile() {
                                     <div
                                       className={`h-5 w-5 rounded-sm border border-white hover:bg-[#a394d6] hover:border-[#a394d6] flex items-center justify-center ${
                                         // @ts-ignore
-                                        selectedSubjectsLEVEL.includes(subjectlevel.value)
+                                        selectedSubjectsLEVEL.includes(
+                                          subjectlevel.value
+                                        )
                                           ? "bg-[#6c5baa] border-none p-0.5"
                                           : ""
                                       }`}
@@ -1402,14 +1470,18 @@ function Profile() {
                                     <input
                                       type="checkbox"
                                       // @ts-ignore
-                                      checked={selectedExperience.includes(experience.value)}
+                                      checked={selectedExperience.includes(
+                                        experience.value
+                                      )}
                                       onChange={() => {}}
                                       className="absolute opacity-0 cursor-pointer"
                                     />
                                     <div
                                       className={`h-5 w-5 rounded-sm border border-white hover:bg-[#a394d6] hover:border-[#a394d6] flex items-center justify-center ${
                                         // @ts-ignore
-                                        selectedExperience.includes(experience.value)
+                                        selectedExperience.includes(
+                                          experience.value
+                                        )
                                           ? "bg-[#6c5baa] border-none p-0.5"
                                           : ""
                                       }`}
@@ -1515,18 +1587,29 @@ function Profile() {
                         )}
                       </div>
                       {isAcademicCountryopen && (
-                        <div className="absolute top-full left-0 right-0 mt-2 bg-[#B4A5D7] text-white rounded-lg overflow-hidden z-10 w-[97%] mx-auto py-2">
+                        <div className="absolute top-full left-0 right-0 px-8 mt-2 bg-[#B4A5D7] text-white rounded-lg overflow-hidden z-10 w-[97%] mx-auto py-3  ">
+                          <div
+                          id="style-2"
+                  className="max-h-[16.4rem] overflow-y-scroll  "
+                          >
+
                           {countryoptions.map((country) => (
                             <div
                               key={country.value}
-                              className="py-2 text-lg  border-b px-3 hover:cursor-pointer last:border-b-0  w-[80%] mx-auto"
+                              className="py-1 cursor-pointer flex items-center w-[70%]"
                               onClick={() =>
                                 handleAcademicCountryClick(country.value)
                               }
                             >
-                              {country.label}
+                              
+                              <div className=" border-b border-white py-2 flex  gap-4  w-full px-4 max-w-[22rem] truncate">
+                        <span className="ml-2 text-xl text-white ">
+                        {country.label}
+                        </span>
+                      </div>
                             </div>
                           ))}
+                          </div>
                         </div>
                       )}
                     </div>
@@ -1704,70 +1787,68 @@ function Profile() {
                             [LastName_FirstName_Subject_DocumentType]
                           </label>
                           <div className="border bg-[#B4A5D7] w-full max-w-[29.7rem] rounded-lg flex items-start  p-3.5 gap-4 flex-col">
-                          {files.map((file, index) => (
-                            <div
-                              key={index}
-                              className="relative group bg-white text-black w-full max-w-[29.7rem] rounded-lg flex items-center justify-between px-10 py-3.5 mt-2"
-                            >
-                              <span onClick={() => removeFile(index)} className="absolute -top-2 -right-2 hidden group-hover:block hover:cursor-pointer">
-                                <XCircle fill="white" className="text-red-500 "/>
-                              </span>
-                              <span className=" font-medium flex gap-4 items-center">
-                                <Image src={bluefoldericon} alt="" /> {
-                                //@ts-ignore
-                                file.name}
-                              </span>
-                             
-                              <Image  src={downloadicon} alt="" />
-                            </div>
-                          ))}
+                            {files.map((file, index) => (
+                              <div
+                                key={index}
+                                className="relative group bg-white text-black w-full max-w-[29.7rem] rounded-lg flex items-center justify-between px-10 py-3.5 mt-2"
+                              >
+                                <span
+                                  onClick={() => removeFile(index)}
+                                  className="absolute -top-2 -right-2 hidden group-hover:block hover:cursor-pointer"
+                                >
+                                  <XCircle
+                                    fill="white"
+                                    className="text-red-500 "
+                                  />
+                                </span>
+                                <span className=" font-medium flex gap-4 items-center">
+                                  <Image src={bluefoldericon} alt="" />{" "}
+                                  {
+                                    //@ts-ignore
+                                    file.name
+                                  }
+                                </span>
 
-
-
-                            <div className="flex items-center gap-4 px-4" >
-                            <label
-                              htmlFor="file-upload"
-                              className="cursor-pointer flex items-center gap-4"
-                            >
-                              <Image src={addicon2} alt="" className="w-12" />
-                              <span className="text-white font-medium">
-                                Attach Your File Here
-                              </span>
-                            </label>
-                            <input
-                              id="file-upload"
-                              type="file"
-                              multiple
-                              className="hidden"
-                              onChange={handleFileChange}
-                              />
+                                <Image src={downloadicon} alt="" />
                               </div>
+                            ))}
+
+                            <div className="flex items-center gap-4 px-4">
+                              <label
+                                htmlFor="file-upload"
+                                className="cursor-pointer flex items-center gap-4"
+                              >
+                                <Image src={addicon2} alt="" className="w-12" />
+                                <span className="text-white font-medium">
+                                  Attach Your File Here
+                                </span>
+                              </label>
+                              <input
+                                id="file-upload"
+                                type="file"
+                                multiple
+                                className="hidden"
+                                onChange={handleFileChange}
+                              />
+                            </div>
                           </div>
-                          
                         </div>
 
-
-                          <div className=" absolute bottom-10 right-9 space-x-6">
-
-                        <button
-                          onClick={() => {
-                            setIsPopupOpen(false);
-                            
-                          }}
-                          className=" bg-[#FF7B7B] text-white px-24 py-2.5 text-xl rounded-md hover:bg-[#FF6B6B] transition-colors"
+                        <div className=" absolute bottom-10 right-9 space-x-6">
+                          <button
+                            onClick={() => {
+                              setIsPopupOpen(false);
+                            }}
+                            className=" bg-[#FF7B7B] text-white px-24 py-2.5 text-xl rounded-md hover:bg-[#FF6B6B] transition-colors"
                           >
-                          Cancel
-                        </button>
-                        {files.length > 0 && (
-
-                        <button
-                         
-                          className=" bg-[#9052FC] text-white px-20 py-2.5 text-xl rounded-md hover:bg-[#FF6B6B] transition-colors"
-                          >
-                          Submit Document for Verification
-                        </button>
-                        )}
-                          </div>
+                            Cancel
+                          </button>
+                          {files.length > 0 && (
+                            <button className=" bg-[#9052FC] text-white px-20 py-2.5 text-xl rounded-md hover:bg-[#FF6B6B] transition-colors">
+                              Submit Document for Verification
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </div>
                   )}

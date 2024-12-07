@@ -80,7 +80,8 @@ interface sessionprops {
   setcompleted?: string;
   showchat:any,
   tutortomessage:any
-  trialsession:any
+  trialsession:any,
+  parentdata:any
 }
 
 const SessionDashboard = ({
@@ -90,7 +91,8 @@ const SessionDashboard = ({
   setTutor,
   showchat,
   tutortomessage,
-  trialsession
+  trialsession,
+  parentdata
 
 }: sessionprops) => {
   const [activeTab, setActiveTab] = useState("individual");
@@ -267,14 +269,7 @@ const SessionDashboard = ({
             ""
           ) : (
             <div className="text-[#685AAD] font-bold text-xs px-2 transition-all  w-[80%]   md:text-sm custom-2xl:text-2xl h-full  rounded-md sm:rounded-xl mb-1 uppercase  bg-[#EDE8FA]  flex items-center justify-center ">
-              Sessions&nbsp;left:
-              {
-                requests.filter(
-                  (request) =>
-                    request.status === "accepted" &&
-                    request.meetingCompleted === false
-                ).length
-              }
+              Sessions&nbsp;left: {parentdata?.user.sessionsPerMonth || 0}
             </div>
           )}
         </div>
@@ -719,10 +714,10 @@ const SessionDashboard = ({
                   {/* Session Card */}
 
 
-                  {requests.filter((request) =>request.status === "accepted" &&request.meetingCompleted === false).length !==0  ? (
+                  {requests.filter((request) =>request.status === "group" &&request.meetingCompleted === false).length !==0  ? (
 
                     <>
-                  {requests.filter((request) =>request.status === "accepted" &&request.meetingCompleted === false).map((request) => {const isExpanded = expandedRequestId === request._id;
+                  {requests.filter((request) =>request.status === "group" &&request.meetingCompleted === false).map((request) => {const isExpanded = expandedRequestId === request._id;
                       return (
                         <div
                           key={request._id}
@@ -901,11 +896,11 @@ const SessionDashboard = ({
 
                 {/* Session Card */}
 
-              {requests.filter((request) =>request.status === "accepted" &&request.meetingCompleted === true).length !==0 ? (
+              {requests.filter((request) =>request.status === "group" &&request.meetingCompleted === true).length !==0 ? (
 
                 <>
 
-                {requests.filter((request) =>request.status === "accepted" &&request.meetingCompleted === true).map((request) => {const isExpanded = expandedRequestId === request._id;
+                {requests.filter((request) =>request.status === "group" &&request.meetingCompleted === true).map((request) => {const isExpanded = expandedRequestId === request._id;
                     return (
                       <div
                         key={request._id}

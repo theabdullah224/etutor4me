@@ -36,7 +36,7 @@ export interface ITeacher extends Document {
 }
 const TeacherSchema: Schema = new Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },  // Relates to User model
-  acceptsTrialSession: { type: Boolean, default: false },
+  acceptsTrialSession: { type: Boolean, default: true },
   contactInformation: {
     country: { type: String },
     countryOfresident: { type: String },

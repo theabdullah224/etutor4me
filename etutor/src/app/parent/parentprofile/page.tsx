@@ -90,12 +90,12 @@ const PersonalInfoForm = () => {
       setUserId(session?.user.id);
       
       if (parentDataSWR) {
-        setFirstName(parentDataSWR?.firstName);
-        setLastname(parentDataSWR?.lastName);
-        setAge(parentDataSWR?.age);
+        setFirstName(parentDataSWR?.childInformation?.firstName);
+        setLastname(parentDataSWR?.childInformation?.lastName);
+        setAge(parentDataSWR?.childInformation?.age);
         setGrade(parentDataSWR?.grade);
         Setstudentid(parentDataSWR?._id?.substring(0, 6));
-        setInstitution(parentDataSWR?.Institution);
+        setInstitution(parentDataSWR?.childInformation?.institution);
         setSelectedSubjects(parentDataSWR?.subjectChildNeeds || []);
         setAdditionalinfo(parentDataSWR?.additionalInformation);
       }
@@ -103,6 +103,7 @@ const PersonalInfoForm = () => {
       console.error(error);
     }
   }, [session, parentDataSWR]);
+  console.log(parentDataSWR)
   const handleSave = async (e: any) => {
     e.preventDefault();
     seteditable(false);
@@ -110,13 +111,16 @@ const PersonalInfoForm = () => {
     setSuccessMessage("");
 
     const updatedParentData = {
-      firstName: firstNames,
-      lastName: Lastname,
-      age: Age,
       grade: grade,
-      Institution,
       subjectChildNeeds: selectedSubjects,
       additionalInformation: additionalinfo,
+      childInformation: {
+        firstName: firstNames,
+        lastName: Lastname,
+        age: Age,
+        institution: Institution,
+       
+      }
     };
 
     try {
@@ -288,7 +292,7 @@ const PersonalInfoForm = () => {
             </div>
             
             <span className="text-sm  custom-2xl:text-base font-bold text-[#685AAD]">
-              {firstNames}
+              {parentData?.firstName}
             </span>
 
             {isProfileOpen ? (
@@ -311,16 +315,11 @@ const PersonalInfoForm = () => {
               >
                 Profile
               </Link>
-              <a
-                href="#"
-                className="block px-2  py-2 custom-2xl:py-3 text-sm text-[#685AAD]  border-b border-[#685aad7a]"
-              >
-                Ryan
-              </a>
+             
               <a
                 onClick={() => {
                   localStorage.setItem("activeSidebarItem", "Settings");
-                  router.push("/adminparent");
+                  router.push("/parent");
                 }}
                 className="block px-2  py-2 custom-2xl:py-3 text-sm text-[#685AAD]  border-b border-[#685aad7a] hover:cursor-pointer"
               >

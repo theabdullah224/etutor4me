@@ -7,7 +7,12 @@ import PlanDetails from "./PlanDetail";
 import { ChevronRight,ChevronLeft, Divide } from "lucide-react";
 import Image from "next/image";
 
-export default function Home() {
+
+
+interface MyMembershipprops{
+  parentdata:any
+}
+export default function Home({parentdata}:MyMembershipprops) {
   const [selectedPlan, setSelectedPlan] = useState("");
 
   const togglePlan = () => {
@@ -19,7 +24,7 @@ export default function Home() {
   return (
     <div className={`min-h-screen rounded-3xl relative  bg-[#EDE8FA] ${selectedPlan == "standard" || selectedPlan == "premium" ? "pb-10":"py-10" }  px-14 `}>
         <div className="absolute -top-20 left-24 px-8 py-4 uppercase font-normal rounded-xl text-2xl bg-[#EDE8FA] text-[#685AAD]">
-            Session Left: 8
+            Session Left: {parentdata?.user.sessionsPerMonth || 0}
         </div>
       <main className=" w-full ">
         {selectedPlan ? (

@@ -396,6 +396,12 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
         streetName:streetname,
         zipCode:zipcode,
       },
+      parentPersonalInformation: {
+        country:Parentcountry,
+        city:parentCity,
+        streetName:parentStreet,
+        zipCode:ParentZipCode,
+      }
     },
   };
 

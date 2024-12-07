@@ -415,7 +415,7 @@ const UserProfile: React.FC = () => {
                     type="text"
                     className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
                     disabled
-                    value={"not available"}
+                    value={parentDataSWR?.parentPersonalInformation?.country || "Loading..."}
                   />
                 </div>
                 <div className="w-full">
@@ -426,7 +426,7 @@ const UserProfile: React.FC = () => {
                     type="text"
                     className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
                     disabled
-                    value={"Not Available"}
+                    value={parentDataSWR?.parentPersonalInformation?.city || "Loading..."}
                   />
                 </div>
                 <div className="w-full custom-2xl:col-span-2 ">
@@ -437,7 +437,7 @@ const UserProfile: React.FC = () => {
                     type="text"
                     className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full custom-2xl:w-[47%] rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
                     disabled
-                    value={"Not Available"}
+                    value={parentDataSWR?.parentPersonalInformation?.streetName || "Loading..."}
                   />
                 </div>
               </div>

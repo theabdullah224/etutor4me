@@ -217,6 +217,64 @@ const degrees = [
   "Postgraduate Diploma",
   "Higher National Diploma (HND)",
 ];
+const countries = [
+  "USA",
+  // English-Speaking Countries (Americas & Europe)
+  "United States",
+  "United Kingdom",
+  "Ireland",
+  "Canada",
+  "Malta",
+  "Belize",
+  // French-Speaking Countries (Americas & Europe)
+  "France",
+  "Canada (especially Quebec)",
+  "Belgium",
+  "Switzerland",
+  "Luxembourg",
+  "Monaco",
+  "Haiti",
+  // German-Speaking Countries (Europe)
+  "Germany",
+  "Austria",
+  "Switzerland",
+  "Belgium",
+  "Luxembourg",
+  "Liechtenstein",
+];
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+const levels = [
+  "Pre-Kindergarten",
+  "Kindergarten-2nd grade",
+  "3rd-5th Grade",
+  "Middle School",
+  "High School",
+  "College",
+  "Graduate",
+  "Adult",
+];
+const days = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
 const Page = () => {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
@@ -277,20 +335,7 @@ const Page = () => {
     setIsOpentime(false);
   };
 
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
+
   const getDaysInMonth = (date: Date) => {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
   };
@@ -497,31 +542,7 @@ const Page = () => {
     setisDropdownOpenedu(false); // Close the dropdown
   };
 
-  const countries = [
-    "USA",
-    // English-Speaking Countries (Americas & Europe)
-    "United States",
-    "United Kingdom",
-    "Ireland",
-    "Canada",
-    "Malta",
-    "Belize",
-    // French-Speaking Countries (Americas & Europe)
-    "France",
-    "Canada (especially Quebec)",
-    "Belgium",
-    "Switzerland",
-    "Luxembourg",
-    "Monaco",
-    "Haiti",
-    // German-Speaking Countries (Europe)
-    "Germany",
-    "Austria",
-    "Switzerland",
-    "Belgium",
-    "Luxembourg",
-    "Liechtenstein",
-  ];
+  
 
   const handleCountrySelect = (selectedCountry: any) => {
     setCountry(selectedCountry); // Update the selected country
@@ -555,16 +576,7 @@ const Page = () => {
     setstartDateexp(e.target.value); // Update the state with the selected date
   };
 
-  const levels = [
-    "Pre-Kindergarten",
-    "Kindergarten-2nd grade",
-    "3rd-5th Grade",
-    "Middle School",
-    "High School",
-    "College",
-    "Graduate",
-    "Adult",
-  ];
+
 
   const handleCheckboxChange = (level: string) => {
     setselectedLevelsexp(
@@ -578,15 +590,7 @@ const Page = () => {
   const languages = ["English", "Spanish", "French", "German"];
 
   const timeSlots = ["Morning", "Afternoon", "Evening"];
-  const days = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
+
   const handleLanguageSelect = (selectedLanguages: string[]) => {
     // @ts-ignore
     setlanguage(selectedLanguages);
@@ -1114,7 +1118,7 @@ const Page = () => {
                             id={`checkbox-${level}`} // Unique ID for each checkbox
                             checked={clicked}
                             onChange={() => handleCheckboxChange(level)}
-                            className="absolute w-7 h-7 opacity-0 cursor-pointer hover:!bg-darkBlue"
+                            className="absolute w-7 h-7 opacity-0 cursor-pointer hover:!bg-darkBlue "
                           />
                           <div
                             className={`w-7 h-7 border-[3px] border-[#685AAD] rounded-md flex items-center justify-center ${
@@ -1123,7 +1127,7 @@ const Page = () => {
                           >
                             {clicked && (
                               // eslint-disable-next-line react/jsx-no-undef
-                                <Check className="w-10 h-10"/>
+                                <Check className="w-10 h-10 text-white"/>
                             )}
                           </div>
                         </div>
@@ -1386,7 +1390,7 @@ const Page = () => {
                         }`}
                       >
                         {selectedInstructionsexp.includes("1-on-1") && (
-                           <Check className="w-10 h-10"/>
+                           <Check className="w-10 h-10 text-white"/>
                         )}
                       </div>
                     </div>
@@ -1613,7 +1617,7 @@ const Page = () => {
                                       }`}
                                     >
                                       {isChecked && (
-                                          <Check className="w-10 h-10"/>
+                                          <Check className="w-10 h-10 text-white"/>
                                       )}
                                     </div>
                                   </div>
@@ -2829,7 +2833,7 @@ const Page = () => {
                       }`}
                     >
                       {agreeterms === true && (
-                         <Check className="w-10 h-10"/>
+                         <Check className="w-10 h-10 text-white"/>
                       )}
                     </div>
                   
