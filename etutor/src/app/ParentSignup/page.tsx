@@ -17,7 +17,7 @@ const Page = ({QuestionNo}:any) => {
   return (
     <div className='flex flex-col '>
       <SignUpNavbar />
-      <div className=' relative min-h-screen flex items-center custom-2xl:items-start  w-full custom-2xl:pr-32 custom-2xl:pl-10 p-10 justify-center custom-2xl:justify-between lg:pr-20 mb:flex-col mb:px-5 mb:gap-8'>
+      <div className=' relative min-h-screen flex items-center custom-2xl:items-start  w-full custom-2xl:pr-32 custom-2xl:pl-10 p-10 justify-center custom-2xl:justify-between  mb:flex-col mb:px-5 mb:gap-8'>
         {/* Only render the div containing the image if QuestionNo is not equal to 5 */}
         {QuestionNo !== 5 && (
           <div className=''>

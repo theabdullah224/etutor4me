@@ -23,7 +23,7 @@ const Page = () => {
 
     <div>
       <SignUpNavbar/>
-      <div className='flex 2xl:mt-10 w-full items-center custom-2xl:items-start justify-center 2xl:w-[90%] mr-auto gap-24 custom-2xl:justify-between h-full mt-auto mb:gap-5 mb:w-full mb:p-8 mb:flex-col-reverse'>
+      <div className='flex 2xl:mt-10 w-full items-center custom-2xl:items-start justify-center 2xl:w-[90%] mr-auto gap-24 custom-2xl:justify-between h-screen custom-2xl:h-full mt-auto mb:gap-5 mb:w-full mb:p-8 mb:flex-col-reverse'>
         <div className=' mb:w-full custom-2xl:mt-28 hidden custom-2xl:block'>
 
         <Image className='w-full h-full' src={img} alt=''/>

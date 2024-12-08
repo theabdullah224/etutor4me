@@ -66,16 +66,20 @@ function Page() {
           <h1 className="text-3xl 2xl:text-7xl font-extrabold text-darkBlue  lg:text-2xl lg:py-3 mb:text-xl mb:py-2 py-0">
             Sign In
           </h1>
-          <p className="text-lightpurple text-3xl mt-3.5">As a Parent</p>
+          <p className="text-lightpurple text-3xl mt-0 custom-lg:mt-3.5">As a Parent</p>
+
+
           <div
             onClick={() => {
               handleSignIn();
             }}
-            className="flex items-center justify-center  p-3.5 text-2xl gap-3 text-darkBlue cursor-pointer rounded-full bg-transparent border-darkBlue border mt-11 mb:py-2 mb:text-sm"
+            className="flex items-center justify-center px-6 py-3 sm:py-[17px]   text-2xl gap-3 text-darkBlue cursor-pointer rounded-full bg-transparent border-darkBlue border mt-4 custom-lg:mt-11  mb:text-sm"
           >
             <Image src={google} alt="google" className="w-5 h-5" />
             Continue with Google
           </div>
+
+
           <div className="flex items-center justify-center w-full gap-3 py-5 px-3">
             <div className="w-full">
               {" "}
@@ -89,7 +93,7 @@ function Page() {
 
           <form onSubmit={handleSubmit}>
             <div className="flex w-full flex-col gap-5 mb:gap-3 mt-0.5">
-              <div className="rounded-full bg-purpleBtn px-6 py-[17px] flex items-center w-full ">
+              <div className="rounded-full bg-purpleBtn px-6 py-3 sm:py-[17px] flex items-center w-full ">
                 <input
                   type="email"
                   className="placeholder-darkBlue w-full bg-transparent outline-none mb:text-xs text-xl text-darkBlue"
@@ -99,7 +103,7 @@ function Page() {
                   required
                 />
               </div>
-              <div className="rounded-full bg-purpleBtn px-6 py-[17px] flex items-center w-full">
+              <div className="rounded-full bg-purpleBtn px-6 py-3 sm:py-[17px] flex items-center w-full">
                 <input
                   type="password"
                   className="placeholder-darkBlue w-full bg-transparent outline-none mb:text-xs text-xl text-darkBlue"
@@ -115,13 +119,13 @@ function Page() {
 
             <button
               type="submit"
-              className={` bg-customBlue text-2xl text-white rounded-full w-full py-[17px] font-bold  px-5 mt-14  cursor-pointer text-center lg:text-xl lg:py-2 mb:text-sm mb:p-2 mb:mt-2 `}
+              className={` bg-customBlue text-2xl text-white rounded-full w-full px-6 py-3 sm:py-[17px] font-bold   mt-14  cursor-pointer text-center lg:text-xl  mb:text-sm  mb:mt-6 `}
             >
               {wait}
             </button>
           </form>
 
-          <p className="text-darkBlue text-base mt-5">
+          <p className="text-darkBlue text-sm sm:text-base mt-5">
             By clicking “Continue with Google / Email“ you agree to our User{" "}
             <br />
             <span className="underline">

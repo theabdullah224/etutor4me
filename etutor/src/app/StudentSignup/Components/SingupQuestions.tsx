@@ -316,6 +316,8 @@ const countryCodes: CountryCode[] = [
   { code: "+225", flag: IvoryCoas, name: "Ivory Coast" },
 ];
 const SingupQuestions = () => {
+
+
   const [selectedLevel, setSelectedLevel] = useState("");
   const [classLevel, setClassLevel] = useState("");
   const [QuestionNo, setQuestionNo] = useState(1);
@@ -382,7 +384,7 @@ const SingupQuestions = () => {
   };
 
 
-  console.log(formData)
+
 
   useEffect(() => {
     
@@ -657,7 +659,12 @@ const SingupQuestions = () => {
             <div className="pt-12">
               <ConfirmBtn
                 onClick={() => {
-                  setIsGradeConfirmed(true);
+                  if(!selectedGrade){
+                    alert("Please select a grade to proceed.");
+                  }else{
+
+                    setIsGradeConfirmed(true);
+                  }
                 }}
                 btnName="Confirm"
               />
@@ -708,7 +715,12 @@ const SingupQuestions = () => {
             <div className="pt-12">
               <ConfirmBtn
                 onClick={() => {
-                  setIsGradeConfirmed(true);
+                  if(!selectedGrade){
+                    alert("Please select a grade to proceed.");
+                  }else{
+
+                    setIsGradeConfirmed(true);
+                  }
                 }}
                 btnName="Confirm"
               />
@@ -747,9 +759,14 @@ const SingupQuestions = () => {
 
             <div className="pt-12">
               <ConfirmBtn
-                onClick={() => {
+               onClick={() => {
+                if(!selectedGrade){
+                  alert("Please select a grade to proceed.");
+                }else{
+
                   setIsGradeConfirmed(true);
-                }}
+                }
+              }}
                 btnName="Confirm"
               />
             </div>
@@ -780,7 +797,12 @@ const SingupQuestions = () => {
             </div>
             <ConfirmBtn
               onClick={() => {
-                setIsGradeConfirmed(true);
+                if(!selectedGrade){
+                  alert("Please select a level to proceed.");
+                }else{
+
+                  setIsGradeConfirmed(true);
+                }
               }}
               btnName="Confirm"
             />
@@ -818,7 +840,7 @@ const SingupQuestions = () => {
     switch (QuestionNo) {
       case 1:
         return (
-          <div className="rounded-3xl bg-questionbg p-10 px-16 max-w-[40rem] custom-2xl:max-w-[53.4rem] w-full lg:p-8 mb:w-full mb:p-6    custom-lg:mt-8 custom-lg:mr-0">
+          <div className="rounded-3xl bg-questionbg p-10 px-9 max-w-[52rem]  mb:w-full ">
             <SingupHeading heading="What subjects do you need help with?" />
 
             {/* --------------------------------------------subject selection dropdown------------------------- */}
@@ -834,9 +856,9 @@ const SingupQuestions = () => {
                       : "select subject(s)"}
                   </span>
                   {isSubjectDropdownOpen ? (
-                    <ChevronUp size={40} className="text-[#a394d6] " />
+                    <ChevronUp size={40} className="text-[#a394d6] w-5 custom-xl:w-10 h-5 custom-xl:h-10" />
                   ) : (
-                    <ChevronDown size={40} className="text-[#a394d6] " />
+                    <ChevronDown size={40} className="text-[#a394d6] w-5 custom-xl:w-10 h-5 custom-xl:h-10" />
                   )}
                 </div>
 
@@ -854,10 +876,10 @@ const SingupQuestions = () => {
                       {subjectOptions.map((subject) => (
                         <div
                           key={subject.value}
-                          className=" py-2 cursor-pointer flex items-center"
+                          className=" custom-xl:py-2 cursor-pointer flex !items-center "
                           onClick={() => handleSubjectClick(subject.value)}
                         >
-                          <div className=" border-b-2 border-[#a394d682] py-3 flex  gap-4  w-full px-4 max-w-[20rem]">
+                          <div className="border-b-2 border-[#a394d682] py-2 custom-xl:py-3 flex items-center  gap-4  w-full px-0 custom-xl:px-4 max-w-[90%] truncate">
                             <div className="relative">
                               <input
                                 type="checkbox"
@@ -867,7 +889,7 @@ const SingupQuestions = () => {
                                 className="absolute opacity-0 cursor-pointer"
                               />
                               <div
-                                className={`h-7 w-7  border-2 border-[#6C5BAA] hover:bg-[#a394d6] hover:border-[#a394d6] rounded-md flex items-center justify-center 
+                                className={`h-4 custom-xl:h-7 w-4 custom-xl:w-7  border custom-xl:border-2 border-[#6C5BAA] hover:bg-[#a394d6] hover:border-[#a394d6] rounded-sm custom-xl:rounded-md flex items-center justify-center
                      ${
 
                      // @ts-ignore
@@ -883,7 +905,7 @@ const SingupQuestions = () => {
                                 )}
                               </div>
                             </div>
-                            <span className="ml-2 text-2xl text-[#6C5BAA] ">
+                            <span className="ml-1 sm:ml-2 text-base sm:text-lg custom-xl:text-2xl text-[#6C5BAA] truncate ">
                               {subject.label}
                             </span>
                           </div>
@@ -929,7 +951,15 @@ const SingupQuestions = () => {
             </div>
 
             <ConfirmBtn
-              onClick={() => setQuestionNo(QuestionNo + 1)}
+              onClick={() => {
+                if(selectedSubjects.length<=0){
+                  alert("Please select a subject to proceed.");
+
+                }else{
+
+                  setQuestionNo(QuestionNo + 1);
+                }
+              } }
               btnName="Confirm"
             />
           </div>
@@ -938,12 +968,14 @@ const SingupQuestions = () => {
       case 2:
         return (
           <div className="  rounded-3xl bg-questionbg p-10 px-16  w-full lg:p-8 mb:w-full mb:p-6    custom-lg:mt-1 custom-lg:mr-0">
-            <div>
+            <div className="custom-xl:pl-8 pt-1 mb-6">
               <SingupHeading heading="Personal Information" />
             </div>
             <div>
               <div className=" mb:gap-6">
                 <div className="flex w-full justify-between mb:flex-col">
+
+
                   <div className="flex flex-col w-[30%] mb:w-full">
                     <InputHeading text="Country" />
 
@@ -994,6 +1026,7 @@ const SingupQuestions = () => {
                       )}
                     </div>
                   </div>
+
                   <div className="flex flex-col w-[30%] mb:w-full">
                     <InputHeading text="State / City" />
 
@@ -1044,6 +1077,7 @@ const SingupQuestions = () => {
                     </div>
                   </div>
 
+
                   <div className="w-[30%] mb:w-full">
                     <InputHeading
                       text="Street Name "
@@ -1061,6 +1095,7 @@ const SingupQuestions = () => {
                       />
                     </div>
                   </div>
+
                 </div>
                 <div className="flex justify-between w-full mt-10 lg:mt-4 mb:flex-col mb:mt-0">
                   <div className="w-[30%] mb:w-full">
@@ -1116,7 +1151,7 @@ const SingupQuestions = () => {
                     </div>
                   </div>
                 </div>
-                {/*  */}
+              
                 <style jsx>{`
                   #style-2::-webkit-scrollbar-track {
                     border-radius: 10px;
@@ -1135,10 +1170,10 @@ const SingupQuestions = () => {
                   }
                 `}</style>
 
-                {/*  */}
+                
               </div>
             </div>
-            <div className="w-[30%] ml-auto pt-12">
+            <div className="sm:max-w-[70%] custom-2xl:w-[30%]  mx-auto custom-2xl:mx-0 custom-2xl:ml-auto pt-12">
               <ConfirmBtn
                 onClick={() => setQuestionNo(QuestionNo + 1)}
                 btnName="Confirm"

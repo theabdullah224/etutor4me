@@ -72,7 +72,7 @@ const Navbar = () => {
       <Link href="/Student"><li>For eTutors</li></Link>
     </ul>
     <div className='flex flex-col gap-4'>
-      <Link href='/SignupAs'><button className='text-customBlue focus:outline-none font-bold w-full'>SIGN IN</button></Link>
+      <Link href='/signin'><button className='text-customBlue focus:outline-none font-bold w-full'>SIGN IN</button></Link>
       <Link href='/SignupAs'><Button className='mb:text-sm font-bold text-xs w-full' btnName='SIGN UP' /></Link> 
     </div>
   </div>

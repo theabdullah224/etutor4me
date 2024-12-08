@@ -702,7 +702,13 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
             </div>
             <ConfirmBtn
               onClick={() => {
-                setIsGradeConfirmed(true);
+                if(!selectedGrade){
+                  alert("Please select a grade to proceed.");
+
+                }else{
+
+                  setIsGradeConfirmed(true);
+                }
               } }
               btnName="Confirm" className={""}            />
           </div>
@@ -711,7 +717,7 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
         return (
           <div className="rounded-3xl bg-questionbg p-10 px-16 max-w-[40rem]  custom-2xl:max-w-[57.7rem] w-full lg:p-8 mb:w-full mb:p-6   custom-lg:mt-6  custom-2xl:mr-7">
             <div>
-              <SingupHeading heading="What is your Grade?" />
+              <SingupHeading heading="What is your child Grade?" />
             </div>
             <div className="flex w-full justify-between gap-10">
               <div className="w-full">
@@ -737,7 +743,13 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
             </div>
             <ConfirmBtn
               onClick={() => {
-                setIsGradeConfirmed(true);
+                if(!selectedGrade){
+                  alert("Please select a grade to proceed.");
+
+                }else{
+
+                  setIsGradeConfirmed(true);
+                }
               } }
               btnName="Confirm" className={""}            />
           </div>
@@ -745,7 +757,7 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
       case "college":
         return (
           <div className="rounded-3xl bg-questionbg p-10 px-16 max-w-[40rem]  custom-2xl:max-w-[57.7rem] w-full lg:p-8 mb:w-full mb:p-6   custom-lg:mt-6  custom-2xl:mr-7">
-            <SingupHeading heading="What is your level of study?" />
+            <SingupHeading heading="What is your child level of study?" />
             <QuestionBtnWithSelection
               btnName="Freshman year"
               onClick={handleGradeClick}
@@ -764,7 +776,13 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
             />
             <ConfirmBtn
               onClick={() => {
-                setIsGradeConfirmed(true);
+                if(!selectedGrade){
+                  alert("Please select a Level to proceed.");
+
+                }else{
+
+                  setIsGradeConfirmed(true);
+                }
               } }
               btnName="Confirm" className={""}            />
           </div>
@@ -778,7 +796,7 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
     switch (QuestionNo) {
       case 1:
         return (
-          <div className="rounded-3xl bg-questionbg p-10 px-16 w-1/2 lg:p-8 mb:w-full mb:p-6">
+          <div className="rounded-3xl bg-questionbg p-10 px-9 max-w-[52rem]  mb:w-full ">
             <SingupHeading heading="What subjects does your child need help with?" />
             {/* --------------------------------------------subject selection dropdown------------------------- */}
 
@@ -794,9 +812,9 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                       : "select subject(s)"}
                   </span>
                   {isSubjectDropdownOpen ? (
-                    <ChevronUp size={40} className="text-[#a394d6] " />
+                    <ChevronUp  className="text-[#a394d6] w-5 custom-xl:w-10 h-5 custom-xl:h-10" />
                   ) : (
-                    <ChevronDown size={40} className="text-[#a394d6] " />
+                    <ChevronDown  className="text-[#a394d6] w-5 custom-xl:w-10 h-5 custom-xl:h-10" />
                   )}
                 </div>
 
@@ -814,10 +832,10 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                       {subjectOptions.map((subject) => (
                         <div
                           key={subject.value}
-                          className=" py-2 cursor-pointer flex items-center"
+                          className=" custom-xl:py-2 cursor-pointer flex !items-center "
                           onClick={() => handleSubjectClick(subject.value)}
                         >
-                          <div className=" border-b-2 border-[#a394d682] py-3 flex  gap-4  w-full px-4 max-w-[20rem]">
+                          <div className=" border-b-2 border-[#a394d682] py-2 custom-xl:py-3 flex items-center  gap-4  w-full px-0 custom-xl:px-4 max-w-[90%] truncate">
                             <div className="relative">
                               <input
                                 type="checkbox"
@@ -827,13 +845,13 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                                 className="absolute opacity-0 cursor-pointer"
                               />
                               <div
-                                className={`h-7 w-7  border-2 border-[#6C5BAA] hover:bg-[#a394d6] hover:border-[#a394d6] rounded-md flex items-center justify-center 
-                     ${
-                                  // @ts-ignore
-                       selectedSubjects.includes(subject.value)
-                         ? "bg-[#6c5baa]"
-                         : ""
-                     }`}
+                                className={`h-4 custom-xl:h-7 w-4 custom-xl:w-7  border custom-xl:border-2 border-[#6C5BAA] hover:bg-[#a394d6] hover:border-[#a394d6] rounded-sm custom-xl:rounded-md flex items-center justify-center 
+                                ${
+                                              // @ts-ignore
+                                  selectedSubjects.includes(subject.value)
+                                    ? "bg-[#6c5baa]"
+                                    : ""
+                                }`}
                               >
                                 {
                                 // @ts-ignore
@@ -842,7 +860,7 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                                 )}
                               </div>
                             </div>
-                            <span className="ml-2 text-2xl text-[#6C5BAA] ">
+                            <span className="ml-1 sm:ml-2 text-base sm:text-lg custom-xl:text-2xl text-[#6C5BAA] truncate ">
                               {subject.label}
                             </span>
                           </div>
@@ -852,6 +870,8 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                   </div>
                 )}
               </div>
+
+
               {selectedSubjects.length > 0 && (
                 <div className="flex flex-wrap items-start justify-start gap-2 mt-8   px-6 mx-auto min-h-[3.4rem]">
                   {selectedSubjects.map((subject) => (
@@ -868,6 +888,8 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                   ))}
                 </div>
               )}
+
+
               <style jsx>{`
                 #style-2::-webkit-scrollbar-track {
                   border-radius: 10px;
@@ -886,9 +908,16 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                 }
               `}</style>
             </div>
+            
             <ConfirmBtn
               onClick={() => {
-                setQuestionNo(QuestionNo + 1);
+                if(selectedSubjects.length<=0){
+                  alert("Please select a subject to proceed.");
+
+                }else{
+
+                  setQuestionNo(QuestionNo + 1);
+                }
               } }
               btnName="Confirm" className={""}            />
           </div>
@@ -896,18 +925,19 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
       // persoanl information
       case 2:
         return (
-          <div className="  rounded-3xl bg-questionbg p-10 px-16  w-full lg:p-8 mb:w-full mb:p-6 max-w-[80rem]     custom-2xl:mr-0">
-            <div>
+          <div className="  rounded-3xl bg-questionbg p-10 px-16  w-full  mb:w-full mb:p-6 max-w-[1443px]     custom-2xl:mr-0">
+            <div className="custom-xl:pl-8 pt-1 mb-6">
               <SingupHeading heading="Child's Personal Information" />
             </div>
             <div>
-              <div className="  grid grid-cols-1 custom-2xl:grid-cols-3 gap-6  ">
+              
+              <div className="  grid grid-cols-1 custom-2xl:grid-cols-3 gap-2 custom-2xl:gap-6  ">
                 <div className=" mb:w-full">
                   <InputHeading text="First Name" className="text-[#685AAD]" />
-                  <div className="rounded-full bg-purpleBtn px-10 xl:px-6 py-4 w-full lg:px-6 lg:py-4">
+                  <div className="rounded-full bg-purpleBtn px-5 custom-xl:px-10 py-2 custom-xl:py-[22px] w-full  ">
                     <input
                       type="text"
-                      className="placeholder-[#9085C4] text-2xl xl:text-xl text-darkBlue placeholder:text-2xl placeholder:xl:text-xl lg:text-xs placeholder:lg:text-xs placeholder:mb:text-sm w-full bg-transparent outline-none mb:text-xs "
+                      className="placeholder-[#9085C4] text-2xl text-darkBlue placeholder:text-2xl xl:placeholder:text-xl lg:placeholder:text-sm placeholder:mb:text-sm lg:text-sm xl:text-xl w-full bg-transparent outline-none mb:text-xs"
                       placeholder="First Name"
                       value={ChildsFirstName}
                       onChange={(e) => {
@@ -916,12 +946,15 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                     />
                   </div>
                 </div>
+
+
+
                 <div className=" mb:w-full">
                   <InputHeading text="Last Name" className="text-[#685AAD]" />
-                  <div className="rounded-full bg-purpleBtn px-10 xl:px-6 py-4 w-full lg:px-6 lg:py-4">
+                  <div className="rounded-full bg-purpleBtn px-5 custom-xl:px-10 py-2 custom-xl:py-[22px] w-full  ">
                     <input
                       type="text"
-                      className="placeholder-[#9085C4] text-2xl xl:text-xl text-darkBlue placeholder:text-2xl placeholder:xl:text-xl lg:text-xs placeholder:lg:text-xs placeholder:mb:text-sm w-full bg-transparent outline-none mb:text-xs "
+                      className="placeholder-[#9085C4] text-2xl text-darkBlue placeholder:text-2xl xl:placeholder:text-xl lg:placeholder:text-sm placeholder:mb:text-sm lg:text-sm xl:text-xl w-full bg-transparent outline-none mb:text-xs"
                       placeholder="Last Name"
                       value={ChildLastName}
                       onChange={(e) => {
@@ -930,19 +963,44 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                     />
                   </div>
                 </div>
-                <div className="flex flex-col  mb:w-full">
+
+
+
+                <div className=" mb:w-full">
+                  <InputHeading text="Age" className="text-[#685AAD]" />
+                  <div className="rounded-full bg-purpleBtn px-5 custom-xl:px-10 py-2 custom-xl:py-[22px] w-full  ">
+                    <input
+                      type="text"
+                      className="placeholder-[#9085C4] text-2xl text-darkBlue placeholder:text-2xl xl:placeholder:text-xl lg:placeholder:text-sm placeholder:mb:text-sm lg:text-sm xl:text-xl w-full bg-transparent outline-none mb:text-xs"
+                      placeholder="enter age"
+                      value={Age}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        // Ensure only numbers and limit the value to a maximum of 100
+                        if (
+                          /^\d*$/.test(value) &&
+                          (value === "" || parseInt(value) <= 100)
+                        ) {
+                          setAge(value);
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div className={`flex flex-col  mb:w-full `}>
                   <InputHeading text="Country" />
 
-                  <div className="relative flex justify-center items-center">
+                  <div className={`relative flex justify-center items-center `}>
                     <div
-                      className="placeholder-[#9085C4] flex justify-between items-center w-full cursor-pointer px-12 py-4 bg-purpleBtn rounded-full text-darkBlue xl:px-6 xl:text-lg text-2xl mb:text-sm lg:text-xs lg:px-4"
+                      className={`${nameDropdonw && "border border-[#53498852]"} placeholder-[#9085C4] flex justify-between items-center w-full cursor-pointer px-5 custom-xl:px-10 py-3 custom-xl:py-[22px] bg-purpleBtn rounded-full   xl:text-lg text-2xl mb:text-sm lg:text-xs `}
                       onClick={() => setNameDropdonw(!nameDropdonw)}
                     >
                       <button
-                        className={`bg-purpleBtn focus:outline-none  truncate placeholder-[#9085C4] ${
+                        className={`bg-purpleBtn focus:outline-none text-left  truncate text-2xl  placeholder:text-2xl xl:placeholder:text-xl lg:placeholder:text-sm placeholder:mb:text-sm lg:text-sm xl:text-xl w-full bg-transparent outline-none mb:text-xs   ${
                           !selectedCountry
                             ? "text-[#9085C4]"
-                            : "text-darkpurple"
+                            : "text-darkBlue"
                         }`}
                       >
                         {selectedCountry || "Select a Country"}{" "}
@@ -964,15 +1022,15 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                     </div>
 
                     {nameDropdonw && (
-                      <div className="absolute z-10 w-11/12 mt-20 m-auto top-0 rounded-3xl shadow-lg bg-purple px-5 py-3">
+                      <div className="absolute z-10 w-11/12 sm:mt-20 m-auto top-12 sm:top-2 rounded-3xl shadow-lg bg-[#dbcaff] px-5 py-7 border border-[#53498852]">
                         <div
                           id="style-2"
-                          className="py-4 px-4 lg:p-4  max-h-[15rem] overflow-y-auto"
+                          className="py-0 px-4 lg:p-4  max-h-[15rem] overflow-y-auto"
                         >
                           {countries.map((subject) => (
                             <div
                               key={subject}
-                              className="flex items-center p-2 text-darkBlue border-b     px-5 py-2 text-2xl border-darkBlue  cursor-pointer mb:text-sm placeholder-darkpurple"
+                              className="flex items-center  text-darkBlue border-b  max-w-[90%]     py-3 text-2xl border-darkBlue  cursor-pointer mb:text-sm placeholder-darkpurple"
                               onClick={() => {
                                 // @ts-ignore
                                 setSelectedCountry(subject); // Update the selected country when clicked
@@ -987,17 +1045,19 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                     )}
                   </div>
                 </div>
+
+
                 <div className="flex flex-col  mb:w-full">
                   <InputHeading text="State / City" />
 
                   <div className="relative  flex justify-center items-center">
                     <div
-                      className="flex justify-between items-center w-full cursor-pointer px-12 py-4 bg-purpleBtn rounded-full text-darkBlue xl:px-6  xl:text-lg text-2xl lg:text-xs lg:px-4 mb:text-sm"
+                      className={`${isDropdownOpen && "border border-[#53498852]"} placeholder-[#9085C4] flex justify-between items-center w-full cursor-pointer px-5 custom-xl:px-10 py-3 custom-xl:py-[22px] bg-purpleBtn rounded-full   xl:text-lg text-2xl mb:text-sm lg:text-xs `}
                       onClick={toggleDropdown}
                     >
                       <button
-                        className={` bg-purpleBtn focus:outline-none text-darkpurple truncate ${
-                          !selectedcity ? "text-[#9085C4]" : "text-darkpurple"
+                        className={` bg-purpleBtn focus:outline-none text-left  truncate text-2xl  placeholder:text-2xl xl:placeholder:text-xl lg:placeholder:text-sm placeholder:mb:text-sm lg:text-sm xl:text-xl w-full bg-transparent outline-none mb:text-xs   ${
+                          !selectedcity ? "text-[#9085C4]" : "text-darkBlue"
                         }`}
                       >
                         {selectedcity || "select a state / city"}
@@ -1018,15 +1078,15 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                     </div>
 
                     {isDropdownOpen && (
-                      <div className="absolute z-10 w-11/12 mt-20 m-auto top-0 rounded-3xl shadow-lg bg-purple px-5 py-3">
+                      <div className="absolute z-10 w-11/12 sm:mt-20 m-auto top-12 sm:top-2 rounded-3xl shadow-lg bg-[#dbcaff] px-5 py-7 border border-[#53498852]">
                         <div
                           id="style-2"
-                          className="py-4 px-4 lg:p-4  max-h-[15rem] overflow-y-auto"
+                          className="py-0 px-4 lg:p-4  max-h-[15rem] overflow-y-auto"
                         >
                           {city.map((subject) => (
                             <div
                               key={subject}
-                              className="flex items-center p-2 text-darkBlue border-b     px-5 py-2 text-2xl border-darkBlue  cursor-pointer mb:text-sm placeholder-darkpurple"
+                              className="flex items-center  text-darkBlue border-b  max-w-[90%]     py-3 text-2xl border-darkBlue  cursor-pointer mb:text-sm placeholder-darkpurple"
                               onClick={() => {
                                 setselectedcity(subject);
                                 toggleDropdown();
@@ -1039,6 +1099,8 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                       </div>
                     )}
                   </div>
+
+
                 </div>
 
                 <div className=" mb:w-full">
@@ -1046,10 +1108,10 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                     text="Street Name "
                     className="text-[#685AAD]"
                   />
-                  <div className="rounded-full bg-purpleBtn px-10 xl:px-6 py-4 w-full lg:px-6 lg:py-4">
+                  <div className="rounded-full bg-purpleBtn px-5 custom-xl:px-10 py-2 custom-xl:py-[22px] w-full  ">
                     <input
                       type="text"
-                      className="placeholder-[#9085C4] text-2xl xl:text-xl text-darkBlue placeholder:text-2xl placeholder:xl:text-xl lg:text-xs placeholder:lg:text-xs placeholder:mb:text-sm w-full bg-transparent outline-none mb:text-xs "
+                      className="placeholder-[#9085C4] text-2xl text-darkBlue placeholder:text-2xl xl:placeholder:text-xl lg:placeholder:text-sm placeholder:mb:text-sm lg:text-sm xl:text-xl w-full bg-transparent outline-none mb:text-xs"
                       placeholder="enter street name"
                       value={streetname}
                       onChange={(e) => {
@@ -1061,7 +1123,7 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
 
                 <div className=" mb:w-full">
                   <InputHeading text="Zip Code " className="text-[#685AAD]" />
-                  <div className="rounded-full bg-purpleBtn px-10 py-4 w-full">
+                  <div className="rounded-full bg-purpleBtn px-5 custom-xl:px-10 py-2 custom-xl:py-[22px] w-full  ">
                     <input
                       type="text"
                       className="placeholder-[#9085C4] text-2xl text-darkBlue placeholder:text-2xl xl:placeholder:text-xl lg:placeholder:text-sm placeholder:mb:text-sm lg:text-sm xl:text-xl w-full bg-transparent outline-none mb:text-xs"
@@ -1073,15 +1135,17 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                     />
                   </div>
                 </div>
+
+
                 <div className=" mb:w-full">
                   <InputHeading
                     text="Institution "
                     className="text-[#685AAD]"
                   />
-                  <div className="rounded-full bg-purpleBtn px-10 py-4 w-full">
+                  <div className="rounded-full bg-purpleBtn px-5 custom-xl:px-10 py-2 custom-xl:py-[22px] w-full  ">
                     <input
                       type="text"
-                      className="placeholder-[#9085C4] text-2xl text-darkBlue placeholder:text-2xl w-full bg-transparent xl:placeholder:text-xl xl:text-xl placeholder:mb:text-sm  outline-none mb:text-xs lg:placeholder:text-sm lg:text-sm"
+                      className="placeholder-[#9085C4] text-2xl text-darkBlue placeholder:text-2xl xl:placeholder:text-xl lg:placeholder:text-sm placeholder:mb:text-sm lg:text-sm xl:text-xl w-full bg-transparent outline-none mb:text-xs"
                       placeholder="enter institution name "
                       value={institue}
                       onChange={(e) => {
@@ -1090,29 +1154,8 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                     />
                   </div>
                 </div>
-                <div className=" mb:w-full">
-                  <InputHeading text="Age" className="text-[#685AAD]" />
-                  <div className="rounded-full bg-purpleBtn px-10 py-4 w-full">
-                    <input
-                      type="text"
-                      className="placeholder-[#9085C4] text-2xl text-darkBlue placeholder:text-2xl w-full bg-transparent outline-none xl:placeholder:text-xl xl:text-xl placeholder:mb:text-sm mb:text-xs lg:placeholder:text-sm lg:text-sm"
-                      placeholder="enter age"
-                      value={Age}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        // Ensure only numbers and limit the value to a maximum of 100
-                        if (
-                          /^\d*$/.test(value) &&
-                          (value === "" || parseInt(value) <= 100)
-                        ) {
-                          setAge(value);
-                        }
-                      }}
-                    />
-                  </div>
-                </div>
-
-                {/*  */}
+                
+             
                 <style jsx>{`
                   #style-2::-webkit-scrollbar-track {
                     border-radius: 10px;
@@ -1134,9 +1177,18 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                 {/*  */}
               </div>
             </div>
-            <div className="w-[30%] ml-auto pt-12">
+            <div className="sm:max-w-[70%] custom-2xl:w-[30%]  mx-auto custom-2xl:mx-0 custom-2xl:ml-auto pt-12">
               <ConfirmBtn
-                onClick={() => setQuestionNo(QuestionNo + 1)}
+                onClick={() =>{
+                  if(!ChildLastName || !ChildsFirstName || !Age || !selectedCountry || !selectedcity || !streetname || !zipcode || !institue){
+                    alert("Please ensure all fields are filled out before proceeding.");
+
+                  }else{
+
+                    setQuestionNo(QuestionNo + 1)
+                  }
+                  
+                  }}
                 btnName="Confirm" className={""}              />
             </div>
           </div>
@@ -1172,7 +1224,16 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
             </div>
             <div className="w-9/12 m-auto">
               <ConfirmBtn
-                onClick={() => setQuestionNo(QuestionNo + 1)}
+                onClick={() => {
+                  if(!text){
+                    alert("Kindly provide additional information.");
+
+                  }else{
+
+                    setQuestionNo(QuestionNo + 1)
+                  }
+                
+                }}
                 btnName="Confirm" className={""}              />
             </div>
           </div>
@@ -1187,7 +1248,7 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
               <div className="w-full  mx-auto relative">
                 {/* Input field */}
                 <div
-                  className="w-full bg-[#DBCAFF] text-[#a394d6] text-sm custom-lg:text-xl custom-2xl:text-2xl pl-10 pr-8 py-2 sm:py-3 rounded-full cursor-pointer flex justify-between items-center"
+                  className="w-full bg-[#DBCAFF] text-[#a394d6] text-sm custom-lg:text-xl custom-2xl:text-2xl pl-6 pr-8 py-2 sm:py-3 rounded-full cursor-pointer flex justify-between items-center"
                   onClick={() => setIsOpen(!isOpen)}
                 >
                   <span className="text-purple-400">
@@ -1325,14 +1386,14 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
         );
       case 5:
           return (
-            <div className="  rounded-3xl bg-questionbg py-12 px-16  w-full max-w-[63rem]     custom-2xl:mr-16 custom-2xl:-mt-7">
+            <div className="  rounded-3xl bg-questionbg py-12 px-6 custom-lg:px-16  w-full max-w-[63rem]     custom-2xl:mr-16 custom-2xl:-mt-7">
               <div>
                 <SingupHeading heading="Parent's Personal Information" />
               </div>
 
 
               <div className="mt-10">
-                <div className="  grid grid-cols-1 custom-2xl:grid-cols-2 gap-6  ">
+                <div className="  grid grid-cols-1 custom-2xl:grid-cols-2 gap-2 custom-2xl:gap-6  ">
                   
                  
                   <div className="flex flex-col  mb:w-full">
@@ -1340,14 +1401,14 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
   
                     <div className="relative flex justify-center items-center">
                       <div
-                        className="placeholder-[#9085C4] flex justify-between items-center w-full cursor-pointer px-12 py-5 bg-purpleBtn rounded-full text-darkBlue  xl:text-lg text-2xl mb:text-sm lg:text-xs lg:px-4"
+                        className={`${nameDropdonw && "border border-[#53498852]"} placeholder-[#9085C4] flex justify-between items-center w-full cursor-pointer px-5 custom-xl:px-10 py-3 custom-xl:py-[22px] bg-purpleBtn rounded-full   xl:text-lg text-2xl mb:text-sm lg:text-xs `}
                         onClick={() => setNameDropdonw(!nameDropdonw)}
                       >
                         <button
-                          className={`bg-purpleBtn focus:outline-none  truncate placeholder-[#9085C4] ${
+                          className={` bg-purpleBtn focus:outline-none text-left  truncate text-2xl  placeholder:text-2xl xl:placeholder:text-xl lg:placeholder:text-sm placeholder:mb:text-sm lg:text-sm xl:text-xl w-full bg-transparent outline-none mb:text-xs  ${
                             !Parentcountry
                               ? "text-[#9085C4]"
-                              : "text-darkpurple"
+                              : "text-darkBlue"
                           }`}
                         >
                           {Parentcountry || "Select a Country"}{" "}
@@ -1369,15 +1430,15 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                       </div>
   
                       {nameDropdonw && (
-                        <div className="absolute z-10 w-11/12 mt-20 m-auto top-0 rounded-3xl shadow-lg bg-purple px-5 py-3">
+                        <div className="absolute z-10 w-11/12 sm:mt-20 m-auto top-12 sm:top-2 rounded-3xl shadow-lg bg-[#dbcaff] px-5 py-7 border border-[#53498852]">
                           <div
                             id="style-2"
-                            className="py-4 px-4 lg:p-4  max-h-[15rem] overflow-y-auto"
+                            className="py-0 px-4 lg:p-4  max-h-[15rem] overflow-y-auto"
                           >
                             {countries.map((subject) => (
                               <div
                                 key={subject}
-                                className="flex items-center p-2 text-darkBlue border-b     px-5 py-2 text-2xl border-darkBlue  cursor-pointer mb:text-sm placeholder-darkpurple"
+                                className="flex items-center  text-darkBlue border-b  max-w-[90%]     py-3 text-2xl border-darkBlue  cursor-pointer mb:text-sm placeholder-darkpurple"
                                 onClick={() => {
                                   setParentcountry(subject); // Update the selected country when clicked
                                   setNameDropdonw(false); // Close the dropdown after selecting
@@ -1399,12 +1460,12 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
   
                     <div className="relative  flex justify-center items-center">
                       <div
-                        className="flex justify-between items-center w-full cursor-pointer px-12 py-5 bg-purpleBtn rounded-full text-darkBlue xl:px-6  xl:text-lg text-2xl lg:text-xs lg:px-4 mb:text-sm"
+                        className={`${isDropdownOpen && "border border-[#53498852]"}  placeholder-[#9085C4] flex justify-between items-center w-full cursor-pointer px-5 custom-xl:px-10 py-3 custom-xl:py-[22px] bg-purpleBtn rounded-full   xl:text-lg text-2xl mb:text-sm lg:text-xs `}
                         onClick={toggleDropdown}
                       >
                         <button
-                          className={` bg-purpleBtn focus:outline-none text-darkpurple truncate ${
-                            !parentCity ? "text-[#9085C4]" : "text-darkpurple"
+                          className={` bg-purpleBtn focus:outline-none text-left  truncate text-2xl  placeholder:text-2xl xl:placeholder:text-xl lg:placeholder:text-sm placeholder:mb:text-sm lg:text-sm xl:text-xl w-full bg-transparent outline-none mb:text-xs ${
+                            !parentCity ? "text-[#9085C4]" : "text-darkBlue"
                           }`}
                         >
                           {parentCity || "select a state / city"}
@@ -1425,15 +1486,15 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                       </div>
   
                       {isDropdownOpen && (
-                        <div className="absolute z-10 w-11/12 mt-20 m-auto top-0 rounded-3xl shadow-lg bg-purple px-5 py-3">
-                          <div
-                            id="style-2"
-                            className="py-4 px-4 lg:p-4  max-h-[15rem] overflow-y-auto"
-                          >
+                       <div className="absolute z-10 w-11/12 sm:mt-20 m-auto top-12 sm:top-2 rounded-3xl shadow-lg bg-[#dbcaff] px-5 py-7 border border-[#53498852]">
+                       <div
+                         id="style-2"
+                         className="py-0 px-4 lg:p-4  max-h-[15rem] overflow-y-auto"
+                       >
                             {city.map((subject) => (
                               <div
                                 key={subject}
-                                className="flex items-center p-2 text-darkBlue border-b     px-5 py-2 text-2xl border-darkBlue  cursor-pointer mb:text-sm placeholder-darkpurple"
+                                className="flex items-center  text-darkBlue border-b  max-w-[90%]     py-3 text-2xl border-darkBlue  cursor-pointer mb:text-sm placeholder-darkpurple"
                                 onClick={() => {
                                   setParentCity(subject);
                                   toggleDropdown();
@@ -1447,16 +1508,23 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                       )}
                     </div>
                   </div>
+
+
+
+
+
+
+
   
                   <div className=" mb:w-full">
                     <InputHeading
                       text="Street Name "
                       className="text-[#685AAD]"
                     />
-                    <div className="rounded-full bg-purpleBtn px-10 xl:px-6 py-5 w-full lg:px-6 lg:py-4">
+                    <div className="rounded-full bg-purpleBtn px-5 custom-xl:px-10 py-2 custom-xl:py-[22px] w-full  ">
                       <input
                         type="text"
-                        className="placeholder-[#9085C4] text-2xl xl:text-xl text-darkBlue placeholder:text-2xl placeholder:xl:text-xl lg:text-xs placeholder:lg:text-xs placeholder:mb:text-sm w-full bg-transparent outline-none mb:text-xs "
+                        className="placeholder-[#9085C4] text-2xl text-darkBlue placeholder:text-2xl xl:placeholder:text-xl lg:placeholder:text-sm placeholder:mb:text-sm lg:text-sm xl:text-xl w-full bg-transparent outline-none mb:text-xs"
                         placeholder="enter street name"
                         value={parentStreet}
                         onChange={(e) => {
@@ -1468,7 +1536,7 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
   
                   <div className=" mb:w-full">
                     <InputHeading text="Zip Code " className="text-[#685AAD]" />
-                    <div className="rounded-full bg-purpleBtn px-10 py-5 w-full">
+                    <div className="rounded-full bg-purpleBtn px-5 custom-xl:px-10 py-2 custom-xl:py-[22px] w-full  ">
                       <input
                         type="text"
                         className="placeholder-[#9085C4] text-2xl text-darkBlue placeholder:text-2xl xl:placeholder:text-xl lg:placeholder:text-sm placeholder:mb:text-sm lg:text-sm xl:text-xl w-full bg-transparent outline-none mb:text-xs"
@@ -1505,9 +1573,18 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                   {/*  */}
                 </div>
               </div>
-              <div className="  py-16">
+              <div className=" py-8  custom-2xl:py-16">
                 <ConfirmBtn
-                  onClick={() => setQuestionNo(QuestionNo + 1)}
+                  onClick={() =>{
+
+                    if(!parentCity || !parentStreet || !ParentZipCode || !Parentcountry){
+                      alert("Please ensure all fields are filled out before proceeding.");
+                    }else{
+
+                      setQuestionNo(QuestionNo + 1)
+                    }
+                    
+                    }}
                   btnName="Confirm" className={""}                />
               </div>
             </div>
@@ -1541,7 +1618,7 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
             </div>
 
             <form onSubmit={handleSubmit}>
-              <div className="flex w-full gap-5 mb:gap-3 mt-0.5">
+              <div className="flex w-full flex-col sm:flex-row gap-5 mb:gap-3 mt-0.5">
                 <div className="rounded-full bg-purpleBtn px-6 py-[17px] flex items-center w-full ">
                   <input
                     type="text"
@@ -1562,7 +1639,7 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                 </div>
               </div>
 
-              <div className="rounded-full mt-10 bg-purpleBtn px-6 py-[17px] ">
+              <div className="rounded-full  mt-3 sm:mt-10 bg-purpleBtn px-6 py-[17px] ">
                 <input
                   type="email"
                   className="placeholder-darkBlue w-full bg-transparent outline-none mb:text-xs text-xl text-darkBlue"
@@ -1571,7 +1648,7 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                   required
                 />
               </div>
-              <div className="rounded-full mt-5 bg-purpleBtn px-6 py-[17px]">
+              <div className="rounded-full mt-3 sm:mt-5 bg-purpleBtn px-6 py-[17px]">
                 <input
                   type="password"
                   className="placeholder-darkBlue w-full bg-transparent outline-none mb:text-xs text-xl text-darkBlue"
@@ -1583,10 +1660,11 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
 
            
 
-              <div className=" text-darkBlue bg-[#DBCAFF] rounded-full mt-5">
+              <div className=" text-darkBlue bg-[#DBCAFF] rounded-full mt-3 sm:mt-5">
                 <div className="relative">
                   <div className="bg-purple-100 rounded-full py-[17px] px-10 flex items-center ">
                     <button
+                    type="button" 
                       onClick={() => setShowDropdown(!showDropdown)}
                       className="flex items-center  pr-3 min-w-fit"
                     >
@@ -1615,7 +1693,7 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
                   </div>
 
                   {showDropdown && (
-                    <div className="absolute top-full left-0 mt-2 w-44 bg-[#DBCAFF] rounded-3xl shadow-lg py-2  max-h-[12.5rem] px-3 overflow-y-auto scrollbar-none">
+                    <div className="!z-50 absolute top-full left-0 mt-2 w-44 bg-[#DBCAFF] rounded-3xl shadow-lg py-2  max-h-[12.5rem] px-3 overflow-y-auto scrollbar-none">
                       {countryCodes.map((country) => (
                         <button
                           key={country.code}
@@ -1646,7 +1724,7 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
               <div>
                 <button
                   type="submit"
-                  className="bg-customBlue text-2xl text-white rounded-full w-full py-[17px] font-bold  px-5 mt-14 border-darkBlue border cursor-pointer text-center lg:text-xl lg:py-2 mb:text-sm mb:p-2 mb:mt-2 "
+                  className="bg-customBlue text-2xl text-white rounded-full w-full py-[17px] font-bold  px-5 mt-14 border-darkBlue border cursor-pointer text-center lg:text-xl lg:py-2 mb:text-sm mb:p-2 mb:mt-5 "
                 >
                   {loading}
                 </button>

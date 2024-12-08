@@ -38,9 +38,9 @@ import { useSearchParams } from 'next/navigation'
 const Page = () => {
 
   return (
-    <div>
+    <div className=''>
       <SignUpNavbar/>
-      <div className='flex 2xl:mt-10 w-full items-center custom-2xl:items-start justify-center 2xl:w-[90%] mr-auto gap-24 custom-2xl:justify-between h-full mt-auto mb:gap-5 mb:w-full mb:p-8 mb:flex-col-reverse'>
+      <div className='flex 2xl:mt-10 w-full items-center custom-2xl:items-start justify-center 2xl:w-[90%] mr-auto gap-24 custom-2xl:justify-between  h-screen custom-2xl:h-full mt-auto mb:gap-5 mb:w-full mb:p-8 mb:flex-col-reverse'>
         <div className=' mb:w-full custom-2xl:mt-28 hidden custom-2xl:block'>
 
         <Image className='w-full h-full' src={img} alt=''/>
@@ -52,7 +52,7 @@ const Page = () => {
            <Link href='/signin/studentsignin' >
            <h1 className='font-extrabold py-5 custom-2xl:py-8 border-none mb-7 bg-purpleBtn text-2xl text-[#534988] 2xl:text-4xl rounded-full w-full  px-5 mt-4  border-darkBlue border cursor-pointer text-center lg:text-xl mb:text-sm mb:p-2 mb:mt-2 '>I’m a Student</h1>
             </Link>
-           <Link href='/signin/tutorsignin' > <div className='text-4xl font-medium  py-6 text-customOrange mb:text-sm mb:py-3 mt-7'>I’m an eTutor</div></Link>
+           <Link href='/signin/tutorsignin' > <div className='text-4xl font-medium  py-6 text-customOrange mb:text-sm mb:py-3   sm:mt-4 custom-2xl:mt-7'>I’m an eTutor</div></Link>
            
         </div>
       </div>
