@@ -18,7 +18,8 @@ export const connectMongoDB = async (): Promise<void> => {
 
   try {
     await mongoose.connect(uri,{
-      family: 4
+      family: 4,
+      
     });
     console.log("MongoDB connected successfully");
   } catch (error) {

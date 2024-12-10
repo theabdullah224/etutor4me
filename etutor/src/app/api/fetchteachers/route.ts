@@ -13,9 +13,9 @@ export async function GET(req: Request) {
         path: 'user',
        
       })
-      // Converts to plain JavaScript objects
+      .lean(); // Converts to plain JavaScript objects
 
-    return NextResponse.json(teachers, { status: 200 });
+    return NextResponse.json(teachers, { status: 200 , headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate' }});
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error('Error fetching teachers:', error.message, error.stack);
