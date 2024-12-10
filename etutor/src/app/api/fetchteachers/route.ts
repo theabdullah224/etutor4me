@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { connectMongoDB } from '../connection/connection';
 import TeacherModel from '../models/Teacher';
 import { NextResponse } from 'next/server';
