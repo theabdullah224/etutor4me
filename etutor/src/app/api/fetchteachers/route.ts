@@ -8,14 +8,16 @@ export async function GET(req: Request) {
     await connectMongoDB();
 
     // Fetch all teachers where isApproved is true, and populate the user details
-    const teachers = await TeacherModel.find()
+    const teachers = await TeacherModel.find({ isApproved: true })
       .populate({
         path: 'user',
        
       })
-      .lean(); 
+      .lean(); // Converts to plain JavaScript objects
 
-    return NextResponse.json(teachers, { status: 200 });
+      const response = NextResponse.json(teachers, { status: 200 });
+      response.headers.set('Cache-Control', 'no-store'); // No cache for this response
+      return response;
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error('Error fetching teachers:', error.message, error.stack);

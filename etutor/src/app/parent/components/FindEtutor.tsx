@@ -1,6 +1,3 @@
-"use client"
-
-
 import React, { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Calendar } from "lucide-react";
 import calendaricon from "../../../../public/calendaricongray.svg";
