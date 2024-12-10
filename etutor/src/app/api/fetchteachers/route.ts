@@ -9,14 +9,13 @@ export async function GET(req: Request) {
 
     // Fetch all teachers where isApproved is true, and populate the user details
     const teachers = await TeacherModel.find({ isApproved: true })
-      .sort({ updatedAt: -1 })
       .populate({
         path: 'user',
        
       })
       .lean(); // Converts to plain JavaScript objects
 
-    return NextResponse.json(teachers, { status: 200 , headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate' }});
+    return NextResponse.json(teachers, { status: 200 });
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error('Error fetching teachers:', error.message, error.stack);

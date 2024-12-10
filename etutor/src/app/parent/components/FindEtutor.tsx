@@ -396,26 +396,23 @@ const ETutorSearch = ({
 
 
   // fetching the teachers.........
-  const fetchTeachers = async () => {
-    try {
-      const response = await axios.get("/api/fetchteachers",{
-        headers: {
-          'Cache-Control': 'no-cache',
-          Pragma: 'no-cache',
-          Expires: '0',
-        },
-      }); // Adjust the API endpoint as necessary
-      setTeachers(response.data);
-
-    
-    } catch (error) {
-      setError("Error fetching teachers data");
-      console.error("Error fetching teachers:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
   useEffect(() => {
+    const fetchTeachers = async () => {
+      try {
+        const response = await fetch("/api/fetchteachers", {
+          method: "GET",
+        });// Adjust the API endpoint as necessary
+        const data = await response.json(); // Parse the JSON data
+      setTeachers(data);
+
+      
+      } catch (error) {
+        setError("Error fetching teachers data");
+        console.error("Error fetching teachers:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
     fetchTeachers();
   }, [session]);
@@ -739,8 +736,7 @@ const ETutorSearch = ({
     return filteredTeachers;
   }
 
-  const handleSearched = async () => {
-     await fetchTeachers()
+  const handleSearched = () => {
     const searchResults = searchTeachers(teachers, searchParams);
     setFilteredTutors(searchResults);
     setShowResults(true);
