@@ -17,9 +17,7 @@ export async function GET(req: Request) {
       })
       .lean(); // Converts to plain JavaScript objects
 
-      const response = NextResponse.json(teachers, { status: 200 });
-      response.headers.set('Cache-Control', 'no-store'); // No cache for this response
-      return response;
+    return NextResponse.json(teachers, { status: 200 });
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error('Error fetching teachers:', error.message, error.stack);
