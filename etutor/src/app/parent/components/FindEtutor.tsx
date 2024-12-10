@@ -2037,14 +2037,18 @@ const ETutorSearch = ({
                 </div>
 
                 <div className="mt-7 max-w-[437px] w-full">
-                  <textarea
-                    className="w-full  h-24 p-4 rounded-lg bg-[#DBCAFF] text-[#B6A9E0] transition-colors duration-200 placeholder-[#B6A9E0] focus:ring-0"
-                    placeholder="Write your instructions here..."
-                    value={studentnote}
-                    onChange={(e) => {
-                      setStudentnote(e.target.value);
+                 
+
+                  <input
+                   autoFocus
+                   className="w-full  h-24 p-4 rounded-lg bg-[#DBCAFF] text-[#B6A9E0] transition-colors duration-200 placeholder-[#B6A9E0] focus:ring-0 text-wrap"
+                   placeholder="Write your instructions here..."
+                   value={studentnote}
+                   onChange={(e) => {
+                     setStudentnote(e.target.value);
                     }}
-                  />
+                    />
+                  
                 </div>
 
                 <div className="mt-16 max-w-[22rem] w-full mx-auto flex items-center justify-center ">

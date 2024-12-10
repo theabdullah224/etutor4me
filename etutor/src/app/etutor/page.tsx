@@ -103,6 +103,8 @@ interface Teacher {
 }
 
 interface BookingRequest {
+  studentdetails: any;
+  startLink: string;
   meetingCompleted: boolean;
   joinLink: string | undefined;
   _id: string;
@@ -191,7 +193,7 @@ const SessionsDashboard = () => {
     
       return sessionData;
    
-  }, [confirmedState, unconfirmedState, canceledState]);
+  }, [sessionData]);
 
   // Generate calendar days
   const calendarDays = useMemo(() => {
@@ -504,17 +506,18 @@ const SessionsDashboard = () => {
                               >
                                 <div className="pl-2">
                                   <h1 className="font-bold text-white text-lg">
-                                    Chemistry
+                                  {request.subjects || ""}
                                   </h1>
                                   <p className=" text-white text-lg ">
-                                    Mr. John
+                                  {request?.studentdetails?.firstName ||
+                                          "Your Student"}
                                   </p>
                                 </div>
                                 <div className="flex flex-col gap-1">
                                   <button className="text-white bg-[#685AAD] rounded-md px-2 py-1 text-sm">
                                     Edit Session
                                   </button>
-                                  <a href={request?.joinLink || "#"}>
+                                  <a href={request?.startLink || "#"} target="_blank">
 
                                   <button className="text-white bg-[#8653FF] rounded-md px-2 py-1 text-sm">
                                     Meeting Link
@@ -881,7 +884,7 @@ const SessionsDashboard = () => {
   if(session?.user?.role === "teacher"){
 
     return (
-      <div className="flex min-h-screen bg-white relative z-0">
+      <div className="flex min-h-screen bg-white relative z-0 max-w-[1920px] w-full mx-auto">
         {/* Sidebar */}
         <aside
           className={` ${

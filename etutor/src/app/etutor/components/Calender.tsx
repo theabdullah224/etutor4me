@@ -51,6 +51,7 @@ interface Teacher {
 
 interface BookingRequest {
   joinLink: string | undefined;
+  startLink: string | undefined;
   _id: string;
   student: Student;
   teacher: Teacher;
@@ -682,7 +683,7 @@ const SessionCalendarComponent = ({
                                     >
                                       Edit Session
                                     </button>
-                                    <a href={request.joinLink} target="_blank">
+                                    <a href={request.startLink} target="_blank">
                                       <button className="w-full custom-2xl:h-full  custom-2xl:w-auto bg-[#FC7777] text-white px-8 py-2 rounded-md text-sm custom-2xl text-base:sm:text-xl hover:bg-[#f16d6d] transition-colors">
                                         Meeting Link
                                       </button>
