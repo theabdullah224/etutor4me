@@ -9,6 +9,7 @@ export async function GET(req: Request) {
 
     // Fetch all teachers where isApproved is true, and populate the user details
     const teachers = await TeacherModel.find({ isApproved: true })
+      .sort({ updatedAt: -1 })
       .populate({
         path: 'user',
        
