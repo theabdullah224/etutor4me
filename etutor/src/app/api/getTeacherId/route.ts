@@ -1,4 +1,5 @@
 // pages/api/getTeacherId.ts
+export const dynamic = 'force-dynamic';
 import { connectMongoDB } from '../connection/connection';
 import UserModel from '../models/User';
 import TeacherModel from '../models/Teacher'; // Import the Teacher model

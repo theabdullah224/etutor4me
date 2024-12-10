@@ -1,4 +1,5 @@
 // app/api/users/route.ts
+export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { connectMongoDB } from '../connection/connection'; // Adjust the import path as necessary
 import UserModel from '../models/User'; // Import the User model
