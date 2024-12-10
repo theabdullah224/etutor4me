@@ -619,11 +619,11 @@ const SingupQuestions = () => {
     switch (selectedLevel) {
       case "middle":
         return (
-          <div className="   rounded-3xl bg-questionbg p-10 px-16 max-w-[40rem]  custom-2xl:max-w-[57.7rem] w-full lg:p-8 mb:w-full mb:p-6   custom-lg:mt-16  custom-2xl:mr-7">
+          <div className=" rounded-3xl bg-questionbg py-4 custom-xl:py-10 px-4 custom-xl:px-16  max-w-[40rem]  custom-2xl:max-w-[57.7rem] w-full  mb:w-full    custom-lg:mt-6  custom-2xl:mr-7">
             <div>
               <SingupHeading heading="What is your Grade?" />
             </div>
-            <div className="flex w-full justify-between gap-4 custom-lg:gap-10  mt-12 px-2">
+            <div className="flex w-full justify-between gap-4 custom-lg:gap-10  custom-xl:mt-12 px-2">
               <div className="w-full">
                 {/* <div className=" ">
                   <QuestionBtnWithSelection
@@ -656,7 +656,7 @@ const SingupQuestions = () => {
                 /> */}
               </div>
             </div>
-            <div className="pt-12">
+            <div className="custom-xl:pt-12">
               <ConfirmBtn
                 onClick={() => {
                   if(!selectedGrade){
@@ -674,11 +674,11 @@ const SingupQuestions = () => {
 
       case "elementary":
         return (
-          <div className="  rounded-3xl bg-questionbg p-10 px-16 max-w-[40rem]  custom-2xl:max-w-[57.7rem] w-full lg:p-8 mb:w-full mb:p-6   custom-lg:mt-16  custom-2xl:mr-7">
+          <div className=" rounded-3xl bg-questionbg py-4 custom-xl:py-10 px-4 custom-xl:px-16  max-w-[40rem]  custom-2xl:max-w-[57.7rem] w-full  mb:w-full    custom-lg:mt-6  custom-2xl:mr-7">
             <div>
               <SingupHeading heading="What is your Grade?" />
             </div>
-            <div className="flex w-full justify-between gap-4 custom-lg:gap-10  mt-12 px-2">
+            <div className="flex w-full justify-between gap-4 custom-lg:gap-10  custom-xl:mt-12 px-2">
               <div className="w-full">
                 <div className=" ">
                   <QuestionBtnWithSelection
@@ -712,7 +712,7 @@ const SingupQuestions = () => {
               </div>
             </div>
 
-            <div className="pt-12">
+            <div className="custom-xl:pt-12">
               <ConfirmBtn
                 onClick={() => {
                   if(!selectedGrade){
@@ -730,11 +730,11 @@ const SingupQuestions = () => {
 
       case "high":
         return (
-          <div className=" rounded-3xl bg-questionbg p-10 px-16 max-w-[40rem]  custom-2xl:max-w-[57.7rem] w-full lg:p-8 mb:w-full mb:p-6   custom-lg:mt-16  custom-2xl:mr-7">
+          <div className=" rounded-3xl bg-questionbg py-4 custom-xl:py-10 px-4 custom-xl:px-16  max-w-[40rem]  custom-2xl:max-w-[57.7rem] w-full  mb:w-full    custom-lg:mt-6  custom-2xl:mr-7">
             <div>
               <SingupHeading heading="What is your Grade?" />
             </div>
-            <div className="flex w-full justify-between gap-4 custom-lg:gap-10  mt-12 px-2">
+            <div className="flex w-full justify-between gap-4 custom-lg:gap-10  custom-xl:mt-12 px-2">
               <div className="w-full">
                 <QuestionBtnWithSelection
                   onClick={handleGradeClick}
@@ -757,7 +757,7 @@ const SingupQuestions = () => {
               </div>
             </div>
 
-            <div className="pt-12">
+            <div className="custom-xl:pt-12">
               <ConfirmBtn
                onClick={() => {
                 if(!selectedGrade){
@@ -774,10 +774,10 @@ const SingupQuestions = () => {
         );
       case "college":
         return (
-          <div className=" rounded-3xl bg-questionbg p-10 px-16 max-w-[40rem]  custom-2xl:max-w-[53.7rem] w-full lg:p-8 mb:w-full mb:p-6   custom-lg:mt-16  custom-2xl:mr-20">
+          <div className=" rounded-3xl bg-questionbg py-4 custom-xl:py-10 px-4 custom-xl:px-16  max-w-[40rem]  custom-2xl:max-w-[57.7rem] w-full  mb:w-full    custom-lg:mt-6  custom-2xl:mr-7">
             <SingupHeading heading="What is your level of study?" />
 
-            <div className="mt-12 px-5">
+            <div className="   custom-xl:mt-12 px-2">
               <QuestionBtnWithSelection
                 onClick={handleGradeClick}
                 btnName="Freshman year"
@@ -810,7 +810,7 @@ const SingupQuestions = () => {
         );
       case "adult":
         return (
-          <div className=" rounded-3xl bg-questionbg p-10 px-16 max-w-[40rem]  custom-2xl:max-w-[53.7rem] w-full lg:p-8 mb:w-full mb:p-6   custom-lg:mt-16  custom-2xl:mr-20">
+          <div className=" rounded-3xl bg-questionbg py-4 custom-xl:py-10 px-4 custom-xl:px-16  max-w-[40rem]  custom-2xl:max-w-[57.7rem] w-full  mb:w-full    custom-lg:mt-6  custom-2xl:mr-7">
             <SingupHeading heading="What is your level of study?" />
             <QuestionBtn
               btnName="Middle school"
@@ -840,7 +840,7 @@ const SingupQuestions = () => {
     switch (QuestionNo) {
       case 1:
         return (
-          <div className="rounded-3xl bg-questionbg p-10 px-9 max-w-[52rem]  mb:w-full ">
+          <div className="rounded-3xl bg-questionbg py-4 custom-xl:py-10 px-4 custom-xl:px-9 max-w-[52rem]  mb:w-full ">
             <SingupHeading heading="What subjects do you need help with?" />
 
             {/* --------------------------------------------subject selection dropdown------------------------- */}
@@ -916,11 +916,11 @@ const SingupQuestions = () => {
                 )}
               </div>
               {selectedSubjects.length > 0 && (
-                <div className="flex flex-wrap items-start justify-start gap-2 mt-8   px-6 mx-auto min-h-[3.4rem]">
+                <div className="flex flex-wrap items-start justify-start gap-2 mt-3 sm:mt-5 custom-xl:mt-8   px-2 custom-xl:px-6 mx-auto min-h-[3.4rem]">
                   {selectedSubjects.map((subject) => (
                     <span
                       key={subject}
-                      className="bg-[#6C5BAA] text-white px-5 py-2 custom-2xl:py-3.5 rounded-full flex items-center  gap-7  justify-between"
+                      className="bg-[#6C5BAA] text-xs custom-xl:text-xl text-white px-5 py-2 custom-2xl:py-3.5 rounded-full flex items-center  gap-7  justify-between"
                     >
                       {subject}
                       <X
@@ -972,22 +972,28 @@ const SingupQuestions = () => {
               <SingupHeading heading="Personal Information" />
             </div>
             <div>
-              <div className=" mb:gap-6">
-                <div className="flex w-full justify-between mb:flex-col">
+              <div className=" grid grid-cols-1 custom-2xl:grid-cols-3 gap-2 custom-2xl:gap-6">
+               
 
 
-                  <div className="flex flex-col w-[30%] mb:w-full">
+                  <div className="flex flex-col  mb:w-full">
                     <InputHeading text="Country" />
 
                     <div className="relative flex justify-center items-center">
                       <div
-                        className="flex justify-between items-center w-full cursor-pointer px-12 py-4 bg-purpleBtn rounded-full text-darkBlue xl:px-6 xl:text-lg text-2xl mb:text-sm lg:text-xs lg:px-4"
+                        className={`${nameDropdonw && "border border-[#53498852]"} placeholder-[#9085C4] flex justify-between items-center w-full cursor-pointer px-5 custom-xl:px-10 py-3 custom-xl:py-[22px] bg-purpleBtn rounded-full   xl:text-lg text-2xl mb:text-sm lg:text-xs `}
                         onClick={() => setNameDropdonw(!nameDropdonw)}
                       >
-                        <button className="bg-purpleBtn focus:outline-none text-darkpurple truncate">
-                          {selectedCountry || "Select a state / city"}{" "}
-                          {/* Display selected country */}
-                        </button>
+                       <button
+                        className={`bg-purpleBtn focus:outline-none text-left  truncate text-2xl  placeholder:text-2xl xl:placeholder:text-xl lg:placeholder:text-sm placeholder:mb:text-sm lg:text-sm xl:text-xl w-full bg-transparent outline-none mb:text-xs   ${
+                          !selectedCountry
+                            ? "text-[#9085C4]"
+                            : "text-darkBlue"
+                        }`}
+                      >
+                        {selectedCountry || "Select a Country"}{" "}
+                        {/* Display selected country */}
+                      </button>
                         {nameDropdonw ? (
                           <Image
                             src={uparrow}
@@ -1004,15 +1010,15 @@ const SingupQuestions = () => {
                       </div>
 
                       {nameDropdonw && (
-                        <div className="absolute z-10 w-11/12 mt-20 m-auto top-0 rounded-3xl shadow-lg bg-purple px-5 py-3">
+                        <div className="absolute z-10 w-11/12 sm:mt-20 m-auto top-12 sm:top-2 rounded-3xl shadow-lg bg-[#dbcaff] px-5 py-7 border border-[#53498852]">
                           <div
                             id="style-2"
-                            className="py-4 px-4 lg:p-4  max-h-[15rem] overflow-y-auto"
+                            className="py-0 px-4 lg:p-4  max-h-[15rem] overflow-y-auto"
                           >
                             {countries.map((subject:any) => (
                               <div
                                 key={subject}
-                                className="flex items-center p-2 text-darkBlue border-b px-5 py-2 text-2xl border-darkBlue cursor-pointer mb:text-sm placeholder-darkpurple lg:text-xs lg:px-4"
+                                className="flex items-center  text-darkBlue border-b  max-w-[90%]     py-3 text-2xl border-darkBlue  cursor-pointer mb:text-sm placeholder-darkpurple"
                                 onClick={() => {
                                   setSelectedCountry(subject); // Update the selected country when clicked
                                   setNameDropdonw(false); // Close the dropdown after selecting
@@ -1027,17 +1033,21 @@ const SingupQuestions = () => {
                     </div>
                   </div>
 
-                  <div className="flex flex-col w-[30%] mb:w-full">
+                  <div className="flex flex-col  mb:w-full">
                     <InputHeading text="State / City" />
 
                     <div className="relative  flex justify-center items-center">
                       <div
-                        className="flex justify-between items-center w-full cursor-pointer px-12 py-4 bg-purpleBtn rounded-full text-darkBlue xl:px-6  xl:text-lg text-2xl lg:text-xs lg:px-4 mb:text-sm"
+                        className={`${isDropdownOpen && "border border-[#53498852]"} placeholder-[#9085C4] flex justify-between items-center w-full cursor-pointer px-5 custom-xl:px-10 py-3 custom-xl:py-[22px] bg-purpleBtn rounded-full   xl:text-lg text-2xl mb:text-sm lg:text-xs `}
                         onClick={toggleDropdown}
                       >
-                        <button className="  bg-purpleBtn focus:outline-none text-darkpurple truncate">
-                          {selectedcity || "select a state / city"}
-                        </button>
+                         <button
+                        className={` bg-purpleBtn focus:outline-none text-left  truncate text-2xl  placeholder:text-2xl xl:placeholder:text-xl lg:placeholder:text-sm placeholder:mb:text-sm lg:text-sm xl:text-xl w-full bg-transparent outline-none mb:text-xs   ${
+                          !selectedcity ? "text-[#9085C4]" : "text-darkBlue"
+                        }`}
+                      >
+                        {selectedcity || "select a state / city"}
+                      </button>
                         {isDropdownOpen ? (
                           <Image
                             src={uparrow}
@@ -1054,15 +1064,15 @@ const SingupQuestions = () => {
                       </div>
 
                       {isDropdownOpen && (
-                        <div className="absolute z-10 w-11/12 mt-20 m-auto top-0 rounded-3xl shadow-lg bg-purple px-5 py-3">
+                        <div className="absolute z-10 w-11/12 sm:mt-20 m-auto top-12 sm:top-2 rounded-3xl shadow-lg bg-[#dbcaff] px-5 py-7 border border-[#53498852]">
                           <div
                             id="style-2"
-                            className="py-4 px-4 lg:p-4  max-h-[15rem] overflow-y-auto"
+                            className="py-0 px-4 lg:p-4  max-h-[15rem] overflow-y-auto"
                           >
                             {city.map((subject) => (
                               <div
                                 key={subject}
-                                className="flex items-center p-2 text-darkBlue border-b     px-5 py-2 text-2xl border-darkBlue  cursor-pointer mb:text-sm placeholder-darkpurple"
+                                className="flex items-center  text-darkBlue border-b  max-w-[90%]     py-3 text-2xl border-darkBlue  cursor-pointer mb:text-sm placeholder-darkpurple"
                                 onClick={() => {
                                   setselectedcity(subject);
                                   toggleDropdown();
@@ -1078,15 +1088,15 @@ const SingupQuestions = () => {
                   </div>
 
 
-                  <div className="w-[30%] mb:w-full">
+                  <div className=" mb:w-full">
                     <InputHeading
                       text="Street Name "
                       className="text-[#685AAD]"
                     />
-                    <div className="rounded-full bg-purpleBtn px-10 xl:px-6 py-4 w-full lg:px-6 lg:py-4">
+                    <div className="rounded-full bg-purpleBtn px-5 custom-xl:px-10 py-2 custom-xl:py-[22px] w-full  ">
                       <input
                         type="text"
-                        className="placeholder-darkpurple text-2xl xl:text-xl text-darkBlue placeholder:text-2xl placeholder:xl:text-xl lg:text-xs placeholder:lg:text-xs placeholder:mb:text-sm w-full bg-transparent outline-none mb:text-xs "
+                        className="placeholder-[#9085C4] text-2xl text-darkBlue placeholder:text-2xl xl:placeholder:text-xl lg:placeholder:text-sm placeholder:mb:text-sm lg:text-sm xl:text-xl w-full bg-transparent outline-none mb:text-xs"
                         placeholder="enter street name"
                         value={streetname}
                         onChange={(e) => {
@@ -1096,14 +1106,14 @@ const SingupQuestions = () => {
                     </div>
                   </div>
 
-                </div>
-                <div className="flex justify-between w-full mt-10 lg:mt-4 mb:flex-col mb:mt-0">
-                  <div className="w-[30%] mb:w-full">
+              
+                
+                  <div className=" mb:w-full">
                     <InputHeading text="Zip Code " className="text-[#685AAD]" />
-                    <div className="rounded-full bg-purpleBtn px-10 py-4 w-full">
+                    <div className="rounded-full bg-purpleBtn px-5 custom-xl:px-10 py-2 custom-xl:py-[22px] w-full  ">
                       <input
                         type="text"
-                        className="placeholder-darkpurple text-2xl text-darkBlue placeholder:text-2xl xl:placeholder:text-xl lg:placeholder:text-sm placeholder:mb:text-sm lg:text-sm xl:text-xl w-full bg-transparent outline-none mb:text-xs"
+                        className="placeholder-[#9085C4] text-2xl text-darkBlue placeholder:text-2xl xl:placeholder:text-xl lg:placeholder:text-sm placeholder:mb:text-sm lg:text-sm xl:text-xl w-full bg-transparent outline-none mb:text-xs"
                         placeholder="Zip Code"
                         value={zipcode}
                         onChange={(e) => {
@@ -1112,15 +1122,15 @@ const SingupQuestions = () => {
                       />
                     </div>
                   </div>
-                  <div className="w-[30%] mb:w-full">
+                  <div className=" mb:w-full">
                     <InputHeading
                       text="Institution "
                       className="text-[#685AAD]"
                     />
-                    <div className="rounded-full bg-purpleBtn px-10 py-4 w-full">
+                    <div className="rounded-full bg-purpleBtn px-5 custom-xl:px-10 py-2 custom-xl:py-[22px] w-full  ">
                       <input
                         type="text"
-                        className="placeholder-darkpurple text-2xl text-darkBlue placeholder:text-2xl w-full bg-transparent xl:placeholder:text-xl xl:text-xl placeholder:mb:text-sm  outline-none mb:text-xs lg:placeholder:text-sm lg:text-sm"
+                        className="placeholder-[#9085C4] text-2xl text-darkBlue placeholder:text-2xl xl:placeholder:text-xl lg:placeholder:text-sm placeholder:mb:text-sm lg:text-sm xl:text-xl w-full bg-transparent outline-none mb:text-xs"
                         placeholder="enter institution name "
                         value={institue}
                         onChange={(e) => {
@@ -1129,12 +1139,12 @@ const SingupQuestions = () => {
                       />
                     </div>
                   </div>
-                  <div className="w-[30%] mb:w-full">
+                  <div className=" mb:w-full">
                     <InputHeading text="Age" className="text-[#685AAD]" />
-                    <div className="rounded-full bg-purpleBtn px-10 py-4 w-full">
+                    <div className="rounded-full bg-purpleBtn px-5 custom-xl:px-10 py-2 custom-xl:py-[22px] w-full  ">
                       <input
                         type="text"
-                        className="placeholder-darkpurple text-2xl text-darkBlue placeholder:text-2xl w-full bg-transparent outline-none xl:placeholder:text-xl xl:text-xl placeholder:mb:text-sm mb:text-xs lg:placeholder:text-sm lg:text-sm"
+                        className="placeholder-[#9085C4] text-2xl text-darkBlue placeholder:text-2xl xl:placeholder:text-xl lg:placeholder:text-sm placeholder:mb:text-sm lg:text-sm xl:text-xl w-full bg-transparent outline-none mb:text-xs"
                         placeholder="enter age"
                         value={Age}
                         onChange={(e) => {
@@ -1150,7 +1160,7 @@ const SingupQuestions = () => {
                       />
                     </div>
                   </div>
-                </div>
+
               
                 <style jsx>{`
                   #style-2::-webkit-scrollbar-track {
@@ -1175,7 +1185,15 @@ const SingupQuestions = () => {
             </div>
             <div className="sm:max-w-[70%] custom-2xl:w-[30%]  mx-auto custom-2xl:mx-0 custom-2xl:ml-auto pt-12">
               <ConfirmBtn
-                onClick={() => setQuestionNo(QuestionNo + 1)}
+                onClick={() => {
+                  if(!selectedCountry || !selectedcity || !streetname || !zipcode || !institue || !Age){
+                    alert("Please ensure all fields are filled out before proceeding.");
+                  }else{
+
+                    setQuestionNo(QuestionNo + 1)
+                  }
+                
+                }}
                 btnName="Confirm"
               />
             </div>
@@ -1189,9 +1207,9 @@ const SingupQuestions = () => {
             </div>
             <p className="text-darkBlue text-2xl mb:text-xs mt-4">
               Please provide any important information about yourself that you
-              feel your eTutor should know. This <br />
+              feel your eTutor should know. This 
               could include learning preferences, any disabilities, a 504 plan
-              or specific teaching strategies that <br />
+              or specific teaching strategies that 
               work best for you. Your notes will help us tailor your learning
               experience to better meet your needs.
             </p>
@@ -1215,7 +1233,15 @@ const SingupQuestions = () => {
             </div>
             <div className="w-9/12 m-auto">
               <ConfirmBtn
-                onClick={() => setQuestionNo(QuestionNo + 1)}
+                onClick={() => {
+                    if(!text){
+                      alert("Kindly provide additional information.");
+                    }else{
+
+                      setQuestionNo(QuestionNo + 1)
+                    }
+                
+                }}
                 btnName="Confirm"
               />
             </div>
@@ -1315,14 +1341,14 @@ const SingupQuestions = () => {
             </div>
 
 
-            <div className="w-full  mx-auto mt-6 relative  ">
+            <div className="w-full  mx-auto mt-3 custom-xl:mt-6 relative  ">
               <div className="w-full  relative">
                 {/* Input field */}
                 <div
                   className="relative  w-full bg-[#DBCAFF] text-[#a394d6] text-sm custom-lg:text-xl custom-2xl:text-2xl pl-10 pr-3 py-2 sm:py-2 sm:pr-3 sm:pl-6 rounded-full cursor-pointer flex justify-between items-center"
                   onClick={() => setIsOpentime(!isOpentime)}
                 >
-                  <span className="text-[#a394d6]">Start time</span>
+                  <span className="text-[#a394d6] truncate">Start time</span>
 
                   <div className=" h-full w-fit sm:w-full  sm:max-w-[219px] bg-[#685AAD] rounded-full text-xs sm:text-base custom-xl:text-xl flex items-center justify-start px-4 text-white p-1.5 truncate">
                     <span className="px-2 truncate">{selectedTime}</span>
@@ -1330,18 +1356,18 @@ const SingupQuestions = () => {
                     {isOpentime && (
                       <div
                         onMouseLeave={() => setIsOpentime(false)}
-                        className="bg-[#685AAD] text-white rounded-3xl p-2 shadow-lg absolute top-14 w-full max-w-[200px] "
+                        className="bg-[#685AAD] text-white rounded-3xl p-2 shadow-lg absolute  top-10 sm:top-14 w-full   max-w-[219px]  right-0"
                       >
                         <div
                           id="style-2"
-                          className="max-h-[11.7rem] overflow-y-auto scrollbar-none  px-4"
+                          className="max-h-[11.7rem] overflow-y-auto scrollbar-none  px-2 sm:px-4"
                         >
                           {timezones.map((timezone, index) => (
                             <button
                               key={index}
                               onClick={() => handleTimeSelect(timezone.value)}
                               className={`
-                                    block w-full text-left px-1 py-2  truncate last:border-b-0 border-b border-white text-xs sm:text-sm 
+                                    block w-full text-left sm:px-1 py-2  truncate last:border-b-0 border-b border-white text-xs sm:text-sm 
                                     ${selectedTime === timezone.value ? "" : ""}
                                   `}
                             >
@@ -1358,19 +1384,31 @@ const SingupQuestions = () => {
               </div>
             </div>
 
+            <div className="pt-3 ">
+
             <ConfirmBtn
-              onClick={() => setQuestionNo(QuestionNo + 1)}
+              onClick={() => {
+                if(!selectedTime || !selectedDate){
+                  alert("Kindly provide your availablity");
+                }else{
+
+                  
+                  setQuestionNo(QuestionNo + 1)
+                }
+              
+              }}
               btnName="Confirm"
-            />
+              />
+              </div>
           </div>
         );
       // signup form
       case 5:
         return (
-          <div className="rounded-[4rem] bg-questionbg px-11 py-9 max-w-[537px]  w-full  custom-2xl:mr-[72px] -mt-4  ">
-            <h1 className="text-2xl sm:text-4xl 2xl:text-7xl font-extrabold text-darkBlue  ">Sign Up</h1>
-            <p className="text-lightpurple text-xl custom-2xl:text-3xl mt-3.5">As a Student</p>
-            <div className="flex items-center justify-center  p-3.5 text-lg custom-2xl:text-2xl gap-3 text-darkBlue cursor-pointer rounded-full bg-transparent border-darkBlue border mt-11 mb:py-2 ">
+          <div className="rounded-3xl md:rounded-[4rem] bg-questionbg px-5 sm:px-11 py-6 sm:py-9 max-w-[537px]  w-full custom-2xl:mr-[72px] -mt-4 ">
+            <h1 className="text-4xl custom-xl:text-7xl font-extrabold text-darkBlue   lg:py-3  mb:py-2 py-0">Sign Up</h1>
+            <p className="text-lightpurple text-3xl mt-1 custom-2xl:mt-3.5">As a Student</p>
+            <div className="flex items-center justify-center  p-3.5 text-2xl gap-3 text-darkBlue cursor-pointer rounded-full bg-transparent border-darkBlue border mt-5 custom-2xl:mt-11 mb:py-2 mb:text-sm">
               <Image src={google} alt="google" />
               Continue with Google
             </div>
@@ -1386,11 +1424,12 @@ const SingupQuestions = () => {
             </div>
 
             <form onSubmit={handleSubmit}>
-              <div className="flex w-full custom-2xl:flex-row flex-col gap-5 mb:gap-3 mt-0.5">
+              <div className="flex w-full flex-col sm:flex-row gap-5 mb:gap-3 mt-0.5">
+
                 <div className="rounded-full bg-purpleBtn px-6 py-[17px] flex items-center w-full ">
                   <input
                     type="text"
-                    className="placeholder-darkBlue w-full bg-transparent outline-none  text-lg custom-2xl:text-xl text-darkBlue"
+                    className="placeholder-darkBlue w-full bg-transparent outline-none mb:text-xs text-xl text-darkBlue"
                     placeholder="First Name"
                     value={firstname}
                     onChange={(e) => {
@@ -1398,10 +1437,10 @@ const SingupQuestions = () => {
                     }}
                   />
                 </div>
-                <div className="rounded-full bg-purpleBtn px-6 py-[17px] w-full">
+                <div className="rounded-full bg-purpleBtn px-6 py-[17px] flex items-center w-full ">
                   <input
                     type="text"
-                    className="placeholder-darkBlue w-full  bg-transparent outline-none text-lg custom-2xl:text-xl text-darkBlue"
+                    className="placeholder-darkBlue w-full bg-transparent outline-none mb:text-xs text-xl text-darkBlue"
                     placeholder="Last Name"
                     value={lastname}
                     onChange={(e) => {
@@ -1414,10 +1453,10 @@ const SingupQuestions = () => {
 
 
 
-              <div className="rounded-full mt-10 bg-purpleBtn px-6 py-[17px] ">
+              <div className="rounded-full bg-purpleBtn px-6 py-[17px] flex items-center w-full mt-3 sm:mt-5">
                 <input
                   type="email"
-                  className="placeholder-darkBlue w-full bg-transparent outline-none text-lg custom-2xl:text-xl text-darkBlue"
+                  className="placeholder-darkBlue w-full bg-transparent outline-none mb:text-xs text-xl text-darkBlue"
                   placeholder="Email"
                   value={email}
                   onChange={(e) => {
@@ -1425,10 +1464,12 @@ const SingupQuestions = () => {
                   }}
                 />
               </div>
-              <div className="rounded-full mt-5 bg-purpleBtn px-6 py-[17px] ">
+
+
+              <div className="rounded-full bg-purpleBtn px-6 py-[17px] flex items-center w-full mt-3 sm:mt-5">
                 <input
                   type="password"
-                  className="placeholder-darkBlue w-full bg-transparent outline-none text-lg custom-2xl:text-xl text-darkBlue"
+                  className="placeholder-darkBlue w-full bg-transparent outline-none mb:text-xs text-xl text-darkBlue"
                   placeholder="Password"
                   value={password}
                   onChange={(e) => {
@@ -1436,63 +1477,13 @@ const SingupQuestions = () => {
                   }}
                 />
               </div>
-              {/* 
-              <div className="relative flex justify-between items-center rounded-full mt-3 bg-purpleBtn px-6 py-3">
-                <div
-                  onClick={toggleDropdown}
-                  className="w-1/4 flex justify-center items-center gap-3 text-darkBlue mb:gap-1"
-                >
-                  <Image
-                    src={countryicon}
-                    className="mb:h-6"
-                    alt="countryicon"
-                  />
-                  <h2 className="text-xl mb:text-sm">
-                    {countrycode ? `+${countrycode}` : "+49"}
-                  </h2>
-                  <Image
-                    src={dropdown}
-                    className="cursor-pointer"
-                    alt="dropdown"
-                  />
-                </div>
+             
 
-                <span className="px-4 text-darkBlue">|</span>
-
-                {isDropdownOpen && (
-                  <div className="w-1/2 absolute mt-16 bg-purpleBtn p-3 rounded-3xl top-0">
-                    {countryCode.map((country, index) => (
-                      <div
-                        key={index}
-                        className="flex justify-start items-center gap-2 py-1 border-lightpurple border-b cursor-pointer"
-                        onClick={() => handleCountrySelect(country)}
-                      >
-                        <Image
-                          src={country.img}
-                          alt={country.code}
-                          width={20}
-                          height={20}
-                        />
-                        <p>+{country.code}</p>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                <input
-                  className="placeholder-darkBlue w-1/2 bg-transparent outline-none mb:text-xs"
-                  placeholder="Phone number"
-                  onChange={(e) =>
-                    setPhone(`+${countrycode} ${e.target.value}`)
-                  } // Update phone with country code and input value
-                  value={phone.split(" ")[1] || ""} // Display only the number part in the input
-                />
-              </div> */}
-
-              <div className=" text-darkBlue bg-[#DBCAFF] rounded-full mt-5">
+              <div className=" text-darkBlue bg-[#DBCAFF] rounded-full mt-3 sm:mt-5">
                 <div className="relative">
-                  <div className="bg-purple-100 rounded-full py-[18px] px-5 sm:px-10 flex items-center ">
+                  <div className="rounded-full bg-purpleBtn px-6 py-2.5 custom-lg:py-[17px] flex items-center w-full">
                     <button
+                    type="button"
                       onClick={() => setShowDropdown(!showDropdown)}
                       className="flex items-center   custom-2xl:pr-3 min-w-fit"
                     >
@@ -1509,13 +1500,13 @@ const SingupQuestions = () => {
                         </span>
                       </div>
 
-                      <ChevronDown className="ml-2 custom-2xl:ml-5 w-5 h-5 text-[#685aad5e] font-bold" />
+                      <ChevronDown className={` ${showDropdown && "transform rotate-180"}  ml-5 w-3 custom-lg:w-5 h-3 custom-lg:h-5 text-[#685aad5e] font-bold`} />
                     </button>
                     <input
                       type="tel"
                       value={phoneNumber}
                       onChange={(e) => setPhoneNumber(e.target.value)}
-                      className="bg-transparent ml-3 custom-2xl:ml-6 w-full outline-none text-darkBlue bg-[#DBCAFF] placeholder-darkBlue  truncate"
+                      className=" bg-transparent ml-6 w-full outline-none mb:text-xs text-xl text-darkBlue bg-[#DBCAFF] placeholder-darkBlue font-medium truncate"
                       placeholder="Phone number"
                     />
                   </div>
@@ -1553,16 +1544,16 @@ const SingupQuestions = () => {
               <div>
                 <button
                   type="submit"
-                  className="bg-customBlue custom-2xl:text-2xl text-white rounded-full w-full py-[17px] font-bold  px-5 mt-14 border-darkBlue border cursor-pointer text-center text-lg  lg:py-2  mb:p-2  "
+                  className="bg-customBlue text-2xl text-white rounded-full w-full py-[15.5px] font-bold  px-5 mt-14 border-darkBlue border cursor-pointer text-center lg:text-xl  mb:text-sm  mb:mt-7 "
                 >
                   Continue
                 </button>
               </div>
             </form>
-            <p className="text-darkBlue text-base mt-5">
+            <p className="text-darkBlue text-xs custom-xl:text-base mt-5">
               By clicking “Continue with Google / Email“ you agree to our User{" "}
             </p>
-            <span className="text-btnbg underline text-base">
+            <span className="text-btnbg underline text-xs custom-xl:text-base">
               Terms of Service and Privacy Policy
             </span>
           </div>
@@ -1574,11 +1565,11 @@ const SingupQuestions = () => {
     <>
       {/* Show this section only if no level has been selected */}
       {!selectedLevel && (
-        <div className="rounded-3xl bg-questionbg p-10 px-16 max-w-[40rem] custom-2xl:max-w-[53.4rem] w-full lg:p-8 mb:w-full mb:p-6    custom-lg:mt-16 mb-12 custom-2xl:mr-11 ">
+        <div className="rounded-3xl bg-questionbg py-4 custom-xl:py-10 px-4 custom-xl:px-16 max-w-[40rem] custom-2xl:max-w-[53.4rem] w-full  mb:w-full     custom-lg:mt-3 mb-12 custom-2xl:mr-6 ">
           <h1 className=" text-3xl 2xl:text-5xl font-extrabold text-darkBlue py-7 lg:text-2xl lg:py-3 mb:text-xl mb:py-2">
             What is your level of study?
           </h1>
-          <div className="custom-lg:px-5 mt-7 flex flex-col gap-2 pb-10 ">
+          <div className="custom-lg:px-5 custom-xl:mt-14 flex flex-col gap-2 py-4 custom-xl:py-0 custom-xl:pb-10">
             <div onClick={() => handleOptionChange("elementary")}>
               <QuestionBtn btnName="Elementary School" />
             </div>

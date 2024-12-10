@@ -6,7 +6,7 @@ interface ConfirmBtn{
 }
 const ConfirmBtn = ({btnName,className,onClick}:ConfirmBtn )=> {
   return (
-    <div onClick={onClick } className={ `${className} bg-customBlue 2xl:text-4xl text-2xl text-white rounded-full w-full py-[18px] max-w-[85%] mx-auto  px-5 mt-12  border cursor-pointer text-center lg:text-xl lg:py-2 mb:text-sm mb:p-2 mb:mt-2 `}>
+    <div onClick={onClick } className={ `${className} bg-customBlue 2xl:text-4xl text-2xl text-white rounded-full w-full py-[18px] max-w-[85%] mx-auto   mt-12  border cursor-pointer text-center lg:text-xl  mb:text-sm  mb:mt-2 `}>
    {btnName}
   </div>
   )

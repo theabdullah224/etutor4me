@@ -62,18 +62,18 @@ function Page() {
 
         {/* login form */}
 
-        <div className="rounded-3xl md:rounded-[3rem] bg-questionbg px-6 sm:px-11 py-9 max-w-[537px]  w-full custom-2xl:mr-[72px] mt-9 ">
-          <h1 className="text-3xl 2xl:text-7xl font-extrabold text-darkBlue  lg:text-2xl lg:py-3 mb:text-xl mb:py-2 py-0">
+        <div className="rounded-3xl md:rounded-[3rem] bg-questionbg px-5 sm:px-11 py-6 sm:py-9 max-w-[437px] custom-lg:max-w-[537px]  w-full custom-2xl:mr-[72px] mt-9 ">
+          <h1 className="text-4xl custom-xl:text-7xl font-extrabold text-darkBlue   lg:py-3  mb:py-2 py-0">
             Sign In
           </h1>
-          <p className="text-lightpurple text-3xl mt-0 custom-lg:mt-3.5">As a Parent</p>
+          <p className="text-lightpurple text-3xl mt-1 custom-2xl:mt-3.5">As a Parent</p>
 
 
           <div
             onClick={() => {
               handleSignIn();
             }}
-            className="flex items-center justify-center px-6 py-3 sm:py-[17px]   text-2xl gap-3 text-darkBlue cursor-pointer rounded-full bg-transparent border-darkBlue border mt-4 custom-lg:mt-11  mb:text-sm"
+            className="flex items-center justify-center  p-3.5 text-2xl gap-3 text-darkBlue cursor-pointer rounded-full bg-transparent border-darkBlue border mt-5 custom-2xl:mt-11 mb:py-2 mb:text-sm"
           >
             <Image src={google} alt="google" className="w-5 h-5" />
             Continue with Google
@@ -93,7 +93,7 @@ function Page() {
 
           <form onSubmit={handleSubmit}>
             <div className="flex w-full flex-col gap-5 mb:gap-3 mt-0.5">
-              <div className="rounded-full bg-purpleBtn px-6 py-3 sm:py-[17px] flex items-center w-full ">
+              <div className="rounded-full bg-purpleBtn px-6 py-[17px] flex items-center w-full ">
                 <input
                   type="email"
                   className="placeholder-darkBlue w-full bg-transparent outline-none mb:text-xs text-xl text-darkBlue"
@@ -103,7 +103,7 @@ function Page() {
                   required
                 />
               </div>
-              <div className="rounded-full bg-purpleBtn px-6 py-3 sm:py-[17px] flex items-center w-full">
+              <div className="rounded-full bg-purpleBtn px-6 py-[17px] flex items-center w-full ">
                 <input
                   type="password"
                   className="placeholder-darkBlue w-full bg-transparent outline-none mb:text-xs text-xl text-darkBlue"
@@ -125,10 +125,10 @@ function Page() {
             </button>
           </form>
 
-          <p className="text-darkBlue text-sm sm:text-base mt-5">
+          <p className="text-darkBlue text-xs custom-xl:text-base mt-5">
             By clicking “Continue with Google / Email“ you agree to our User{" "}
             <br />
-            <span className="underline">
+            <span className="underline text-xs custom-xl:text-base">
               Terms of Service and Privacy Policy{" "}
             </span>
           </p>

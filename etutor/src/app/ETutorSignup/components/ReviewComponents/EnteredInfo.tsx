@@ -10,7 +10,7 @@ interface InformationProps  {
 }
 const EnteredInfo:React.FC<InformationProps> = ({name,info,span,info2,info3,info4}:any) => {
   return (
-    <div className='text-[27px] text-darkBlue' >
+    <div className='text-lg custom-xl:text-[27px] text-darkBlue' >
       <h2  className=' font-semibold' >{name}<span className='font-light' >{span}</span></h2>
       <p className='mt-2 font-light'  >{info}  </p>
       <p className='mt-2 font-light'  >{info2}  </p>
