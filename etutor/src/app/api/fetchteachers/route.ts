@@ -13,7 +13,7 @@ export async function GET(req: Request) {
         path: 'user',
        
       })
-      .lean(); // Converts to plain JavaScript objects
+      .lean(); 
 
     return NextResponse.json(teachers, { status: 200 });
   } catch (error: unknown) {
