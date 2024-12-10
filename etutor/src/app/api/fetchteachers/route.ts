@@ -8,7 +8,7 @@ export async function GET(req: Request) {
     await connectMongoDB();
 
     // Fetch all teachers where isApproved is true, and populate the user details
-    const teachers = await TeacherModel.find({ isApproved: true })
+    const teachers = await TeacherModel.find()
       .populate({
         path: 'user',
        

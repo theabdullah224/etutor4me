@@ -399,11 +399,8 @@ const ETutorSearch = ({
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
-        const response = await fetch("/api/fetchteachers", {
-          method: "GET",
-        });// Adjust the API endpoint as necessary
-        const data = await response.json(); // Parse the JSON data
-      setTeachers(data);
+        const response = await axios.get("/api/fetchteachers"); // Adjust the API endpoint as necessary
+        setTeachers(response.data);
 
       
       } catch (error) {
