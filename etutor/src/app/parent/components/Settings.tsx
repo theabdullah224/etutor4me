@@ -29,7 +29,7 @@ import BurkinaFaso from "../../../../public/Flag-of-Burkina-Faso.webp";
 import IvoryCoas from "../../../../public/ivory-coast.webp";
 import useSWR from 'swr';
 import Link from "next/link";
-
+import { useToast } from "@/hooks/use-toast"
 
 
 
@@ -64,6 +64,7 @@ const countryCodes: CountryCode[] = [
 ];
 
 const UserProfile: React.FC = () => {
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<"personal" | "account">("personal");
   const [subactive, setsubactive] = useState("");
   const [isEditing, setIsEditing] = useState(false);
@@ -97,7 +98,7 @@ const UserProfile: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadStatus, setUploadStatus] = useState<string | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-
+  const [loading, setLoading] = useState(false)
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setSelectedFile(e.target.files[0]);
@@ -108,7 +109,12 @@ const UserProfile: React.FC = () => {
   // Upload the file to the server
   const handleUpload = async (file: File) => {
     if (!file) {
-      alert("Please select a file to upload.");
+    
+      toast({
+        title: "Please select a file to upload.",
+        description: "",
+        variant: "default",
+      });
       return;
     }
 
@@ -237,6 +243,7 @@ const UserProfile: React.FC = () => {
   }, [session, subactive, parentDataSWR]);
 
   const handleSubmit = async (e: React.FormEvent) => {
+    setLoading(true)
     e.preventDefault();
 
     const response = await fetch("/api/update-email", {
@@ -249,11 +256,26 @@ const UserProfile: React.FC = () => {
 
     const data = await response.json();
     if (response.ok) {
-      alert("Email updated successfully");
+     
+
+      toast({
+        title: "Email updated successfully",
+        description: "",
+        variant: "default",
+      });
+      setsubactive("")
+      setActiveTab("account")
+      setLoading(false)
       setNewEmail("");
       setPassword("");
     } else {
-      alert(`Error: ${data.message}`);
+     
+      toast({
+        title: "",
+        description: `${data.message}`,
+        variant: "destructive",
+      });
+      setLoading(false)
     }
   };
 
@@ -266,6 +288,7 @@ const UserProfile: React.FC = () => {
 
   const hanldeupdatepassword = async (e:any) => {
     e.preventDefault();
+    setLoading(true)
     setError("");
     setSuccess("");
 
@@ -275,6 +298,7 @@ const UserProfile: React.FC = () => {
       setTimeout(() => {
         setError("");
       }, 3000);
+      setLoading(false)
       return;
     }
 
@@ -284,10 +308,12 @@ const UserProfile: React.FC = () => {
       setTimeout(() => {
         setError("");
       }, 3000);
+      setLoading(false)
       return;
     }
 
     try {
+      setLoading(true)
       const response = await fetch("/api/update-password", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -300,13 +326,16 @@ const UserProfile: React.FC = () => {
         setCurrentPassword("");
         setNewPassword("");
         setConfirmNewPassword("");
+        setLoading(false)
       } else {
         setError(data.message); // Error message from the backend
+        setLoading(false)
       }
     } catch (error) {
       setError("An error occurred while updating the password");
       console.error(error);
     } finally {
+      setLoading(false)
       setTimeout(() => {
         setError("");
         setSuccess("");
@@ -631,7 +660,7 @@ const UserProfile: React.FC = () => {
                   onClick={hanldeupdatepassword}
                   className="bg-[#8653FF]  rounded-full text-sm sm:text-lg custom-2xl:text-2xl font-medium  px-3 sm:px-5 custom-2xl:px-10  py-1 sm:py-2 custom-2xl:py-3"
                 >
-                  save changes
+                  {loading ? "Please wait..." : "save changes"} 
                 </button>
               </div>
             </div>
@@ -675,7 +704,7 @@ const UserProfile: React.FC = () => {
                   onClick={handleSubmit}
                   className="bg-[#8653FF]  rounded-full text-sm sm:text-lg custom-2xl:text-3xl font-medium  px-3 sm:px-5 custom-2xl:px-10  py-1 sm:py-2 custom-2xl:py-3"
                 >
-                  save changes
+                  {loading ? "Please wait..." : "save changes"} 
                 </button>
               </div>
             </div>

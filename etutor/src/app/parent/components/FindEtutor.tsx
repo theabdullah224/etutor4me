@@ -12,6 +12,9 @@ import level8 from "../../../../public/level-8.svg";
 import level9 from "../../../../public/level-9.svg";
 import level10 from "../../../../public/level-10.svg";
 import { useSession } from "next-auth/react";
+import { useToast } from "@/hooks/use-toast"
+
+
 import {
   ChevronDown,
   ChevronUp,
@@ -149,6 +152,7 @@ const ETutorSearch = ({
   trialrequest,
   parentdata,
 }: ETutorSearchprops) => {
+  const { toast } = useToast();
   const { data: session, status } = useSession();
   const [freetrial, setFreetrial] = useState(false);
   const [isDurationOpen, setIsDurationOpen] = useState(false);
@@ -397,6 +401,7 @@ const ETutorSearch = ({
 
   // fetching the teachers.........
   useEffect(() => {
+   
     const fetchTeachers = async () => {
       try {
         const response = await axios.get("/api/fetchteachers"); // Adjust the API endpoint as necessary
@@ -568,13 +573,22 @@ const ETutorSearch = ({
     }else{
 
       if(parentdata?.user?.subscriptionIsActive === false){
-        alert("Please Subscribe to Book a session")
-        console.log("Please Subscribe to Book a session")
+        toast({
+          title: "Uh oh! Something went wrong.",
+          description: "Please Subscribe to Book a session.",
+          variant: "default",
+        });
+      
+       
       } else if(parentdata?.user?.subscriptionIsActive === true && parentdata?.user?.sessionsPerMonth <= 0){
-        alert("Your sessions has ended! Please Subscribe one of our plan to get new ones")
-        console.log("Your sessions has ended! Please Subscribe one of our plan to get new ones")
+        toast({
+          title: "Uh oh! Something went wrong.",
+          description: "Your sessions has ended! Please Subscribe one of our plan to get new one",
+          variant: "default",
+        });
+  
       } else if (parentdata?.user?.subscriptionIsActive === true && parentdata?.user?.sessionsPerMonth > 0){
-        console.log("ok")
+      
         setSelectedTutor(tutor);
         setShowBooking(true);
         setShowProfile(false);
@@ -593,6 +607,26 @@ const ETutorSearch = ({
   };
 
   const handleNextBookingStep = () => {
+    if (bookingStep === 1) {
+      if (selectedSubjects.length === 0 || !selectedLevel) {
+        toast({
+          title: "",
+          description: "Kindly select both a subject and a level to proceed.",
+          variant: "default",
+        });
+        return; // Exit early to prevent proceeding
+      }
+    }
+    if (bookingStep === 2) {
+      if (!selectedTime|| !selectedDate ) {
+        toast({
+          title: "",
+          description: "Kindly select Date and Time to proceed.",
+          variant: "default",
+        });
+        return; // Exit early to prevent proceeding
+      }
+    }
     if (bookingStep < 3) {
       setBookingStep(bookingStep + 1);
     }
@@ -612,10 +646,23 @@ const ETutorSearch = ({
         studentnote,
         IsTrialSession: isTrialSession,
       });
-   
+      
+      toast({
+        title: "Success!",
+        description:"Request sent successfully!",
+        variant: "default",
+      });
+
+
     } catch (error) {
       console.error("Error booking session:", error);
-      alert("An error occurred while trying to book the session.");
+    
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: "An error occurred while trying to book the session.",
+        variant: "destructive",
+      });
+
     } finally {
       // setisTrialSession(false)
       setShowBooking(false);
@@ -1693,15 +1740,7 @@ const ETutorSearch = ({
   const BookingView: React.FC<{ tutor: ITeacher | any }> = ({ tutor }) => {
     return (
       <div className=" flex  relative items-start">
-        {/* <div className="absolute top-1 left-3.5">
-      <div className="text-[#685AAD]  text-xs px-11 transition-all py-4     md:text-sm custom-2xl:text-2xl h-full  rounded-md sm:rounded-xl mb-1 uppercase  bg-[#EDE8FA]  flex items-center justify-center ">
-              Sessions&nbsp;left:2
-             
-            </div>
-            <div className="calendar border border-red-500 mt-5 h-[16.8rem]">
-
-            </div>
-      </div> */}
+      
 
         <div
           className={`space-y-4 mt-8 bg-[#EDE8FA] px-6 py-8 rounded-3xl   ${

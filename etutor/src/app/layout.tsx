@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import { Roboto, Roboto_Condensed } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster"
+
+
+
+
+
+
 const roboto = Roboto_Condensed({ subsets: ["latin"] });
 import { AuthProvider } from "./AuthProvider";
 export const metadata: Metadata = {
@@ -21,6 +28,7 @@ export default function RootLayout({
         {/* <Navbar /> */}
         <AuthProvider>
         {children} 
+        <Toaster />
         </AuthProvider>
         {/* <Footer /> */}
         </body>

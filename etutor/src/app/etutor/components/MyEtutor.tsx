@@ -144,7 +144,7 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
   const [isExpanded, setIsExpanded] = useState(false);
 
 
-  console.log(recievedmessages)
+ 
   useEffect(() => {
     if (session?.user?.id) {
       setUserId(session.user.id);

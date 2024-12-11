@@ -38,7 +38,17 @@ interface IMessage extends Document {
   timestamp: Date;
 }
 
-const messageSchema = new Schema<IMessage | any>({
+// const messageSchema = new Schema<IMessage | any>({
+//   senderId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+//   recipientId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+//   content: { type: String, required: true },
+//   fileUrl: { type: String },
+//   fileType: { type: String },
+//   fileName: { type: String },
+//   conversationId: { type: mongoose.Schema.Types.ObjectId, ref: 'Conversation', required: true },
+//   timestamp: { type: Date, default: Date.now },
+// });
+const messageSchema = new Schema({
   senderId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   recipientId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   content: { type: String, required: true },
@@ -47,6 +57,11 @@ const messageSchema = new Schema<IMessage | any>({
   fileName: { type: String },
   conversationId: { type: mongoose.Schema.Types.ObjectId, ref: 'Conversation', required: true },
   timestamp: { type: Date, default: Date.now },
+  status: {
+    type: String,
+    enum: ['sent', 'delivered', 'read'],
+    default: 'sent',
+  },
 });
 
 const Message = mongoose.models.Message || mongoose.model<IMessage>('Message', messageSchema);

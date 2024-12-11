@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { useToast } from "@/hooks/use-toast"
 const ContactForm = () => {
 
   const [firstName, setFirstName] = useState("")
@@ -8,7 +8,7 @@ const ContactForm = () => {
   const [Topic, setTopic] = useState("")
   const [additionalinfo, setAdditionalinfo] = useState("")
   const [loading, setLoading] = useState("Submit")
-
+  const { toast } = useToast();
 
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,8 +31,12 @@ const ContactForm = () => {
     const data = await response.json();
     if (response.ok) {
       setLoading("Done!")
-      alert('Form submitted successfully');
-
+ 
+      toast({
+        title: "Success!",
+        description: "Form submitted successfully",
+        variant: "default",
+      });
       setFirstName("")
       setLastname("")
       setTopic("")
@@ -40,14 +44,19 @@ const ContactForm = () => {
       setAdditionalinfo("")
       setLoading("Submit")
     } else {
-      alert(`Error: ${data.message}`);
+      setLoading("Submit")
+      toast({
+        title: "!",
+        description: `${data.message}`,
+        variant: "destructive",
+      });
     }
 
 
   };
 
   return (
-    <div className=" w-full  px-7">
+    <div className=" w-full    px-7">
       <h2 className="text-[#534988]  text-xl sm:text-2xl custom-2xl:text-5xl font-bold mb-11">
         Please provide your details and describe your issue
       </h2>

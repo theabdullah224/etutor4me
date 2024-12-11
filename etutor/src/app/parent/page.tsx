@@ -874,7 +874,7 @@ const SessionsDashboard = () => {
   if(session?.user?.role === "parent"){
 
     return (
-      <div className="flex min-h-screen bg-white text-white relative z-0 max-w-[1920px] mx-auto ">
+      <div className="flex min-h-screen bg-white text-white relative z-0 max-w-[1920px] mx-auto  ">
         {/* Sidebar */}
         <aside
           className={`${
@@ -981,7 +981,7 @@ const SessionsDashboard = () => {
         </aside>
   
         {/* Main content */}
-        <main className="flex-1 px-9 py-4 overflow-auto  bg-transparent">
+        <main className="flex-1 px-9 py-4 overflow-auto  bg-transparent   scrollbar-none">
           <header className="flex justify-between items-center mb-8">
             <div className="flex items-center">
               <button
