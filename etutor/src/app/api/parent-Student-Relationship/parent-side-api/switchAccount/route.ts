@@ -3,10 +3,10 @@ import { getServerSession } from "next-auth";
 import ParentStudentRelationship from "../../../models/ParentStudentRelation"; // Import your schema
 import Student from "../../../models/Student";
 import ParentModel from "../../../models/Parent";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "@/app/auth/auth";
 
-export async function POST(request) {
+export async function POST(request:NextRequest) {
   try {
     // Get session info (parent user)
     const session = await getServerSession(authOptions); // Ensure the user is authenticated
