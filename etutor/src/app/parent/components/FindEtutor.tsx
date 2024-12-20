@@ -736,17 +736,17 @@ const ETutorSearch = ({
     if (searchParams.searchTerm) {
       filteredTeachers = filteredTeachers.filter(
         (teacher:any) =>
-          teacher.contactInformation.firstName
+          teacher?.contactInformation.firstName
             .toLowerCase()
             .includes(searchParams.searchTerm.toLowerCase()) ||
-          teacher.contactInformation.lastName
+          teacher?.contactInformation.lastName
             .toLowerCase()
             .includes(searchParams.searchTerm.toLowerCase()) ||
-          teacher.education.college
+          teacher?.education.college
             .toLowerCase()
             .includes(searchParams.searchTerm.toLowerCase()) ||
             // @ts-ignore
-          teacher.experience.subjectsTutored.some((subject) =>
+          teacher?.experience.subjectsTutored.some((subject) =>
             subject
               .toLowerCase()
               .includes(searchParams.searchTerm.toLowerCase())
@@ -758,7 +758,7 @@ const ETutorSearch = ({
     if (searchParams.subjects.length > 0) {
       filteredTeachers = filteredTeachers.filter((teacher:any) =>
         searchParams.subjects.every((subject) =>
-          teacher.experience.subjectsTutored.includes(subject)
+          teacher?.experience.subjectsTutored.includes(subject)
         )
       );
     }
@@ -766,14 +766,14 @@ const ETutorSearch = ({
     // Filter by level
     if (searchParams.level) {
       filteredTeachers = filteredTeachers.filter(
-        (teacher:any) => teacher.level === searchParams.level
+        (teacher:any) => teacher?.level === searchParams.level
       );
     }
 
     // Filter by gender
     if (searchParams.gender) {
       filteredTeachers = filteredTeachers.filter(
-        (teacher:any) => teacher.contactInformation.gender === searchParams.gender
+        (teacher:any) => teacher?.contactInformation.gender === searchParams.gender
       );
     }
 
@@ -1186,7 +1186,7 @@ const ETutorSearch = ({
           filteredTutors?.map((teacher:any) => (
             <div
             // @ts-ignore
-              key={teacher._id}
+              key={teacher?._id}
               className="flex flex-col custom-2xl:flex-row  justify-between bg-[#A296CC] rounded-3xl px-8 py-6 gap-6"
             >
               <div className="  h-fit  w-full custom-2xl:max-w-[20rem] ">
@@ -1259,7 +1259,7 @@ const ETutorSearch = ({
                   {
                   
                   // @ts-ignore
-                  teacher.education?.degree}
+                  teacher?.education?.degree}
                 </p>
 
                 <h3 className="text-lg  mt-6">Teaching Experience</h3>
@@ -1346,14 +1346,14 @@ const ETutorSearch = ({
             <div className="flex items-center justify-between gap-4">
               <div className="flex flex-col sm:flex-row  w-full sm:w-fit items-center gap-8 pl-6 pt-4">
                 <img
-                  src={tutor.user.profilePicture}
+                  src={tutor?.user?.profilePicture}
                   alt="Tutor"
                   className="w-20 h-20 sm:min-w-40 sm:min-h-40 rounded-full "
                 />
                 <div>
                   <h2 className="text-xl text-center sm:text-start sm:text-3xl font-semibold capitalize ">
-                    {tutor.contactInformation.firstName}{" "}
-                    {tutor.contactInformation.lastName}
+                    {tutor?.contactInformation.firstName}{" "}
+                    {tutor?.contactInformation.lastName}
                   </h2>
                   <p className="text-xl text-[#534988] max-w-[22rem] text-center sm:text-start">
                     EXPERIENCE (Formal): 1 to 3 years
@@ -1423,7 +1423,7 @@ const ETutorSearch = ({
                 <div>
                   <h3 className="text-lg text-white">Subjects:</h3>
                   <p className="text-[#473171] text-lg">
-                    {tutor.experience.subjectsTutored.join(", ")}
+                    {tutor?.experience.subjectsTutored.join(", ")}
                   </p>
                 </div>
               </div>
@@ -1432,7 +1432,7 @@ const ETutorSearch = ({
                 <div className="mb-8">
                   <h3 className="text-lg text-white">Study</h3>
                   <p className="text-[#473171] text-lg">
-                    {tutor.education.degree}
+                    {tutor?.education.degree}
                   </p>
                 </div>
                 <div>
@@ -1545,7 +1545,7 @@ const ETutorSearch = ({
           {/* Booking card */}
           <div className="bg-[#A296CC] rounded-3xl p-10 ">
             <h2 className="text-xl sm:text-5xl font-bold mb-4">
-              Book {tutor.contactInformation.firstName}
+              Book {tutor?.contactInformation.firstName}
             </h2>
             <p className="text-xs sm:text-md mb-4 text-[#564589] font-medium">
               You can change your membership by selecting one of the two other
@@ -1761,7 +1761,7 @@ const ETutorSearch = ({
               <div className="flex flex-col items-center">
                 <div className="photo mb-4 mt-4">
                   <img
-                    src={tutor.user.profilePicture}
+                    src={tutor?.user.profilePicture}
                     alt=""
                     className="rounded-full h-44 w-44   overflow-hidden "
                   />
@@ -1771,12 +1771,12 @@ const ETutorSearch = ({
                     Booking Request -{" "}
                     {
                       // @ts-ignore
-                      tutor.contactInformation.firstName
+                      tutor?.contactInformation.firstName
                     }{" "}
                     <br />
                     {
                       // @ts-ignore
-                      tutor.contactInformation.lastName
+                      tutor?.contactInformation.lastName
                     }
                   </h1>
                   <p className="text-sm font-bold text-[#473171]  text-center">

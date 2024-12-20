@@ -19,6 +19,10 @@ const port = 5000;
 
 // Socket.IO connection event
 io.on('connection', (socket) => {
+
+
+
+
   console.log('A user connected');
 
   // When a user joins a socket room (using their userId)
@@ -27,22 +31,35 @@ io.on('connection', (socket) => {
     socket.join(userId); // Join the socket room based on userId
   });
 
+
+
+
+
+
+
+
   // When a user leaves the socket room
   socket.on('leave', (userId) => {
     console.log(`User ${userId} left`);
     socket.leave(userId); // Leave the socket room based on userId
   });
 
+
+
   // Listen for incoming messages from the client
   socket.on('chatMessage', (message) => {
     console.log('Message from client:', message);
-    const { recipientId, content, senderId } = message;
+    const { recipientId, content, senderId,fileUrl,fileType,fileName ,timestamp} = message;
 
     // Emit to the recipient's socket room
     io.to(recipientId).emit('chatMessage', {
       senderId,
       recipientId,
       content,
+      fileUrl,
+fileType,
+fileName ,
+      timestamp
     });
 
     // Optionally, you can also emit to the sender's room (for confirmation)
@@ -50,13 +67,33 @@ io.on('connection', (socket) => {
       senderId,
       recipientId,
       content,
+      fileUrl,
+fileType,
+fileName ,
+      timestamp
     });
+
+    io.to(recipientId).emit('notification', {
+      senderId,
+      content,
+      fileUrl,
+fileType,
+fileName , 
+      timestamp,
+    });
+
+
+
   });
 
   // Disconnect event
   socket.on('disconnect', () => {
     console.log('A user disconnected');
   });
+
+
+
+
 });
 
 // Start the server

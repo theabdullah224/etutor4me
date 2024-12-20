@@ -42,7 +42,15 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import useSWR from "swr";
-import io from "socket.io-client";
+import { io } from 'socket.io-client';
+import { useToast } from "@/hooks/use-toast"
+
+const SOCKET_URL = 'http://localhost:5000'; // Backend URL
+const socket = io(SOCKET_URL, {
+  withCredentials: true,
+});
+
+
 import {
   format,
   startOfWeek,
@@ -98,6 +106,7 @@ interface BookingRequest {
 }
 
 const SessionsDashboard = () => {
+  const { toast } = useToast();
   const { data: session, status } = useSession();
   const [activeSidebarItem, setActiveSidebarItem] = useState("Dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -432,6 +441,50 @@ const SessionsDashboard = () => {
   };
 
   // -----------calendar--------------------------------
+
+
+
+  useEffect(() => {
+    if (socket && session?.user.id) {
+      // Join the socket room based on userId (either student or teacher)
+      socket.emit('join', session?.user.id);
+  
+      // Listen for incoming chat messages
+      
+
+      socket.on('notification', (notification) => {
+        console.log('New notification:', notification);
+        if (notification.senderId !== session?.user.id) {
+          console.log('New notification:', notification);
+          // Handle notification display (e.g., badge, toast)
+          // showNotification(notification);
+          toast({
+            title: "New Message",
+
+            description: notification.content,
+            variant: "default",
+          });
+        }
+      });
+
+
+    }
+  
+    return () => {
+      if (socket && session?.user.id) {
+        // Leave the socket room when the component unmounts
+        socket.emit('leave', session?.user.id);
+  
+        // Cleanup the listener to avoid memory leaks and duplicate listeners
+        socket.off('chatMessage');
+        socket.off('notification');
+      }
+    };
+  }, [socket, session?.user.id]);  // Run this effect when `socket` or `userId` changes
+    
+  
+
+
 
   const renderContent = () => {
     switch (activeSidebarItem) {
@@ -840,8 +893,7 @@ const SessionsDashboard = () => {
             tutorimp={tutortomessage}
             showchatvalue={chat}
             setActiveFindEtutor={setActiveSidebarItem}
-            setTutor={setTutor}
-          />
+            setTutor={setTutor} socket={socket}          />
         );
       case "Find eTutor":
         return (
@@ -981,7 +1033,7 @@ const SessionsDashboard = () => {
         </aside>
   
         {/* Main content */}
-        <main className="flex-1 px-9 py-4 overflow-auto  bg-transparent   scrollbar-none">
+        <main className="flex-1 px-5 custom-lg:px-9 py-4 overflow-auto  bg-transparent   scrollbar-none">
           <header className="flex justify-between items-center mb-8">
             <div className="flex items-center">
               <button

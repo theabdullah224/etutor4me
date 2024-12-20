@@ -1156,7 +1156,7 @@ const ETutorSearch = ({
               <div className="  h-fit  w-full custom-2xl:max-w-[20rem] ">
                 <div className="flex flex-col sm:flex-row justify-start items-center gap-6">
                   <img
-                    src={teacher.user.profilePicture || ""}
+                    src={teacher?.user?.profilePicture || ""}
                     alt=""
                     // width={24}
                     // height={24}
@@ -1311,7 +1311,7 @@ const ETutorSearch = ({
             <div className="flex items-center justify-between gap-4">
               <div className="flex flex-col sm:flex-row  w-full sm:w-fit items-center gap-8 pl-6 pt-4">
                 <img
-                  src={tutor.user.profilePicture}
+                  src={tutor?.user?.profilePicture}
                   alt="Tutor"
                   className="w-20 h-20 sm:min-w-40 sm:min-h-40 rounded-full "
                 />
@@ -1726,7 +1726,7 @@ const ETutorSearch = ({
                     src={
                       
                       // @ts-ignore
-                      tutor.user.profilePicture}
+                      tutor?.user?.profilePicture}
                     alt=""
                     className="rounded-full h-44 w-44   overflow-hidden "
                   />

@@ -51,10 +51,10 @@ interface IMessage extends Document {
 const messageSchema = new Schema({
   senderId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   recipientId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  content: { type: String, required: true },
-  fileUrl: { type: String },
-  fileType: { type: String },
-  fileName: { type: String },
+  content: { type: String },
+  fileUrl: { type: String, default:null },
+  fileType: { type: String , default:null},
+  fileName: { type: String , default:null},
   conversationId: { type: mongoose.Schema.Types.ObjectId, ref: 'Conversation', required: true },
   timestamp: { type: Date, default: Date.now },
   status: {

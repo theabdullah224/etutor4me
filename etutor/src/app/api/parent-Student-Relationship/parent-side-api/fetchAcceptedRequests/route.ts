@@ -37,6 +37,24 @@ export const GET = async (req: Request) => {
       .populate('student') // Populate student details
       .exec();
 
+
+
+
+      let StudentuserId = ""
+      let StudentEmail = ""
+      for (const request of acceptedRequests) {
+        const studentId = request.student._id; // Access student ID
+      
+        // Now query the Student model to find the associated User ID
+        const student = await Student.findById(studentId).populate('user'); // Assuming 'user' is a reference in the Student model
+        if (student && student.user) {
+          StudentuserId = student.user._id; // Access the user's ID associated with the student
+          StudentEmail = student.user.email
+        
+        }
+      }
+
+
     // If no accepted requests found
     if (!acceptedRequests.length) {
       return NextResponse.json({ message: 'No accepted requests found for this parent.' }, { status: 404 });
@@ -47,8 +65,9 @@ export const GET = async (req: Request) => {
       requestId: request._id,
       studentId: request.student._id,
       studentName: `${request.student.firstName} ${request.student.lastName}`,
-      studentEmail: request.student.email,
       requestDate: request.createdAt, // Request creation date
+      studentUserId:StudentuserId,
+      StudentEmail:StudentEmail
     }));
 
     // Return the accepted requests in the response

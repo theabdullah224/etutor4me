@@ -27,6 +27,13 @@ import plusicon from "../../../../public/plusicon.svg";
 import pdficon from "../../../../public/pdf icon.svg";
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
+import { io } from 'socket.io-client';
+import { useToast } from "@/hooks/use-toast"
+
+const SOCKET_URL = 'http://localhost:5000'; // Backend URL
+const socket = io(SOCKET_URL, {
+  withCredentials: true,
+});
 
 const TutorListItem = ({
   tutor,
@@ -37,19 +44,18 @@ const TutorListItem = ({
   onProfileClick,
 }: any) => (
   <div
-    className={`flex flex-col custom-2xl:flex-row justify-between items-center py-6 px-4 cursor-pointer mr-[3%] rounded-xl my-4 bg-[#A296CC]  border-red-700`}
+    className={`hidden sm:flex flex-row justify-between items-center py-2 sm:py-3 custom-2xl:py-6  pl-2 sm:pl-3 custom-2xl:pl-5 pr-4 custom-2xl:pr-9 cursor-pointer   rounded-lg md:rounded-xl  bg-[#A296CC]  `}
   >
     <div className="flex items-center" onClick={onClick}>
       <img
         src={tutor.user.profilePicture}
         alt={tutor.firstName}
-        width={44}
-        height={44}
-        className="rounded-full mr-3 border"
+       
+        className="rounded-full mr-4 w-4 sm:w-7 h-4 sm:h-7  custom-2xl:h-[60px] custom-2xl:w-[60px]"
       />
       <div className="flex-grow">
         <p
-          className={`font-semibold text-lg ${
+          className={`font-semibold text-base custom-2xl:text-2xl hidden md:block  truncate ${
             isActive ? "text-white" : "text-white"
           }`}
         >
@@ -59,27 +65,28 @@ const TutorListItem = ({
     </div>
 
     {/* icons */}
-    <div className="flex  justify-between items-end  mt-2 custom-2xl:mt-0 w-full max-w-[7rem]  ">
+    <div className="flex  justify-between items-end   custom-2xl:mt-0 w-full max-w-[2.9rem] sm:max-w-[4rem] custom-2xl:max-w-[6.8rem]   ">
       <button onClick={onChatClick} className=" rounded-full ">
-        <Image src={purplechaticon} alt="" className="w-4 h-4 sm:w-6 sm:h-6" />
+        <Image src={purplechaticon} alt="" className="w-3 sm:w-4  h-3 sm:h-4 custom-2xl:w-7 custom-2xl:h-7" />
       </button>
       <button onClick={onFolderClick} className="  rounded-full">
         <Image
           src={foldericonpurple}
           alt=""
-          className="w-4 h-4 sm:w-6 sm:h-6"
+          className=" w-3 sm:w-4  h-3 sm:h-4 custom-2xl:w-7 custom-2xl:h-7"
         />
       </button>
       <button onClick={onProfileClick} className=" rounded-full">
-        <Image src={profileicon} alt="" className="w-4 h-4 sm:w-6 sm:h-6" />
+        <Image src={profileicon} alt="" className="w-3 sm:w-4  h-3 sm:h-4 custom-2xl:w-7 custom-2xl:h-7" />
       </button>
     </div>
   </div>
 );
 
 const ChatMessage = ({ message, isUser }:any) => {
+
   // Check if message exists and has content and timestamp
-  if (!message || !message.content || !message.timestamp) return null;
+  if (!message || !message.content ) return null;
 
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"} mb-4`}>
@@ -89,23 +96,62 @@ const ChatMessage = ({ message, isUser }:any) => {
         }`}
       >
         <p className="text-sm sm:text-md custom-xl:text-xl font-medium break-words">
-          {message.content}
+          {message.content} 
         </p>
         <span
           className={`text-xs sm:text-sm custom-xl:text-md opacity-70 mt-1 block ${
             isUser ? "text-white float-right" : "text-[#9B85C8]"
           }`}
         >
-          {new Date(message.timestamp).toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
+          {message.timestamp
+    ? new Date(message.timestamp).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+    : "Timestamp not available"}
         </span>
       </div>
     </div>
   );
 };
+const FileMessage = ({ message, isUser }: any) => {
 
+  // Check if the file exists and has content
+ 
+  if (!message) return null;
+  return (
+    <div
+    onClick={()=>{
+      const link = document.createElement('a');
+      link.href = message.fileUrl;
+      link.target = '_blank'; // Open in a new tab
+      link.download = message.fileUrl.split('/').pop(); // Download the file with its original name
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link); 
+      // window.open(message.fileUrl, '_blank');
+    }}
+      className={`bg-[#8170B1] max-w-[34rem] flex items-center p-6 rounded-xl my-3 hover:cursor-pointer ${
+        isUser ? 'ml-auto' : 'mr-auto' // Conditional alignment based on isUser
+      }`}
+    >
+      <Image src={pdficon} alt="PDF Icon" className="w-12 h-12" />
+      <div className="ml-3 flex items-center justify-between w-full">
+        <span className="max-w-[10rem] text-2xl overflow-hidden text-nowrap font-medium">
+        {message.fileName.slice(0, 4) + '...' + message.fileName.slice(-4)}
+
+        </span>
+        <span className="text-xs text-gray-300">
+        {new Date(message.timestamp).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+         
+        </span>
+      </div>
+    </div>
+  );
+};
 const FileItem = ({ file, onDownload }: any) => (
   <div className="flex items-center justify-between bg-[#8a7db7] rounded-xl p-3 mb-2">
     <div className="flex items-center">
@@ -142,6 +188,187 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
   //@ts-ignore
   const [showmessages, setshowmessages] = useState([] || tutor);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [selectedFile, setselectedFile] = useState(null)
+  const [file, setFile] = useState(null);
+  const [fileName, setFileName] = useState('');
+  const { toast } = useToast();
+  useEffect(() => {
+    if (socket && userId) {
+      // Join the socket room based on userId (either student or teacher)
+      socket.emit('join', userId);
+  
+      // Listen for incoming chat messages
+      socket.on('chatMessage', (msg) => {
+
+          console.log(msg,"0-----------------")
+        setMessages((prevMessages:any) => {
+          // Avoid adding duplicate messages based on content and senderId
+          if (!prevMessages.some((message:any) => message.content === msg.content && message.senderId === msg.senderId)) {
+            return [...prevMessages, msg];
+          }
+          return prevMessages;
+        });
+      });
+    }
+  
+    return () => {
+      if (socket && userId) {
+        // Leave the socket room when the component unmounts
+        socket.emit('leave', userId);
+  
+        // Cleanup the listener to avoid memory leaks and duplicate listeners
+        socket.off('chatMessage');
+      }
+    };
+  }, [socket, userId]);  // Run this effect when `socket` or `userId` changes
+
+  
+
+ 
+  const sendMessage = async (e:any) => {
+   
+    e.preventDefault(); // Prevent default form submission behavior
+    if (newMessage.trim()) {
+      const chatMessage = {
+        senderId: userId,
+        // @ts-ignore
+        recipientId: showmessages.user._id, // Tutor ID
+        content: newMessage,
+        fileUrl: null,
+        fileType: null,
+        fileName: null,
+        timestamp: new Date().toISOString()
+      };
+
+      // Emit message to the server
+      socket.emit('chatMessage', chatMessage);
+
+      // Update UI optimistically
+      // @ts-ignore
+      setMessages((prev) => [...prev, chatMessage]);
+
+      setNewMessage(''); // Clear input field
+      await savingmessages(null,null,null)
+    }
+  };
+
+
+
+
+
+
+
+    async function savingmessages(fileUrl: any,fileType: any,fileName: any) {
+  
+      // if (!newMessage.trim() || !fileUrl) return; // Prevent sending empty messages
+  
+      try {
+        const response = await fetch("/api/message", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            senderId: userId, 
+            //@ts-ignore
+            recipientId: showmessages.user._id, 
+            content: newMessage,
+            fileUrl:fileUrl,
+            fileType:fileType,
+            fileName:fileName,
+          }),
+        });
+  
+        const savedMessage = await response.json();
+  
+        
+  
+        // After sending the message, set the conversationId
+        const newConversationId = savedMessage.conversationId; // Get conversationId from the response
+  
+        // If there was no conversationId previously, set it now
+        setConversationId(newConversationId);
+  
+       
+  
+        setNewMessage(""); // Clear the message input field
+        scrollToBottom(); // Scroll to the bottom of the chat
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
+    }
+
+    const sendFile = async () => {
+      setIsLoading(true)
+      await session
+      if (!file)  {
+        
+        toast({
+          title: "",
+  
+          description: "please select a file first",
+          variant: "default",
+        })
+        return
+      }; 
+    
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('senderId', session?.user.id);
+      formData.append('recipientId', showmessages.user._id);
+    
+      try {
+        // Call API to upload the file
+        const response = await fetch('/api/message/uploadtos3', {
+          method: 'POST',
+          body: formData,
+        });
+        const result = await response.json();
+    
+  
+        if (result.success) {
+          console.log('File uploaded successfully:', result.fileUrl);
+        } else {
+          console.error('File upload failed:', result.error);
+        }
+  
+  
+        if (result.success) {
+          const chatMessage = {
+            senderId: userId, 
+            //@ts-ignore
+            recipientId: showmessages.user._id, 
+            content: null,
+            timestamp: new Date().toISOString(),
+            fileUrl: result.fileUrl, 
+            // @ts-ignore
+            fileType: file.type,
+            // @ts-ignore
+            fileName: file.name,
+         
+          };
+    
+          await savingmessages(chatMessage.fileUrl,chatMessage.fileType,chatMessage.fileName)
+          // Emit the message to the server
+          socket.emit('chatMessage', chatMessage);
+          setFile(null)
+          setFileName("")
+          setselectedFile(null)
+          // Optimistically update the UI
+          // @ts-ignore
+          setMessages((prev) => [...prev, chatMessage]);
+          setIsLoading(false)
+        } else {
+          setIsLoading(false)
+          console.error('File upload failed:', result.error);
+        }
+      } catch (error) {
+        setIsLoading(false)
+        console.error('Error sending file:', error);
+      }
+    };
+    
+
+
+
 
 
  
@@ -168,7 +395,7 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
       }
       const senders = await response.json();
       setRecievedmessages(senders);
-      console.log("Users who messaged the recipient:", senders);
+      
     } catch (error) {
       console.error("Error fetching senders:", error);
     } finally {
@@ -223,43 +450,14 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
   );
 
   // Function to handle sending a new message
-  async function handleSendMessage(e: React.FormEvent) {
-    e.preventDefault();
-    if (!newMessage.trim()) return; // Prevent sending empty messages
 
-    try {
-      const response = await fetch("/api/message", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          senderId: userId, // Replace with actual sender ID
-          //@ts-ignore
-          recipientId: showmessages.user._id, // Replace with actual recipient ID (e.g., tutor ID)
-          content: newMessage,
-        }),
-      });
 
-      const savedMessage = await response.json();
 
-      // After sending the message, set the conversationId
-      const newConversationId = savedMessage.conversationId; // Get conversationId from the response
 
-      // If there was no conversationId previously, set it now
-      setConversationId(newConversationId);
+  
 
-      // Update message list with the new message and conversationId
-      // @ts-ignore
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { ...savedMessage, conversationId: newConversationId }, // Include conversationId
-      ]);
 
-      setNewMessage(""); // Clear the message input field
-      scrollToBottom(); // Scroll to the bottom of the chat
-    } catch (error) {
-      console.error("Error sending message:", error);
-    }
-  }
+
 
   // Scroll to the latest message
   const scrollToBottom = () => {
@@ -288,14 +486,20 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
 
             <div className=" hidden pt-6  overflow-y-auto scrollbar-thin sm:flex flex-col gap-3 custom-2xl:gap-6  scrollbar-track-transparent scrollbar-thumb-[#685aad40]  scrollbar-thumb-rounded-3xl h-[90%]  ">
               {recievedmessages.length > 0 &&
-                recievedmessages.map((message:any, index) => (
+                recievedmessages.map((message: any, index) => (
                   <TutorListItem
                     key={index}
                     tutor={message.details}
                     isActive={activeTutor === message}
                     onClick={() => setshowmessages(message.details)}
-                    onChatClick={() => setActiveView("chat")}
-                    onFolderClick={() => setActiveView("folder")}
+                    onChatClick={() => {
+                      setActiveView("chat");
+                      setshowmessages(message.details);
+                    }}
+                    onFolderClick={() => {
+                      setActiveView("folder");
+                      setshowmessages(message.details);
+                    }}
                     onProfileClick={() => {}} // Placeholder for profile functionality
                   />
                 ))}
@@ -314,8 +518,9 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
               />
               <h2 className="text-xl custom-2xl:text-3xl font-bold text-white">
                 {
-                //@ts-ignore
-                showmessages?.firstName}
+                  //@ts-ignore
+                  showmessages?.firstName
+                }
               </h2>
             </div>
 
@@ -323,22 +528,25 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
               <>
                 {/* Messages */}
                 <div className="flex-grow p-1 custom-2xl:p-3 bg-[#A296CC] border-t border-[#8b55ff51] mx-4 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#685aad40] scrollbar-thumb-rounded-3xl">
-                  {messages.map((msg, index) => (
-                    <>
-                      <ChatMessage
-                        key={index}
-                        message={msg}
-                        //@ts-ignore
-                        isUser={msg.senderId === userId}
-                      />
-                    </>
-                  ))}
+                  {Array.isArray(messages) && messages.length > 0
+                    ? messages.map((msg, index) => (
+                        <>
+                          <ChatMessage
+                            key={index}
+                            message={msg}
+                            // @ts-ignore
+                            isUser={msg.senderId === userId}
+                          />
+                        </>
+                      ))
+                    : ""}
+
                   <div ref={messagesEndRef} />
                 </div>
 
                 {/* Message Input */}
                 <form
-                  onSubmit={handleSendMessage}
+                  onSubmit={sendMessage}
                   className="py-2 sm:py-4 px-2 sm:px-10 bg-[#A296CC]  flex items-center justify-center  rounded-b-3xl"
                 >
                   <div className="flex items-center bg-[#8a7db7] rounded-full  relative w-full">
@@ -361,52 +569,68 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
               </>
             )}
 
-            {activeView === "folder" && (
+{activeView === "folder" && (
               <>
-                {/* <div className=" relative flex-grow p-4 bg-[#A296CC] border-t border-[#8b55ff51] mx-4 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#685aad40] scrollbar-thumb-rounded-3xl">
-    {tutors[activeTutor].files.map((file: any) => (
-      <div
-      key={file.id}
-      onClick={() => handleFileDownload(file)}
-      className={`bg-[#8170B1] max-w-[34rem] flex items-center p-6  rounded-xl my-3 ${
-        file.isReceived ? 'mr-auto' : 'ml-auto'
-        }`}
-        >
-        <Image src={pdficon} alt="PDF Icon" className='w-12 h-12' />
-        <div className='ml-3 flex  items-center justify-between  w-full'>
-          <span className='max-w-[10rem] text-2xl overflow-hidden text-nowrap font-medium'>
-            {file.name}
-          </span>
-          <span className='text-xs text-gray-300'>
-            {file.date} {file.time}
-          </span>
-        </div>
-      </div>
-    ))}
+                <div className="flex-grow p-1 custom-2xl:p-3 bg-[#A296CC] border-t border-[#8b55ff51]   mx-4 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#685aad40] scrollbar-thumb-rounded-3xl">
+                  {Array.isArray(messages) &&
+                    messages.length > 0 &&
+                    messages.map(
+                      (msg: any, index) =>
+                        msg.fileUrl != null && (
+                          <FileMessage
+                            key={index}
+                            message={msg}
+                            isUser={msg.senderId === userId} // Check if the message was sent by the user
+                          />
+                        )
+                    )}
 
+                  <div ref={messagesEndRef} />
+                </div>
 
-
-
-    <div className=' absolute bottom-5 right-0  w-full flex justify-end'>
-
-    <button
-      onClick={() => fileInputRef.current.click()}
-      className="mt-4 text-white py-2 px-4 rounded-full flex items-center gap-3"
-      >
-      <span className='text-xl text-[#DBD8EF] font-medium'>Add attachment</span>
-      <Image src={plusicon} alt="" className='w-8 h-8' />
-    </button>
-    <input
-      ref={fileInputRef}
-      type="file"
-      onChange={handleFileUpload}
-      style={{ display: 'none' }}
-      />
-
-      </div>
-
-
-  </div> */}
+                <div className="py-2 sm:py-4 px-2 sm:px-10 bg-[#A296CC]  flex items-center justify-end  rounded-b-3xl relative">
+                  {file ? (
+                    <div className="flex flex-col items-end  gap-2">
+                     {selectedFile && (
+                      <div className="mt-2 flex items-center gap-4">
+                        <p className="text-sm text-white">{fileName.slice(0, 8) + '...' + fileName.slice(-4)}</p>
+                        <button
+                          className="text-sm text-[#af0000] hover:text-red-700"
+                          onClick={() => {
+                            setselectedFile(null);
+                            setFile(null);
+                            setFileName("");
+                          }}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    )}
+                      <button onClick={sendFile} className="w-full sm:w-auto py-1 px-9 text-base custom-2xl:text-base rounded-sm bg-[#8358F7] hover:bg-[#4a3683] capitalize hover:bg-opacity-90 transition-colors">
+                        {isLoading ? "wait..." : "send"}
+                      </button>
+                      
+                    </div>
+                  ) : (
+                    <label className="text-white py-2 px-4 rounded-full flex items-center gap-3 cursor-pointer">
+                    <input
+                      type="file"
+                      className="hidden"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        if (e.target.files && e.target.files[0]) {
+                          const file:any = e.target.files[0];
+                          setselectedFile(file);
+                          setFile(file);
+                          setFileName(file.name);
+                        }
+                      }}
+                    />
+                    <span className="text-xl text-[#DBD8EF] font-medium">Add attachment</span>
+                    <Image src={plusicon} alt="Add" className="w-8 h-8" />
+                  </label>
+                  )}
+                    
+                </div>
               </>
             )}
           </div>
@@ -524,6 +748,12 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
                           src={folder}
                           alt=""
                           className="w-6 sm:w-6 custom-2xl:w-8 hover:cursor-pointer"
+                          onClick={() => {
+                            setShowChat(true);
+                            setActiveView("folder")
+                            //@ts-ignore
+                            setshowmessages(message.details);
+                          }}
                         />
                       </div>
 

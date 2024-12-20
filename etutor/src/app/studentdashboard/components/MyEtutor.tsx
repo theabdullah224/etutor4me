@@ -30,6 +30,15 @@ import sampleimg from "../../../../public/assets/heroimg.png";
 import plusicon from "../../../../public/plusicon.svg";
 import pdficon from "../../../../public/pdf icon.svg";
 import { useSession } from "next-auth/react";
+import { io } from 'socket.io-client';
+
+
+const SOCKET_URL = 'http://localhost:5000'; // Backend URL
+const socket = io(SOCKET_URL, {
+  withCredentials: true,
+});
+
+
 
 const TutorListItem = ({
   tutor,
@@ -118,6 +127,44 @@ const ChatMessage = ({ message, isUser }: any) => {
     </div>
   );
 };
+const FileMessage = ({ message, isUser }: any) => {
+  // Check if the file exists and has content
+ 
+  if (!message) return null;
+  return (
+    <div
+    onClick={()=>{
+      const link = document.createElement('a');
+      link.href = message.fileUrl;
+      link.target = '_blank'; // Open in a new tab
+      link.download = message.fileUrl.split('/').pop(); // Download the file with its original name
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link); 
+      // window.open(message.fileUrl, '_blank');
+    }}
+      className={`bg-[#8170B1] max-w-[34rem] flex items-center p-6 rounded-xl my-3 hover:cursor-pointer ${
+        isUser ? 'ml-auto' : 'mr-auto' // Conditional alignment based on isUser
+      }`}
+    >
+      <Image src={pdficon} alt="PDF Icon" className="w-12 h-12" />
+      <div className="ml-3 flex items-center justify-between w-full">
+        <span className="max-w-[10rem] text-2xl overflow-hidden text-nowrap font-medium">
+        {message.fileName.slice(0, 4) + '...' + message.fileName.slice(-4)}
+
+        </span>
+        <span className="text-xs text-gray-300">
+        {new Date(message.timestamp).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+         
+        </span>
+      </div>
+    </div>
+  );
+};
+
 
 const FileItem = ({ file, onDownload }: any) => (
   <div className="flex items-center justify-between bg-[#8a7db7] rounded-xl p-3 mb-2">
@@ -158,10 +205,192 @@ function MyEtutor({
   const messagesEndRef = useRef(null); // Reference to scroll to the bottom
   const [recievedmessages, setRecievedmessages] = useState([]);
   const [tutor, settutor] = useState(tutorimp);
+  const [selectedFile, setselectedFile] = useState(null)
+  const [file, setFile] = useState(null);
+  const [fileName, setFileName] = useState('');
 
-  // Fetch messages when the chat view is active and a tutor is selected
 
-  console.log(recievedmessages);
+
+
+
+
+  useEffect(() => {
+    if (socket && userId) {
+      // Join the socket room based on userId (either student or teacher)
+      socket.emit('join', userId);
+  
+      // Listen for incoming chat messages
+      socket.on('chatMessage', (msg) => {
+        setMessages((prevMessages:any) => {
+          // Avoid adding duplicate messages based on content and senderId
+          if (!prevMessages.some((message:any) => message.content === msg.content && message.senderId === msg.senderId)) {
+            return [...prevMessages, msg];
+          }
+          return prevMessages;
+        });
+      });
+    }
+  
+    return () => {
+      if (socket && userId) {
+        // Leave the socket room when the component unmounts
+        socket.emit('leave', userId);
+  
+        // Cleanup the listener to avoid memory leaks and duplicate listeners
+        socket.off('chatMessage');
+      }
+    };
+  }, [socket, userId]);
+
+
+
+  const sendMessage = async (e) => {
+ 
+    e.preventDefault(); // Prevent default form submission behavior
+    if (newMessage) {
+      const chatMessage = {
+        senderId: userId,
+        recipientId: tutor.user._id, // Tutor ID
+        content: newMessage,
+        fileUrl: null,
+          fileType: null,
+          fileName: null,
+        timestamp: new Date().toISOString(),
+   
+
+      };
+
+      // Emit message to the server
+      socket.emit('chatMessage', chatMessage);
+
+      // Update UI optimistically
+      // @ts-ignore
+      setMessages((prev) => [...prev, chatMessage]);
+
+      setNewMessage(''); 
+      await savingmessages(null,null,null)
+    }
+
+  };
+
+  const sendFile = async () => {
+    setIsLoading(true)
+    await session
+    if (!file)  {
+      
+      toast({
+        title: "",
+
+        description: "please select a file first",
+        variant: "default",
+      })
+      return
+    }; 
+  
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('senderId', session?.user.id);
+    formData.append('recipientId', tutor.user._id);
+  
+    try {
+      // Call API to upload the file
+      const response = await fetch('/api/message/uploadtos3', {
+        method: 'POST',
+        body: formData,
+      });
+      const result = await response.json();
+  
+
+      if (result.success) {
+        console.log('File uploaded successfully:', result.fileUrl);
+      } else {
+        console.error('File upload failed:', result.error);
+      }
+
+
+      if (result.success) {
+        const chatMessage = {
+          senderId: userId,
+          recipientId: tutor.user._id, 
+          content: null,
+          timestamp: new Date().toISOString(),
+          fileUrl: result.fileUrl, 
+          // @ts-ignore
+          fileType: file.type,
+          // @ts-ignore
+          fileName: file.name,
+       
+        };
+  
+        await savingmessages(chatMessage.fileUrl,chatMessage.fileType,chatMessage.fileName)
+        // Emit the message to the server
+        socket.emit('chatMessage', chatMessage);
+        setFile(null)
+        setFileName("")
+        setselectedFile(null)
+        // Optimistically update the UI
+        // @ts-ignore
+        setMessages((prev) => [...prev, chatMessage]);
+        setIsLoading(false)
+      } else {
+        setIsLoading(false)
+        console.error('File upload failed:', result.error);
+      }
+    } catch (error) {
+      setIsLoading(false)
+      console.error('Error sending file:', error);
+    }
+  };
+  
+
+
+
+
+  async function savingmessages(fileUrl: any,fileType: any,fileName: any) {
+  
+    // if (!newMessage.trim() || !fileUrl) return; // Prevent sending empty messages
+
+    try {
+      const response = await fetch("/api/message", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          senderId: userID, // Replace with actual sender ID
+          recipientId: tutor.user._id, // Replace with actual recipient ID (e.g., tutor ID)
+          content: newMessage,
+          fileUrl:fileUrl,
+          fileType:fileType,
+          fileName:fileName,
+        }),
+      });
+
+      const savedMessage = await response.json();
+
+      
+
+      // After sending the message, set the conversationId
+      const newConversationId = savedMessage.conversationId; // Get conversationId from the response
+
+      // If there was no conversationId previously, set it now
+      setConversationId(newConversationId);
+
+      // Update message list with the new message and conversationId
+      // @ts-ignore
+      // setMessages((prevMessages) => [
+      //   ...prevMessages,
+      //   { ...savedMessage, conversationId: newConversationId }, // Include conversationId
+      // ]);
+
+      setNewMessage(""); // Clear the message input field
+      scrollToBottom(); // Scroll to the bottom of the chat
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+  }
+
+
+
+
   const userID = session?.user.id;
   useEffect(() => {
     if (session?.user?.id) {
@@ -227,45 +456,8 @@ function MyEtutor({
     }
 
     fetchMessages();
-  }, [newMessage]);
+  }, [tutor]);
 
-  // Function to handle sending a new message
-  async function handleSendMessage(e: React.FormEvent) {
-    e.preventDefault();
-    if (!newMessage.trim()) return; // Prevent sending empty messages
-
-    try {
-      const response = await fetch("/api/message", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          senderId: userID, // Replace with actual sender ID
-          recipientId: tutor.user._id, // Replace with actual recipient ID (e.g., tutor ID)
-          content: newMessage,
-        }),
-      });
-
-      const savedMessage = await response.json();
-
-      // After sending the message, set the conversationId
-      const newConversationId = savedMessage.conversationId; // Get conversationId from the response
-
-      // If there was no conversationId previously, set it now
-      setConversationId(newConversationId);
-
-      // Update message list with the new message and conversationId
-      // @ts-ignore
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { ...savedMessage, conversationId: newConversationId }, // Include conversationId
-      ]);
-
-      setNewMessage(""); // Clear the message input field
-      scrollToBottom(); // Scroll to the bottom of the chat
-    } catch (error) {
-      console.error("Error sending message:", error);
-    }
-  }
 
   // Scroll to the latest message
   const scrollToBottom = () => {
@@ -282,55 +474,9 @@ function MyEtutor({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [tutors, showChat]);
 
-  // const handleFileUpload = (e:any) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     const currentDate = new Date();
-  //     const fileDate = currentDate.toLocaleDateString();
-  //     const fileTime = currentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-  //     const newFile = {
-  //       id: tutors[activeTutor].files.length + 1,
-  //       name: file.name,
-  //       date: fileDate,
-  //       time: fileTime,
-  //       isReceived: false
-  //     };
 
-  //     const updatedTutors = [...tutors];
-  //     updatedTutors[activeTutor].files.push(newFile);
 
-  //     // Simulate receiving the same file
-  //     setTimeout(() => {
-  //       const receivedFile = {
-  //         ...newFile,
-  //         id: updatedTutors[activeTutor].files.length + 1,
-  //         isReceived: true
-  //       };
-  //       updatedTutors[activeTutor].files.push(receivedFile);
-  //       setTutors(updatedTutors);
-  //     }, 1000); // Simulate a 1-second delay
-
-  //     setTutors(updatedTutors);
-  //   }
-  // };
-
-  // const handleFileDownload = (file:any) => {
-  //   // Implement file download logic here
-  //   console.log(`Downloading file: ${file.name}`);
-  // };
-
-  // const generateTutorResponse = (userMessage:any) => {
-  //   const responses = [
-  //     "That's an interesting point. Let's discuss it further.",
-  //     "I understand your concern. Here's what we can do...",
-  //     "Great question! The answer is...",
-  //     "Let me clarify that for you.",
-  //     "I'd be happy to help you with that.",
-  //     "Can you provide more details about your question?",
-  //   ];
-  //   return responses[Math.floor(Math.random() * responses.length)];
-  // };
 
   if (showChat) {
     return (
@@ -344,7 +490,7 @@ function MyEtutor({
 
             <div className=" hidden pt-6  overflow-y-auto scrollbar-thin sm:flex flex-col gap-3 custom-2xl:gap-6  scrollbar-track-transparent scrollbar-thumb-[#685aad40]  scrollbar-thumb-rounded-3xl h-[90%]  ">
               {recievedmessages.length > 0 &&
-                recievedmessages.map((message, index) => (
+                recievedmessages.map((message:any, index) => (
                   <TutorListItem
                     key={index}
                     // @ts-ignore
@@ -352,8 +498,8 @@ function MyEtutor({
                     isActive={activeTutor === message}
                     // @ts-ignore
                     onClick={() => settutor(message?.details)}
-                    onChatClick={() => setActiveView("chat")}
-                    onFolderClick={() => setActiveView("folder")}
+                    onChatClick={() => {setActiveView("chat");settutor(message?.details)}}
+                    onFolderClick={() => {setActiveView("folder");settutor(message?.details)}}
                     onProfileClick={() => {
                       setActiveFindEtutor("Find eTutor");
                       // @ts-ignore
@@ -400,7 +546,7 @@ function MyEtutor({
 
                 {/* Message Input */}
                 <form
-                  onSubmit={handleSendMessage}
+                  onSubmit={sendMessage}
                   className="py-2 sm:py-4 px-2 sm:px-10 bg-[#A296CC]  flex items-center justify-center  rounded-b-3xl"
                 >
                   <div className="flex items-center bg-[#8a7db7] rounded-full  relative w-full">
@@ -423,52 +569,68 @@ function MyEtutor({
               </>
             )}
 
-            {activeView === "folder" && (
+{activeView === "folder" && (
               <>
-                {/* <div className=" relative flex-grow p-4 bg-[#A296CC] border-t border-[#8b55ff51] mx-4 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#685aad40] scrollbar-thumb-rounded-3xl">
-    {tutors[activeTutor].files.map((file: any) => (
-      <div
-      key={file.id}
-      onClick={() => handleFileDownload(file)}
-      className={`bg-[#8170B1] max-w-[34rem] flex items-center p-6  rounded-xl my-3 ${
-        file.isReceived ? 'mr-auto' : 'ml-auto'
-        }`}
-        >
-        <Image src={pdficon} alt="PDF Icon" className='w-12 h-12' />
-        <div className='ml-3 flex  items-center justify-between  w-full'>
-          <span className='max-w-[10rem] text-2xl overflow-hidden text-nowrap font-medium'>
-            {file.name}
-          </span>
-          <span className='text-xs text-gray-300'>
-            {file.date} {file.time}
-          </span>
-        </div>
-      </div>
-    ))}
+                <div className="flex-grow p-1 custom-2xl:p-3 bg-[#A296CC] border-t border-[#8b55ff51]   mx-4 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#685aad40] scrollbar-thumb-rounded-3xl">
+                  {Array.isArray(messages) &&
+                    messages.length > 0 &&
+                    messages.map(
+                      (msg: any, index) =>
+                        msg.fileUrl != null && (
+                          <FileMessage
+                            key={index}
+                            message={msg}
+                            isUser={msg.senderId === userId} // Check if the message was sent by the user
+                          />
+                        )
+                    )}
 
+                  <div ref={messagesEndRef} />
+                </div>
 
-
-
-    <div className=' absolute bottom-5 right-0  w-full flex justify-end'>
-
-    <button
-      onClick={() => fileInputRef.current.click()}
-      className="mt-4 text-white py-2 px-4 rounded-full flex items-center gap-3"
-      >
-      <span className='text-xl text-[#DBD8EF] font-medium'>Add attachment</span>
-      <Image src={plusicon} alt="" className='w-8 h-8' />
-    </button>
-    <input
-      ref={fileInputRef}
-      type="file"
-      onChange={handleFileUpload}
-      style={{ display: 'none' }}
-      />
-
-      </div>
-
-
-  </div> */}
+                <div className="py-2 sm:py-4 px-2 sm:px-10 bg-[#A296CC]  flex items-center justify-end  rounded-b-3xl relative">
+                  {file ? (
+                    <div className="flex flex-col items-end  gap-2">
+                     {selectedFile && (
+                      <div className="mt-2 flex items-center gap-4">
+                        <p className="text-sm text-white">{fileName.slice(0, 8) + '...' + fileName.slice(-4)}</p>
+                        <button
+                          className="text-sm text-[#af0000] hover:text-red-700"
+                          onClick={() => {
+                            setselectedFile(null);
+                            setFile(null);
+                            setFileName("");
+                          }}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    )}
+                      <button onClick={sendFile} className="w-full sm:w-auto py-1 px-9 text-base custom-2xl:text-base rounded-sm bg-[#8358F7] hover:bg-[#4a3683] capitalize hover:bg-opacity-90 transition-colors">
+                        {isLoading ? "wait..." : "send"}
+                      </button>
+                      
+                    </div>
+                  ) : (
+                    <label className="text-white py-2 px-4 rounded-full flex items-center gap-3 cursor-pointer">
+                    <input
+                      type="file"
+                      className="hidden"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        if (e.target.files && e.target.files[0]) {
+                          const file = e.target.files[0];
+                          setselectedFile(file);
+                          setFile(file);
+                          setFileName(file.name);
+                        }
+                      }}
+                    />
+                    <span className="text-xl text-[#DBD8EF] font-medium">Add attachment</span>
+                    <Image src={plusicon} alt="Add" className="w-8 h-8" />
+                  </label>
+                  )}
+                    
+                </div>
               </>
             )}
           </div>
@@ -597,7 +759,13 @@ function MyEtutor({
                       src={folder}
                       alt=""
                       className="w-3 sm:w-6 custom-xl:w-8 hover:cursor-pointer"
+                      onClick={() => {
+                        setShowChat(true);
+                        setActiveView("folder")
+                        settutor(message?.details);
+                      }}
                     />
+                    
                     <Image
                       onClick={() => {
                         setActiveFindEtutor("Find eTutor");

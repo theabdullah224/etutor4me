@@ -3,7 +3,6 @@ import Image from "next/image";
 import plusicon from "../../../../public/plus circle icon purple.svg";
 import editicon from "../../../../public/edit icon.svg";
 import alert2 from "../../../../public/alert.svg";
-// import { PhoneInput } from "./phone-input";
 import { useSession } from "next-auth/react";
 import { ChevronDown, Edit2 } from "lucide-react";
 import Germany from "../../../../public/Flag_of_Germany.svg.webp";
@@ -28,6 +27,8 @@ import SaintLucia from "../../../../public/Saint Lucia.png";
 import BurkinaFaso from "../../../../public/Flag-of-Burkina-Faso.webp";
 import IvoryCoas from "../../../../public/ivory-coast.webp";
 import useSWR from 'swr';
+
+import { useRouter } from "next/navigation";
 
 
 
@@ -82,7 +83,7 @@ const UserProfile: React.FC = () => {
   const [userId, setUserId] = useState("");
   const [Phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const { data: session, status } = useSession();
+  const { data: session, status,update } = useSession();
   const [newEmail, setNewEmail] = useState("");
   const [password, setPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
@@ -101,7 +102,8 @@ const UserProfile: React.FC = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [wait, setWait] = useState("save changes")
   const [passwait, setpasswait] = useState("save changes")
-
+  const [LinkedParent, setLinkedParent] = useState("")
+  const router = useRouter()
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setSelectedFile(e.target.files[0]);
@@ -158,7 +160,6 @@ const UserProfile: React.FC = () => {
   
       const result = await response.json();
       if (response.ok) {
-        console.log(result.message); // Success message
       } else {
         console.error(result.message); // Error message
       }
@@ -174,7 +175,7 @@ const UserProfile: React.FC = () => {
     updatePhoneNumber()
   };
 
-  console.log(completephonenumber)
+ 
 
   
 
@@ -210,7 +211,7 @@ const UserProfile: React.FC = () => {
       revalidateOnFocus: true,
       revalidateOnReconnect: true,
       onSuccess: (data) => {
-        console.log(data);
+     
         setParentData(data);
       },
       onError: (err) => {
@@ -335,8 +336,57 @@ const UserProfile: React.FC = () => {
   };
 
 
+  async function fetchParent() {
+    const  userId = session?.user.id
+    const response = await fetch('/api/parent-Student-Relationship/Student-Side-api/get-parent', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userId }),
+    });
+  
+    const data = await response.json();
+    
+    if (data.success) {
+      setLinkedParent(data.user)
 
 
+    } else {
+      console.error('Error:', data.message);
+    }
+  }
+  
+
+  useEffect(() => {
+    if(session?.user?.isParent ){
+
+      fetchParent()  
+    }
+  
+  }, [session])
+  
+
+const gobacktoParent = async ()=>{
+  console.log(LinkedParent.email,LinkedParent._id)
+  await update({
+    user:{
+      // @ts-ignore
+      email:LinkedParent.email,
+      role:"parent",
+      // @ts-ignore
+      id:LinkedParent._id,
+      isParent:false,
+      isAdmin:false
+    }
+  })
+ 
+
+  router.push('/parent')
+
+
+
+}
 
   return (
     <div className="min-h-screen rounded-3xl relative  bg-[#EDE8FA] text-white mt-16">
@@ -388,6 +438,18 @@ const UserProfile: React.FC = () => {
             >
               Account settings
             </button>
+            {session?.user?.isParent && (
+
+            <button
+            onClick={()=>{
+gobacktoParent()
+            }}
+              className={`w-full py-4  px-9 rounded-3xl text-sm custom-xl:text-lg custom-2xl:text-2xl font-bold transition-all flex bg-white text-[#685AAD] `}
+             
+            >
+              Go Back
+            </button>
+            )}
            
           </div>
         </div>

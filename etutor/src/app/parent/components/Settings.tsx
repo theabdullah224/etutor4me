@@ -30,6 +30,8 @@ import IvoryCoas from "../../../../public/ivory-coast.webp";
 import useSWR from 'swr';
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast"
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 
 
@@ -81,7 +83,6 @@ const UserProfile: React.FC = () => {
   const [userId, setUserId] = useState("");
   const [Phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const { data: session, status } = useSession();
   const [newEmail, setNewEmail] = useState("");
   const [password, setPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
@@ -99,46 +100,60 @@ const UserProfile: React.FC = () => {
   const [uploadStatus, setUploadStatus] = useState<string | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false)
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setSelectedFile(e.target.files[0]);
-      handleUpload(e.target.files[0]);
-    }
-  };
+  const router = useRouter();
+  const [ishovered, setIshovered] = useState(null)
+  // student impersonation code:
+  const [acceptedRequests, setAcceptedRequests] = useState([]);
+  const { data: session, status ,update} = useSession();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [pictureuploadloading, setpictureuploadloading] = useState(false)  
 
-  // Upload the file to the server
-  const handleUpload = async (file: File) => {
-    if (!file) {
-    
-      toast({
-        title: "Please select a file to upload.",
-        description: "",
-        variant: "default",
-      });
-      return;
-    }
 
-    const formData = new FormData();
-    formData.append("profilePicture", file);
 
-    setUploadStatus("Uploading...");
-    try {
-      const res = await fetch("/api/upload-profile-picture", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setImageUrl(data.fileUrl);
-        setUploadStatus("Upload successful!");
-      } else {
-        setUploadStatus("Upload failed!");
+
+ 
+  useEffect(() => {
+    const fetchStudents = async () => {
+        if (!session?.user?.id) return;
+  
+        try {
+          const userId = session.user.id; 
+          const response = await axios.get('/api/parent-Student-Relationship/parent-side-api/fetchAcceptedRequests', {
+            params: { parentUserId: userId  }, // Send userId to the backend
+          });
+          setAcceptedRequests(response.data.requests);
+         
+        } catch (error) {
+          console.error('Error fetching students:', error);
+        } finally {
+          setLoading(false);
+        }
+      };
+    fetchStudents();
+  }, [session]);
+
+  const handleImpersonate = async (studentUserId: string, StudentEmail:string) => {
+   
+    await update({
+      user:{
+        email:StudentEmail,
+        role:"student",
+        id:studentUserId,
+        isParent:true,
+        isAdmin:false
       }
-    } catch (error) {
-      console.error(error);
-      setUploadStatus("An error occurred while uploading.");
-    }
+    })
+    setTimeout(() => {
+        router.push('/studentdashboard')
+    }, 3000);
+    console.log(session)
   };
+
+
+
+
+
+
 
 
 
@@ -344,6 +359,84 @@ const UserProfile: React.FC = () => {
   };
 
 
+const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+
+
+
+
+
+
+  const [image, setImage] = useState<File | null>(null); // State to hold the selected image
+  const [isUploading, setIsUploading] = useState(false); // State to show the uploading status
+  
+  const [uploadedImage, setUploadedImage] = useState<string | null>(""); 
+
+  // Handle the image selection
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+     const file = e.target.files ? e.target.files[0] : null;
+    if (file) {
+      setImage(file);
+      setError(""); // Reset any previous error
+    }
+  };
+
+  // Handle image upload
+  const handleUpload = async () => {
+    setpictureuploadloading(true)
+    if (!image) {
+      setError("Please select an image first.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const imageBase64 = reader.result as string;
+
+      setIsUploading(true); // Show the uploading status
+
+      try {
+        // Call the API to upload the image to S3 and store the URL in the database
+        const response = await fetch('/api/upload-profile-picture', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: userId,
+            imageBase64: imageBase64.split(',')[1], // Send only base64 data (not the prefix)
+          }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          setImage(null)
+          // Successfully uploaded the image, update the profile picture URL
+          setUploadedImage(data.profilePictureUrl);
+          setpictureuploadloading(false)
+        } else {
+          setImage(null)
+          setpictureuploadloading(false)
+          setError(data.message || 'Failed to upload the image.');
+        }
+      } catch (error) {
+        setImage(null)
+        setpictureuploadloading(false)
+        console.error("Error uploading profile picture:", error);
+        setError("An error occurred while uploading the image.");
+      } finally {
+        setIsUploading(false); // Hide the uploading status
+      }
+    };
+
+    reader.readAsDataURL(image); // Convert the image file to base64
+  };
+
+
+
 
 
 
@@ -351,26 +444,42 @@ const UserProfile: React.FC = () => {
     <div className="min-h-screen rounded-3xl relative  bg-[#EDE8FA] text-white mt-16">
       <div className="px-5 custom-2xl:px-10 py-5 custom-2xl:py-10 flex gap-2 sm:gap-8 custom-2xl:gap-16 ">
         {/* left side bar */}
+
         <div className="bg-[#A296CC] font-roboto max-w-[20rem] custom-2xl:max-w-[26.4rem] w-full  rounded-3xl  min-h-screen  px-5 custom-2xl:px-10 ">
+          
           <div className="m-auto w-full  flex flex-col items-center  mt-20">
             <img
-              src={parentData?.user?.profilePicture}
+              src={  uploadedImage ||  parentData?.user?.profilePicture}
               alt="Profile"
              
-              className="rounded-full w-[5rem] h-[5rem] custom-2xl:w-[11.4rem] custom-2xl:h-[11.4rem] border-2 "
+              className="rounded-full w-[5rem] h-[5rem] custom-2xl:w-[11.4rem] custom-2xl:h-[11.4rem]  "
             />
 
             <p className="relative text-sm sm:text-lg custom-2xl:text-xl font-roboto text-[#534988] font-bold mt-2 cursor-pointer">
               <input
                 type="file"
                 accept="image/*"
-                onChange={handleFileChange} 
+                onChange={handleImageChange} 
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
               />
               Upload photo
-              {uploadStatus && <p>{uploadStatus}</p>}
+             
+
+
             </p>
+              {image && (
+                <button
+                className="w-full sm:w-auto py-1 px-9 mt-6 text-base custom-2xl:text-base rounded-sm bg-[#8358F7] hover:bg-[#4a3683] capitalize hover:bg-opacity-90 transition-colors"
+                onClick={()=>{
+                  handleUpload()
+                }}
+                >
+                  {pictureuploadloading ? "wait...":"upload"} 
+                  
+                  </button>
+              )}
             
+              
           </div>
 
           <div className="space-y-2 mt-[137px] ">
@@ -387,6 +496,7 @@ const UserProfile: React.FC = () => {
             >
               Personal information
             </button>
+            
             <button
               className={`w-full py-4  px-9 rounded-3xl text-sm custom-xl:text-lg custom-2xl:text-2xl font-bold transition-all flex ${
                 activeTab === "account"
@@ -397,7 +507,44 @@ const UserProfile: React.FC = () => {
             >
               Account settings
             </button>
-            <Link href="/adminparent/addStudent">
+
+
+                <div className="">
+
+                {acceptedRequests.length>0 && acceptedRequests.map((request:any) => (
+           
+            <button
+              key={request.requestId}
+              className={`w-full py-4  px-9 rounded-3xl text-sm custom-xl:text-lg custom-2xl:text-2xl font-bold transition-all duration-1000 flex text-[#685AAD] truncate `}
+              onClick={() => handleImpersonate(request.studentUserId,request.StudentEmail)}
+              onMouseEnter={() => setIshovered(request.requestId)}
+              onMouseLeave={() => setIshovered(null)}
+            >
+              {/* {ishovered === request.requestId ? "Visit Profile" :request.studentName } */}
+              <span
+            className={`transition-opacity duration-300 ${
+              ishovered === request.requestId ? "opacity-0" : "opacity-100"
+            }`}
+          >
+            {request.studentName}
+          </span>
+          <span
+            className={`absolute transition-opacity duration-300 ${
+              ishovered === request.requestId ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            Visit Profile
+          </span>
+              
+              
+             
+            </button>
+          ))}
+                </div>
+           
+
+
+            <Link href="/parent/addStudent">
             <button className="w-full py-4  px-9 rounded-3xl text-sm custom-xl:text-lg custom-2xl:text-2xl font-bold transition-all flex  items-center  gap-1 custom-2xl:gap-3 text-[#685AAD]">
               <Image src={plusicon} alt="" className="w-4 custom-2xl:w-8" />
               add&nbsp;a child

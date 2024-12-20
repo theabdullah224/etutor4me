@@ -8,9 +8,10 @@ import { useRouter } from 'next/navigation';
 const ParentDashboard = () => {
   const [acceptedRequests, setAcceptedRequests] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { data: session, status } = useSession();
+  const { data: session, status ,update} = useSession();
   const router = useRouter();
 
+ 
   useEffect(() => {
     const fetchStudents = async () => {
         if (!session?.user?.id) return;
@@ -30,29 +31,26 @@ const ParentDashboard = () => {
       };
     fetchStudents();
   }, [session]);
-  console.log(acceptedRequests)
-  const handleImpersonate = async (studentUserId: string) => {
-    console.log(studentUserId)
-    try {
-      const response = await axios.post('/api/impersonate-student', {
-        parentUserId: session?.user.id,
-        studentUserId,
-      });
-      if (response.status === 200) {
-        // Call NextAuth's signIn with the impersonated user
-        await signIn('credentials', {
-          redirect: false,
-          impersonatedUser: response.data.impersonatedUser,
-        });
-  
-        
-      }
-    } catch (error) {
-      console.error('Error impersonating student:', error);
-    }
-  };
 
-  if (loading) return <p>Loading requests...</p>;
+  const handleImpersonate = async (studentUserId: string, StudentEmail:string) => {
+   
+    await update({
+      user:{
+        email:StudentEmail,
+        role:"student",
+        id:studentUserId,
+        isParent:true,
+        isAdmin:false
+      }
+    })
+    setTimeout(() => {
+        router.push('/studentdashboard')
+    }, 3000);
+    console.log(session)
+  };
+ 
+
+  
 
   return (
     <div className="max-w-md mx-auto bg-white shadow-lg rounded-xl p-6 space-y-4">
@@ -66,6 +64,7 @@ const ParentDashboard = () => {
         Accepted Requests
       </h1>
 
+    
       {/* Display list of accepted requests */}
       <ul className="divide-y divide-gray-200">
         {acceptedRequests.length === 0 ? (
@@ -86,7 +85,7 @@ const ParentDashboard = () => {
               {/* Impersonate button */}
               <button
                 className="text-blue-500 hover:text-blue-700"
-                onClick={() => handleImpersonate(request.studentId)}
+                onClick={() => handleImpersonate(request.studentUserId,request.StudentEmail)}
               >
                 Impersonate
               </button>

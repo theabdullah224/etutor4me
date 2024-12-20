@@ -7,10 +7,10 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
     try {
-      const { senderId, recipientId, content } = await req.json();
+      const { senderId, recipientId, content,fileUrl,fileType,fileName } = await req.json();
   
       // Validate request data
-      if (!senderId || !recipientId || !content) {
+      if (!senderId || !recipientId ) {
         return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
       }
   
@@ -35,6 +35,9 @@ export async function POST(req: NextRequest) {
         senderId,
         recipientId,
         content,
+        fileUrl,
+        fileType,
+        fileName,
         conversationId: conversation._id,  // Linking message to conversation
       });
   

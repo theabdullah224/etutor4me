@@ -522,7 +522,7 @@ const SingupQuestions = ({ questionNo }: SingupQuestionsprops) => {
     console.log("clicked");
     const referId = localStorage.getItem("referIdPerson");
     // signIn('google', { callbackUrl: '/adminparent' });
-    signIn("google", { callbackUrl: `/adminparent?ref=${referId || ""}` });
+    signIn("google", { callbackUrl: "/"});
   };
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     setLoading("Please Wait...")

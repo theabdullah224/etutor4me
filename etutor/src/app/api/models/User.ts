@@ -4,6 +4,7 @@ export interface IUser extends Document {
   email: string;
   password: string;
   role: string;
+  isAdmin: boolean;
   verified: boolean;
   verification_token?: string;
   referralCode: string;
@@ -45,6 +46,7 @@ const UserSchema: Schema<IUser> = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, default: null },
     role: { type: String, required: true },
+    isAdmin: { type: Boolean, default:false },
     verified: { type: Boolean, default: false },
     verification_token: { type: String, default: null },
     etokis: { type: Number, default: 0 },

@@ -1253,7 +1253,7 @@ const SessionDashboard = ({
                             <div className="relative w-14 sm:w-[132px] h-14 sm:h-[132px] flex-shrink-0">
                               <div className="w-full h-full rounded-full overflow-hidden bg-white">
                                 <img
-                                  src={teacher.user.profilePicture}
+                                  src={teacher?.user?.profilePicture}
                                   alt="Profile"
                                   className="w-full h-full object-cover"
                                 />

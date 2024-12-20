@@ -75,16 +75,33 @@ const authOptions: NextAuthOptions = {
             email: user.email,
             role: user.role,
             id: user._id.toString(),
+            isAdmin:false,
+            isParent:false,
             accessToken, // Add the access token to the returned user object
           };
         },
       }),
     ],
     callbacks: {
-      async jwt({ token, user }:any) {
+      async jwt({ token, user,session,trigger }:any) {
+
+        if(trigger === "update" && (session?.user?.role && session?.user?.id && session?.user?.email) || (session?.user?.isAdmin || session?.user?.isParent)){
+
+          token.role = session.user.role
+          token.id = session.user.id
+          token.email = session.user.email
+          token.isAdmin = session?.user?.isAdmin === false ? false : true;
+          token.isParent = session?.user?.isParent === false ? false : true;
+          
+         
+
+        }
+
         if (user) {
           token.role = user.role;
           token.id = user.id; 
+          token.isAdmin = user.isAdmin,
+          token.isParent = user.isParent,
           token.accessToken = user.accessToken; // Store access token in JWT token
         }
         return token; 
@@ -93,6 +110,8 @@ const authOptions: NextAuthOptions = {
         if (session.user) {
           session.user.role = token.role;
           session.user.id = token.id; 
+          session.user.isAdmin = token.isAdmin; 
+          session.user.isParent = token.isParent; 
           session.accessToken = token.accessToken; // Add access token to session
         } else {
           session.user = { role: token.role, id: token.id }; 
