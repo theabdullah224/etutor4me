@@ -27,7 +27,7 @@ function Etutors() {
             <div className="flex justify-between items-start">
               <div className="flex gap-8 items-start">
                 <h1 className="text-xl sm:text-3xl custom-lg:text-[50px] text-[#8276bc] font-medium leading-normal pl-5">
-                  eTutor's accounts
+                  eTutor&lsquo;s accounts
                 </h1>
                 <div className="border-2 custom-xl:border-8 border-[#b4a5d7] text-[#8376bc] rounded-md md:rounded-xl custom-xl:rounded-xl text-sm sm:text-base md:text-lg custom-lg:text-xl font-bold px-4 py-0">
                   120
@@ -75,9 +75,9 @@ function Etutors() {
                         ? "min-h-[7rem] sm:min-h-[8rem] bg-[#a296cc] rounded-md sm:rounded-xl  custom-lg:rounded-2xl "
                         : "min-h-[60px] sm:min-h-[92px]"
                     }`}
+                    key={index}
                   >
                     <div
-                      key={index}
                       className="item min-h-[60px] sm:min-h-[92px] bg-[#a296cc] rounded-md sm:rounded-xl  custom-lg:rounded-2xl flex items-center px-4 custom-lg:px-7  justify-between"
                     >
                       <div className="flex items-center gap-4 custom-lg:gap-0">
