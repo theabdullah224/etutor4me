@@ -19,7 +19,7 @@ import level8 from "../../../../public/level-8.svg";
 import level9 from "../../../../public/level-9.svg";
 import level10 from "../../../../public/level-10.svg";
 
-
+import { useToast } from "@/hooks/use-toast"
 import { Send, MessageSquare, Folder, User, PaperclipIcon } from "lucide-react";
 import chaticon from "../../../../public/chaticon (2).svg";
 import sendicon from "../../../../public/sendicon.svg";
@@ -191,6 +191,7 @@ function MyEtutor({
   setActiveFindEtutor,
   setTutor,
 }: MyEtutorprops) {
+  const { toast } = useToast();
   const { data: session } = useSession();
   const [showChat, setShowChat] = useState(false || showchatvalue);
   const [isLoading, setIsLoading] = useState(true);
@@ -244,7 +245,7 @@ function MyEtutor({
 
 
 
-  const sendMessage = async (e) => {
+  const sendMessage = async (e:any) => {
  
     e.preventDefault(); // Prevent default form submission behavior
     if (newMessage) {
@@ -618,7 +619,7 @@ function MyEtutor({
                       className="hidden"
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         if (e.target.files && e.target.files[0]) {
-                          const file = e.target.files[0];
+                          const file:any = e.target.files[0];
                           setselectedFile(file);
                           setFile(file);
                           setFileName(file.name);
