@@ -368,7 +368,7 @@ const UserProfile: React.FC = () => {
   
 
 const gobacktoParent = async ()=>{
-  console.log(LinkedParent.email,LinkedParent._id)
+
   await update({
     user:{
       // @ts-ignore
