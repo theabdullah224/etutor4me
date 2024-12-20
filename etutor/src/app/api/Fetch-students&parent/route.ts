@@ -50,7 +50,7 @@ import ParentModel from '../models/Parent';
 import RequestModel from '../models/Request'; // Import the Request model
 import { NextResponse } from 'next/server';
 import TeacherModel from '../models/Teacher';
-import { authOptions } from '../auth/[...nextauth]/route';
+import { authOptions } from '@/app/auth/auth';
 import { getServerSession } from 'next-auth';
 
 export async function GET(req: Request) {

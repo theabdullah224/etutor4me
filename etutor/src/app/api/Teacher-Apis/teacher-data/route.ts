@@ -6,7 +6,7 @@ import { connectMongoDB } from '../../connection/connection';  // Adjust the pat
 import TeacherModel from '../../models/Teacher';  // Adjust the import path based on your project structure
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';  // NextAuth session import
-import { authOptions } from '../../auth/[...nextauth]/route';
+import { authOptions } from '@/app/auth/auth';
 
 export async function GET(req: Request) {
   try {

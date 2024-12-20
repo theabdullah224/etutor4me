@@ -3,7 +3,7 @@ import {connectMongoDB} from '../../connection/connection'; // MongoDB connectio
 import ParentModel from '../../models/Parent';
 import StudentModel from '../../models/Student';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../../auth/[...nextauth]/route';
+import { authOptions } from '@/app/auth/auth';
 export async function POST(req: NextRequest) {
   try {
     await connectMongoDB();
