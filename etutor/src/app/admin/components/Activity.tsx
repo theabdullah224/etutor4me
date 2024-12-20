@@ -14,7 +14,7 @@ import TotalAccounts from "./TotalAccounts";
 import Atss from "./Atss";
 import WebsiteSpeed from "./WebsiteSpeed";
 import DemoGraphicReport from "./DemoGraphicReport";
-import ActiveEtutorOverview from "./activeEtutorOverview";
+import ActiveEtutorOverview from "./ActiveEtutorOverview";
 import TotalEtutorAccounts from "./TotalEtutorAccounts";
 import SessionOverview from "./SessionOverview";
 
