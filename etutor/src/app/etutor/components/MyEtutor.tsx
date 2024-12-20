@@ -232,7 +232,7 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
       const chatMessage = {
         senderId: userId,
         // @ts-ignore
-        recipientId: showmessages.user._id, // Tutor ID
+        recipientId: showmessages?.user._id, // Tutor ID
         content: newMessage,
         fileUrl: null,
         fileType: null,
@@ -313,7 +313,8 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('senderId', session?.user.id);
-      formData.append('recipientId', showmessages.user._id);
+      // @ts-ignore
+      formData.append('recipientId', showmessages?.user?._id);
     
       try {
         // Call API to upload the file
