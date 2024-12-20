@@ -25,7 +25,7 @@ const options = [
 ];
 
 const a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
-function FreeTrials() {
+function PaidSessions() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
   const [hover1, sethover1] = useState<number | null>(null);
@@ -41,11 +41,11 @@ function FreeTrials() {
     setIsOpen(!isOpen);
   };
   return (
-    <div className="bg-[#ede8fa] rounded-md sm:rounded-xl  custom-lg:rounded-3xl h-fit  px-3 custom-xl:px-10  py-3 custom-xl:py-10  relative">
+    <div className="mt-10 bg-[#ede8fa] rounded-md sm:rounded-xl  custom-lg:rounded-3xl h-fit  px-3 custom-xl:px-10  py-3 custom-xl:py-10  relative">
       <div className="flex justify-between  custom-xl:items-center flex-wrap  gap-y-4 ">
         <div className="flex gap-4 items-center">
           <h1 className="text-xl sm:text-3xl custom-lg:text-[45px] text-[#685aad] font-medium leading-normal">
-            Free Trials
+          Sessions
           </h1>
           <div className="border-2 custom-xl:border-8 border-[#b4a5d7] text-[#8376bc] rounded-md md:rounded-xl custom-xl:rounded-2xl text-base sm:text-lg md:text-2xl custom-lg:text-4xl font-bold px-5 py-0.5">
             120
@@ -140,7 +140,9 @@ function FreeTrials() {
             <li className="w-full max-w-[3.2%]  "></li>
             <li className="w-full max-w-[13.6rem]">Students</li>
             <li className="w-full max-w-[13.2rem]">eTutor</li>
-            <li className="w-full max-w-[13.3rem] hidden custom-2xl:block">Subject</li>
+            <li className="w-full max-w-[13.3rem] hidden custom-2xl:block">
+              Subject
+            </li>
             <li className="w-full max-w-[13.4rem] ">Session date</li>
             <li className="w-full min-w-fit">Status</li>
           </ul>
@@ -160,7 +162,6 @@ function FreeTrials() {
               } `}
             >
               <div className="h-[60px] sm:h-[107px] w-full rounded-md sm:rounded-xl  custom-lg:rounded-3xl flex items-center justify-between custom-xl:justify-normal  gap-2 sm:gap-5 px-4 custom-lg:px-14 ">
-
                 <div className="w-[14.4rem]  truncate">
                   <h1 className="text-white  text-sm sm:text-base md:text-xl custom-lg:text-2xl custom-xl:text-3xl font-">
                     Same Jhonson
@@ -246,7 +247,7 @@ function FreeTrials() {
                 </div>
                 <div className="">
                   <span className="font-medium text-[#685aad] text-xs sm:text-sm custom-xl:text-base ">
-                  Session date: <br />
+                    Session date: <br />
                   </span>
                   <h1 className="text-white  text-xs sm:text-sm custom-lg:text-lg custom-xl:text-xl font-medium">
                     Same Jhonson
@@ -414,4 +415,4 @@ function FreeTrials() {
   );
 }
 
-export default FreeTrials;
+export default PaidSessions;
