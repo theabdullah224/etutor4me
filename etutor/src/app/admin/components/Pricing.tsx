@@ -92,9 +92,9 @@ function Pricing() {
                         ? "min-h-[7rem] sm:min-h-[8rem] bg-[#a296cc] rounded-md sm:rounded-xl  custom-lg:rounded-2xl "
                         : "min-h-[60px] sm:min-h-[92px]"
                     }`}
+                    key={index}
                   >
                     <div
-                      key={index}
                       className="item min-h-[60px] sm:min-h-[92px] bg-[#a296cc] rounded-md sm:rounded-xl  custom-lg:rounded-2xl flex items-center px-4 custom-lg:px-7  justify-between"
                     >
                       <div className="flex items-center gap-4 custom-lg:gap-0">
