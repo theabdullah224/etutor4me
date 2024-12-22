@@ -1,8 +1,35 @@
+"use client"
 import React, { useState } from "react";
 import downloadReport from '../../../../public/downloadReport.svg'
 import Image from "next/image";
+import SalaryBarChart from "./SalaryBarChart";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 function TotalPayoutsChart() {
     const [hover, sethover] = useState(false)
+    const [salaryData, setSalaryData] = useState({
+      midMonthPay: 3700,
+      monthEndPay: 2600,
+      midMonthDate: "15/10/2024",
+      monthEndDate: "30/10/2024"
+    });
+  
+    const handleInputChange = (field: string, value: string) => {
+      if (field.includes('Pay')) {
+        // Convert to number for pay values
+        setSalaryData(prev => ({
+          ...prev,
+          [field]: Number(value) || 0
+        }));
+      } else {
+        // Keep as string for dates
+        setSalaryData(prev => ({
+          ...prev,
+          [field]: value
+        }));
+      }
+    };
+  
   return (
     <div className="py-1.5">
 
@@ -35,8 +62,49 @@ function TotalPayoutsChart() {
 
 
 
-      <div className="chart">
-
+      <div className="">
+      <div className="max-w-4xl mx-auto  flex items-center justify-center py-3">
+      {/* <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="midMonthPay">Mid-Month Pay</Label>
+          <Input
+            id="midMonthPay"
+            type="number"
+            value={salaryData.midMonthPay}
+            onChange={(e) => handleInputChange('midMonthPay', e.target.value)}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="monthEndPay">Month-End Pay</Label>
+          <Input
+            id="monthEndPay"
+            type="number"
+            value={salaryData.monthEndPay}
+            onChange={(e) => handleInputChange('monthEndPay', e.target.value)}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="midMonthDate">Mid-Month Date</Label>
+          <Input
+            id="midMonthDate"
+            type="text"
+            value={salaryData.midMonthDate}
+            onChange={(e) => handleInputChange('midMonthDate', e.target.value)}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="monthEndDate">Month-End Date</Label>
+          <Input
+            id="monthEndDate"
+            type="text"
+            value={salaryData.monthEndDate}
+            onChange={(e) => handleInputChange('monthEndDate', e.target.value)}
+          />
+        </div>
+      </div> */}
+      
+      <SalaryBarChart {...salaryData} />
+    </div>
 
 
 
