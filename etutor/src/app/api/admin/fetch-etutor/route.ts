@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import {connectMongoDB} from '@/app/api/connection/connection'; // Ensure this connects to your MongoDB instance
-import parentmodel from '@/app/api/models/Parent'; // Ensure this points to your Student schema
-import UserModel from '@/app/api/models/User'; // Ensure this points to your User schema
+import teachermodal from '@/app/api/models/Teacher'; // Ensure this points to your Student schema
 
 export async function GET() {
   try {
@@ -9,9 +8,9 @@ export async function GET() {
     await connectMongoDB();
 
     // Fetch all students and populate the 'user' field
-    const parent = await parentmodel.find().populate('user');
+    const teacher = await teachermodal.find().populate('user');
 
-    return NextResponse.json({ success: true, data: parent }, { status: 200 });
+    return NextResponse.json({ success: true, data: teacher }, { status: 200 });
   } catch (error:any) {
     console.error('Error fetching students:', error);
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

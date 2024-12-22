@@ -103,7 +103,7 @@ console.log(filteredStudents)
   
   return (
     <div>
-      <div className="flex flex-col   gap-2 custom-lg:gap-2  w-fit    pl-10  absolute  top-8">
+      <div className="flex flex-col   gap-2 custom-lg:gap-2  w-fit    pl-10  absolute  top-16 sm:top-8">
         {/* ---------search bar top------- */}
         <div className="relative w-fit  h-fit truncate ">
           <input
@@ -197,8 +197,8 @@ console.log(filteredStudents)
 
 
       <div className=" mt-28 py-3 sm:py-6 custom-xl:py-12 px-3 custom-xl:px-7 bg-[#ede8fa] h-full rounded-md sm:rounded-xl  custom-lg:rounded-3xl">
-        <div className="flex justify-between items-start">
-          <div className="flex gap-8 items-start">
+        <div className="flex justify-between items-start flex-wrap">
+          <div className="flex gap-8 items-start ">
             <h1 className="text-xl sm:text-3xl custom-lg:text-[50px] text-[#8276bc] font-medium leading-normal pl-5">
               {sortConfig == "all"
                 ? "All accounts"
@@ -224,7 +224,7 @@ console.log(filteredStudents)
           <div className="mr-5">
             <div className="relative   h-fit   w-full custom-xl:w-fit ">
                 <div
-                  className={`bg-[#b4a5d7] text-white  sm:text-sm pl-5 custom-lg:pl-10 pr-4 custom-lg:pr-8 py-2 custom-lg:py-4 text-xl transition-all duration-500 rounded-md cursor-pointer select-none   flex items-center justify-between w-full custom-xl:w-[24.4rem] ${
+                  className={`bg-[#b4a5d7] text-white  sm:text-sm pl-5 custom-lg:pl-10 pr-4 custom-lg:pr-8 py-2 custom-lg:py-4 text-xl transition-all duration-500 rounded-md cursor-pointer select-none   flex items-center justify-between  w-[15rem] custom-lg:w-[24.4rem] ${
                     isOpen2
                       ? "border  border-[#a394d6]"
                       : "border border-transparent"
