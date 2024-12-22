@@ -56,8 +56,10 @@ function Students() {
     } else if (sortConfig2.key === "nameDesc") {
       return b.firstName.localeCompare(a.firstName);
     } else if (sortConfig2.key === "dateAsc") {
+      // @ts-ignore
       return new Date(a.user.createdAt) - new Date(b.user.createdAt);
     } else if (sortConfig2.key === "dateDesc") {
+      // @ts-ignore
       return new Date(b.user.createdAt) - new Date(a.user.createdAt);
     }
     return 0; // Default (no sorting applied)
@@ -76,8 +78,10 @@ const handleSort = (key:any) => {
     } else if (sortConfig2.key === "nameDesc") {
       return b.firstName.localeCompare(a.firstName);
     } else if (sortConfig2.key === "dateAsc") {
+      // @ts-ignore
       return new Date(a.user.createdAt) - new Date(b.user.createdAt);
     } else if (sortConfig2.key === "dateDesc") {
+      // @ts-ignore
       return new Date(b.user.createdAt) - new Date(a.user.createdAt);
     }
     return 0; // Default (no sorting applied)
