@@ -11,6 +11,7 @@ import badge from "../../../../public/level-10.svg";
 import QualificationFile from "../../../../public/qualificationFile.svg";
 import LinkOpener from "../../../../public/LinkOPener.svg";
 import infoIcon from "../../../../public/infoIconAdmin.svg";
+import { usePauseTutoring } from "../hooks/usePauseTutoring";
 const options = [
   { value: "nameAsc", label: "Student Name (A-Z)" },
   { value: "nameDesc", label: "Student Name (Z-A)" },
@@ -23,6 +24,9 @@ const options = [
 
 const a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 function PauseRequest() {
+
+  
+  const {PauseTutoring , isLoading, error } = usePauseTutoring();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
   const [hover1, sethover1] = useState<number | null>(null);
@@ -39,6 +43,51 @@ function PauseRequest() {
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+
+  if (isLoading )
+    return <p>Loading...</p>;
+  if (error )
+    return <p>Error loading students: {error.message}</p>;
+
+
+
+
+
+
+
+
+
+  const updatePauseRequestStatus = async (id: string, status: "approved" | "declined", adminComments?: string) => {
+    const payload = {
+      id,
+      status,
+      adminComments,
+    };
+  
+    try {
+      const response = await fetch("/api/pause-tutoring/status", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        console.log("Status updated successfully:", data);
+      } else {
+        console.error("Failed to update status:", data);
+      }
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
+  };
+
+  
+
+
   return (
     <div className="mt-10 bg-[#ede8fa] rounded-md sm:rounded-xl  custom-lg:rounded-3xl h-fit  px-3 custom-xl:px-10  py-3 custom-xl:py-10  relative">
       <div className="flex justify-between  custom-xl:items-center flex-wrap  gap-y-4 ">
@@ -71,7 +120,7 @@ function PauseRequest() {
         </div>
             </div>
           <div className="border-2 custom-xl:border-8 border-[#b4a5d7] text-[#8376bc] rounded-md md:rounded-xl custom-xl:rounded-2xl text-base sm:text-lg md:text-2xl custom-lg:text-4xl font-bold px-5 py-0.5">
-            120
+            {PauseTutoring?.filter((pause:any)=>pause.status === "pending").length}
           </div>
         </div>
 
@@ -172,13 +221,13 @@ function PauseRequest() {
           id="style-3"
           className="items flex flex-col gap-2 sm:gap-3 custom-xl:gap-5 custom-xl:mt-7 overflow-y-scroll h-[40rem] custom-2xl:h-[45rem] pr-2 custom-xl:pr-10    "
         >
-          {a.map((index) => (
+          {PauseTutoring.filter((pause:any)=>pause.status === "pending").map((pause:any,index:any) => (
             <div
               key={index}
               className={`bg-[#a296cc]  w-full rounded-md sm:rounded-xl  custom-lg:rounded-3xl transition-all transform duration-500  ${
                 hover === index
-                  ? "h-fit custom-xl:h-fit  hover:cursor-pointer"
-                  : "min-h-[60px] sm:min-h-[107px] overflow-hidden"
+                  ? "h-fit   hover:cursor-pointer"
+                  : "h-[60px] sm:h-[107px] overflow-hidden"
               } `}
             >
               <div className="h-[60px] sm:h-[107px] w-full rounded-md sm:rounded-xl  custom-lg:rounded-3xl px-4 custom-lg:pl-9 custom-lg:pr-6 custom-lg:px-0  flex justify-between items-center gap-4 custom-2xl:gap-10">
@@ -186,24 +235,24 @@ function PauseRequest() {
                   <div className="flex gap-4">
                     <div className="">
                       <div className="border rounded-full h-[40px] md:h-[68px] w-[40px] md:w-[68px] overflow-hidden">
-                        <Image src={badge} alt="" className="" />
+                        <img src={pause?.user?.profilePicture} alt="" className="" />
                       </div>
                     </div>
 
                     <div className="sm:max-w-[63%]  truncate">
-                      <h1 className="text-white  text-sm sm:text-base md:text-xl custom-lg:text-2xl custom-xl:text-3xl font-">
-                        Same Jhonson
+                      <h1 className="text-white  text-sm sm:text-base md:text-xl custom-lg:text-2xl custom-xl:text-3xl font-medium capitalize">
+                        {pause?.teacher?.contactInformation?.firstName}
                       </h1>
                       <span className="text-white text-xs sm:text-sm custom-lg:text-lg custom-xl:text-xl leading-none">
-                        #8004939
+                        #{pause.user._id.substring(0,6)}
                       </span>
                     </div>
                   </div>
 
                   <div className="w-[32%] truncate  hidden custom-2xl:flex flex-col  items-start  ">
-                    <h1 className="text-white  text-3xl font-[450]">Tuesday</h1>
+                    <h1 className="text-white  text-3xl font-[450]">Member Since</h1>
                     <span className="text-white text-xs sm:text-sm custom-lg:text-lg custom-xl:text-xl leading-none">
-                      #8004939
+                      {new Date(pause?.user?.createdAt).toLocaleDateString('en-GB')}
                     </span>
                   </div>
 
@@ -223,10 +272,19 @@ function PauseRequest() {
                 </div>
 
                 <div className="   gap-2 hidden custom-lg:flex ">
-                  <button className="bg-[#fc7777] text-sm sm:text-base md:text-lg custom-lg:text-2xl text-white px-4 sm:px-8 custom-lg:px-12 py-1 sm:py-2 custom-lg:py-4 rounded-md custom-lg:rounded-xl">
+                  <button 
+                     onClick={(e)=>{
+                      updatePauseRequestStatus(pause._id,"declined","")
+                    }}
+                  className="bg-[#fc7777] text-sm sm:text-base md:text-lg custom-lg:text-2xl text-white px-4 sm:px-8 custom-lg:px-12 py-1 sm:py-2 custom-lg:py-4 rounded-md custom-lg:rounded-xl">
                     Decline
                   </button>
-                  <button className="bg-[#8653ff] text-sm sm:text-base md:text-lg custom-lg:text-2xl text-white px-4 sm:px-8 custom-lg:px-11 py-1 sm:py-2 custom-lg:py-4 rounded-md custom-lg:rounded-xl">
+                  <button
+                  
+                  onClick={(e)=>{
+                    updatePauseRequestStatus(pause._id,"approved","")
+                  }}
+                  className="bg-[#8653ff] text-sm sm:text-base md:text-lg custom-lg:text-2xl text-white px-4 sm:px-8 custom-lg:px-11 py-1 sm:py-2 custom-lg:py-4 rounded-md custom-lg:rounded-xl">
                     Approve
                   </button>
                 </div>

@@ -12,6 +12,7 @@ import badge from "../../../../public/level-10.svg";
 import QualificationFile from "../../../../public/qualificationFile.svg";
 import LinkOpener from "../../../../public/LinkOPener.svg";
 import infoIcon from "../../../../public/infoIconAdmin.svg";
+import { useResignation } from "../hooks/useResignation";
 const options = [
   { value: "nameAsc", label: "Student Name (A-Z)" },
   { value: "nameDesc", label: "Student Name (Z-A)" },
@@ -24,6 +25,7 @@ const options = [
 
 const a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 function ResignRequests() {
+  const {resignTutoring , resignLoading, resignError } = useResignation();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
   const [hover1, sethover1] = useState<number | null>(null);
@@ -36,6 +38,21 @@ function ResignRequests() {
     key: "",
     direction: "ascending",
   });
+
+
+
+
+
+
+
+  if (resignLoading )
+    return <p>Loading...</p>;
+  if (resignError )
+    return <p>Error loading students: {resignError.message}</p>;
+
+
+
+
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -72,7 +89,7 @@ function ResignRequests() {
         </div>
             </div>
           <div className="border-2 custom-xl:border-8 border-[#b4a5d7] text-[#8376bc] rounded-md md:rounded-xl custom-xl:rounded-2xl text-base sm:text-lg md:text-2xl custom-lg:text-4xl font-bold px-5 py-0.5">
-            120
+          {resignTutoring?.filter((pause:any)=>pause.status === "pending").length}
           </div>
         </div>
 
@@ -173,7 +190,7 @@ function ResignRequests() {
           id="style-3"
           className="items flex flex-col gap-2 sm:gap-3 custom-xl:gap-5 custom-xl:mt-7 overflow-y-scroll h-[40rem] custom-2xl:h-[45rem] pr-2 custom-xl:pr-10    "
         >
-          {a.map((index) => (
+          {resignTutoring.filter((resign:any)=>resign.status === "pending").map((resign:any,index:any) => (
             <div
               key={index}
               className={`bg-[#a296cc]  w-full rounded-md sm:rounded-xl  custom-lg:rounded-3xl transition-all transform duration-500  ${
@@ -187,24 +204,24 @@ function ResignRequests() {
                   <div className="flex gap-4">
                     <div className="">
                       <div className="border rounded-full h-[40px] md:h-[68px] w-[40px] md:w-[68px] overflow-hidden">
-                        <Image src={badge} alt="" className="" />
+                        <img src={resign?.user?.profilePicture} alt="" className="" />
                       </div>
                     </div>
 
                     <div className="sm:max-w-[63%]  truncate">
                       <h1 className="text-white  text-sm sm:text-base md:text-xl custom-lg:text-2xl custom-xl:text-3xl font-">
-                        Same Jhonson
+                      {resign?.teacher?.contactInformation?.firstName}
                       </h1>
                       <span className="text-white text-xs sm:text-sm custom-lg:text-lg custom-xl:text-xl leading-none">
-                        #8004939
+                        #{resign.user._id.substring(0,6)}
                       </span>
                     </div>
                   </div>
 
                   <div className="w-[32%] truncate  hidden custom-2xl:flex flex-col  items-start  ">
-                    <h1 className="text-white  text-3xl font-[450]">Tuesday</h1>
+                    <h1 className="text-white  text-3xl font-[450]">Member Since</h1>
                     <span className="text-white text-xs sm:text-sm custom-lg:text-lg custom-xl:text-xl leading-none">
-                      #8004939
+                    {new Date(resign?.user?.createdAt).toLocaleDateString('en-GB')}
                     </span>
                   </div>
 

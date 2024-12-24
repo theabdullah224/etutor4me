@@ -13,9 +13,7 @@ const options = [
   { value: "nameDesc", label: "Student Name (Z-A)" },
   { value: "dateAsc", label: "Date (Oldest First)" },
   { value: "dateDesc", label: "Date (Newest First)" },
-  { value: "status", label: "Status" },
-  { value: "level", label: "Level of Study" },
-  { value: "grade", label: "Grade" },
+  
 ];
 
 const a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
@@ -30,11 +28,15 @@ function QualificationApprovals() {
   const [activetab, setActivetab] = useState("");
   const [iconHover, seticonHover] = useState(false)
   const [loading, setLoading] = useState<any>(null);
-  const [sortConfig, setSortConfig] = useState({
-    key: "",
-    direction: "ascending",
-  });
   const [status, setStatus] = useState<any>('');
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "ascending" });
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredDocs, setFilteredDocs] = useState(docs);
+
+
+
+
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -94,8 +96,69 @@ function QualificationApprovals() {
   };
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  const filteredBookings = docs.filter((booking:any) => {
+    const studentName = booking.student?.firstName?.toLowerCase() || "";
+    const teacherName =
+      booking.teacher?.contactInformation?.firstName?.toLowerCase() || "";
+    const search = searchTerm.toLowerCase();
+
+    return (
+      studentName.includes(search) || teacherName.includes(search)
+    );
+  });
+
+  // Sort bookings based on sortConfig
+  const sortedApprovals = [...filteredBookings].sort((a, b) => {
+    if (!sortConfig.key) return 0; // No sorting if key is not set
+
+    if (sortConfig.key.includes("name")) {
+      const studentA = a.student?.firstName?.toLowerCase() || "";
+      const studentB = b.student?.firstName?.toLowerCase() || "";
+      return sortConfig.direction === "ascending"
+        ? studentA.localeCompare(studentB)
+        : studentB.localeCompare(studentA);
+    }
+
+    if (sortConfig.key.includes("date")) {
+      const dateA:any = new Date(a.createdAt || "");
+      const dateB:any = new Date(b.createdAt || "");
+      return sortConfig.direction === "ascending"
+        ? dateA - dateB
+        : dateB - dateA;
+    }
+
+    return 0;
+  });
+
+  // Handle sort selection
+  const handleSortChange = (key:any) => {
+    const direction =
+      sortConfig.key === key && sortConfig.direction === "ascending"
+        ? "descending"
+        : "ascending";
+    setSortConfig({ key, direction });
+  };
+
+
+
   return (
     <div className="mt-10 bg-[#ede8fa] rounded-md sm:rounded-xl  custom-lg:rounded-3xl h-fit  px-3 custom-xl:px-10  py-3 custom-xl:py-10  relative">
+
+
       <div className="flex justify-between  custom-xl:items-center flex-wrap  gap-y-4 ">
         <div className="flex gap-4 items-center">
             <div className="flex items-end gap-5">
@@ -140,6 +203,8 @@ function QualificationApprovals() {
               type="text"
               placeholder="Search by name,or ID"
               className=" bg-[#a296cc] text-[#d1cbe6] truncate placeholder-[#d1cbe6] text-xl px-5  custom-lg:px-10  py-2 custom-lg:py-4 rounded-md border border-transparent w-full  custom-xl:w-[24.4rem] focus:outline-none focus:ring-0"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
             <Image
               src={searchicon}
@@ -181,6 +246,7 @@ function QualificationApprovals() {
                 >
                   {options.map((option) => (
                     <li
+                    onClick={() => handleSortChange(option.value)}
                       key={option.value}
                       className={` first:pb-3 first:pt-0 py-3 cursor-pointer last:border-b-0 border-b border-[#e3dff0]  text-[#e3dff0] text-lg max-w-[14.9rem]   ${
                         selectedOption === option.value ? "" : ""
@@ -230,7 +296,10 @@ function QualificationApprovals() {
           id="style-3"
           className="items flex flex-col gap-2 sm:gap-3 custom-xl:gap-5 custom-xl:mt-7 overflow-y-scroll h-[40rem] custom-2xl:h-[45rem] pr-2 custom-xl:pr-10    "
         >
-          {docs.filter((docs:any)=>(docs.status === "Pending")).map((docs: any,index: React.Key | any | undefined) => (
+
+
+          
+          {sortedApprovals.filter((docs:any)=>(docs.status === "Pending")).map((docs: any,index: React.Key | any | undefined) => (
             <div
               key={index}
               className={`bg-[#a296cc]  w-full rounded-md sm:rounded-xl  custom-lg:rounded-3xl transition-all transform duration-500  ${
@@ -366,6 +435,9 @@ function QualificationApprovals() {
               </div>
             </div>
           ))}
+
+
+
           <style jsx>{`
             #style-3::-webkit-scrollbar-track {
               border-radius: 10px;
