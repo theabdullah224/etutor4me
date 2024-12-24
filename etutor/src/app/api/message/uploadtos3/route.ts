@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import { nanoid } from 'nanoid';
+
 
 // Initialize the S3 client
 const s3 = new S3Client({

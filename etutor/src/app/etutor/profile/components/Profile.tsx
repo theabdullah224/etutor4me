@@ -7,6 +7,8 @@ import bluefoldericon from "../../../../../public/blueFolderIconFilled.svg";
 import downloadicon from "../../../../../public/downloadIconDownARrow.svg";
 import Image from "next/image";
 import useSWR from "swr";
+import { useSession } from "next-auth/react";
+import { useToast } from "@/hooks/use-toast";
 export interface Teacher {
   user: string; // ObjectId reference to the User model
   acceptsTrialSession?: boolean;
@@ -142,6 +144,15 @@ const subjectOptions = [
     label: "Microeconomics/Macroeconomics",
   },
 ];
+const PurposeOfAttachment = [
+  { value: "Degree certificate", label: "Degree certificate" },
+  { value: "Grade Transcript", label: "Grade Transcript" },
+  { value: "Professional Certification", label: "Professional Certification" },
+  { value: "Other", label: "Other" },
+];
+
+
+
 const subjectLevelOptions = [
   
   { value: "Pre-Kindergarten", label: "Pre-Kindergarten" },
@@ -265,7 +276,8 @@ const timezoneoptions = [
   { label: "Kiritimati, GMT +14:00", value: "Kiritimati, GMT +14:00" },
 ];
 function Profile() {
-  const [files, setFiles] = useState([]);
+  const { toast } = useToast();
+  const { data: session,update } = useSession();
   const [activeTab, setActiveTab] = useState("GENERAL");
   const [error, setError] = useState<string | null>(null);
   const [isSubjectDropdownOpen, setIsSubjectDropdownOpen] = useState(false);
@@ -372,10 +384,106 @@ function Profile() {
   const [selectedPurposeOfAttechments, setSelectedPurposeOfAttechments] =
     useState("");
 
-  const handleFileChange = (event: any) => {
-    //@ts-ignore
-    setFiles([...files, ...event.target.files]);
+
+
+
+    // qualification approval-------------------------
+    const [tutorId, setTutorId] = useState('');
+  const [subject, setSubject] = useState('');
+  const [purpose, setPurpose] = useState('');
+  const [files, setFiles] = useState<File[]>([]);
+  const [uploadedUrls, setUploadedUrls] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setFiles(Array.from(event.target.files));
+    }
   };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setErrorMessage('');
+    setUploadedUrls([]);
+
+    const formData = new FormData();
+    formData.append('userid', session?.user.id);
+    formData.append('subject', selectedSubjectToVerifys);
+    formData.append('purpose', selectedPurposeOfAttechments);
+    // @ts-ignore
+    formData.append('teacher', teacher?._id);
+    files.forEach((file) => formData.append('files', file));
+
+    try {
+      const response = await fetch('/api/qualification-approval', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setUploadedUrls(result.uploadedFiles.map((file: { fileUrl: string }) => file.fileUrl));
+
+        toast({
+          title: "Success",
+          description: "Your files have been successfully submitted for verification. Thank you!",
+          variant: "default",
+        });
+        setIsPopupOpen(false)
+      } else {
+        setErrorMessage(result.error || 'Failed to upload files');
+      }
+    } catch (error) {
+      toast({
+        title: "!",
+        description: `'Error uploading files:' ${error}`,
+        variant: "destructive",
+      });
+    
+    } finally {
+      setIsSubmitting(false);
+      
+      setSelectedSubjectToVerifys("")
+      setSelectedPurposeOfAttechments("")
+      setFiles([])
+    }
+  };
+
+
+
+
+
+
+    // -------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // const handleFileChange = (event: any) => {
+  //   //@ts-ignore
+  //   setFiles([...files, ...event.target.files]);
+  // };
 
   const removeFile = (index: any) => {
     const updatedFiles = [...files];
@@ -424,7 +532,7 @@ function Profile() {
     setLanguages(languages.filter((_, index) => index !== indexToDelete));
   };
 
-  console.log(languages);
+ 
 
   // update function-------------------------
   const handleSave = async () => {
@@ -511,6 +619,7 @@ function Profile() {
     }
   };
 
+  console.log(teacher)
   useEffect(() => {
     if (teacher && isEditing !== true) {
       // Contact Information
@@ -762,6 +871,19 @@ function Profile() {
       },
     }
   );
+
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <div className=" h-fit w-full -mt-1 rounded-tl-3xl flex mb-12 pb-12   ">
       <div className="w-full    rounded-3xl  relative h-full scrollbar-none p-0 m-0">
@@ -1646,7 +1768,7 @@ function Profile() {
                           recognition within our platform.
                         </p>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-0 pt-3 max-w-[79rem]">
+                        <div className="grid grid-cols-1 custom-xl:grid-cols-2 gap-0 pt-3 max-w-[79rem]">
                           {/* SubjectToVerify select */}
                           <div className="w-full max-w-[29.7rem] mt-11">
                             <label className="block text-lg sm:text-xl font-semibold text-[#685AAD] pb-1">
@@ -1749,7 +1871,7 @@ function Profile() {
                                     id="style-2"
                                     className="max-h-[16.4rem] overflow-y-scroll  "
                                   >
-                                    {subjectOptions.map(
+                                    {PurposeOfAttachment.map(
                                       (PurposeOfAttechment) => (
                                         <div
                                           key={PurposeOfAttechment.value}
@@ -1760,7 +1882,7 @@ function Profile() {
                                             )
                                           }
                                         >
-                                          <div className=" border-b border-white py-2 flex  gap-4  w-full px-4 max-w-[22rem] truncate">
+                                          <div className=" border-b border-white  py-2 flex  gap-4  w-full px-4 max-w-[22rem] truncate">
                                             <span className="ml-2 text-xl text-white ">
                                               {PurposeOfAttechment.label}
                                             </span>
@@ -1826,9 +1948,12 @@ function Profile() {
                               />
                             </div>
                           </div>
-                        </div>
+                        </div>  
 
-                        <div className=" absolute bottom-10 right-9 space-x-6">
+
+                        {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
+
+                        <div className=" absolute bottom-8 custom-xl:bottom-10 right-9 space-x-6 ">
                           <button
                             onClick={() => {
                               setIsPopupOpen(false);
@@ -1838,8 +1963,12 @@ function Profile() {
                             Cancel
                           </button>
                           {files.length > 0 && (
-                            <button className=" bg-[#9052FC] text-white px-20 py-2.5 text-xl rounded-md hover:bg-[#FF6B6B] transition-colors">
-                              Submit Document for Verification
+                            <button
+                            onClick={(e)=>{
+                              handleSubmit(e)
+                            }}
+                            className=" bg-[#9052FC] text-white px-20 py-2.5 text-xl rounded-md hover:bg-[#FF6B6B] transition-colors">
+                               {isSubmitting ? 'Uploading...' : 'Submit Document for Verification'}
                             </button>
                           )}
                         </div>

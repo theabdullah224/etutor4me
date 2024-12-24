@@ -226,7 +226,7 @@ const SessionsDashboard = () => {
       case "My Files":
         return <MyFiles/>
       case "Pause or Resign":
-        return <PauseOrResign/>
+        return <PauseOrResign teacher={teacher}/>
       case "Dashboard":
         return router.push('/etutor')
 
