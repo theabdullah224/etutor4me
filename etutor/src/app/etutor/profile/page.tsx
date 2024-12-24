@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronDown, ChevronUp, ChevronLeft, Menu } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import logo from "../../../../public/etutorlogo.svg";
+import adminLogo from "../../../../public/etutuorAdminLogo.svg";
 import Image from "next/image";
 import Home1 from "../../../../public/homeicon.svg";
 import calender from "../../../../public/calander.svg";
@@ -87,7 +88,7 @@ const SessionsDashboard = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [previousSidebarItem, setPreviousSidebarItem] = useState("");
  
-  const { data: session } = useSession(); // Get the session data
+  const { data: session,update } = useSession(); // Get the session data
   const targetRef = useRef<HTMLDivElement>(null); // Reference to your component
   const [firstname, setFirstname] = useState("");
   const [profilepicture, setProfilepicture] = useState("");
@@ -100,6 +101,22 @@ const SessionsDashboard = () => {
 
 
 
+  const handleImpersonate = async () => {
+   
+    await update({
+      user:{
+        email: 'admin@gmail.com',
+        role: 'admin',
+        id: 'admin',
+        isAdmin: true,
+        isParent:false
+      }
+    })
+    setTimeout(() => {
+     router.push("/admin")
+    }, 3000);
+   
+  };
 
 
 
@@ -227,7 +244,13 @@ const SessionsDashboard = () => {
         } custom-lg:translate-x-0 fixed custom-lg:static inset-y-0 left-0 z-50 max-w-[20rem] sm:max-w-[25rem] w-full  min-h-screen  rounded-tr-3xl rounded-br-3xl bg-[#E6E4F2] text-white flex flex-col transition-transform duration-300 ease-in-out pl-5 pr-9 pt-8 custom-2xl:pt-11 pb-4`}
       >
         <div className="flex items-center mb-[23.5%] pb-2 pl-7">
-          <Image src={logo} alt="" className="w-52 sm:w-[17rem]" />
+          {session?.user?.isAdmin === true ?(
+
+            <Image src={adminLogo} alt="" className="w-52 sm:w-[17rem]" />
+          ):(
+
+            <Image src={logo} alt="" className="w-52 sm:w-[17rem]" />
+          )}
         </div>
         <nav className="flex-grow flex flex-col">
           <ul className="space-y-2 flex-grow">
@@ -420,6 +443,18 @@ const SessionsDashboard = () => {
                   Profile
                 </Link>
 
+                {session?.user?.isAdmin === true && (
+                    <span
+                      onClick={() => {
+                        handleImpersonate();
+                      }}
+                      className="block px-2 py-2 custom-2xl:py-3 text-sm text-[#685AAD]  border-b border-[#685aad7a] "
+                    >
+                      Back to Admin
+                    </span>
+                  )}
+
+                  
                 <a
                   onClick={() => signOut({ callbackUrl: "/" })}
                   className="block px-2 py-2 custom-2xl:py-3 text-sm text-[#685AAD] "

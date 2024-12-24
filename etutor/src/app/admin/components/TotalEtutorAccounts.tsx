@@ -1,6 +1,13 @@
 import React from "react";
 
-function TotalEtutorAccounts() {
+
+interface TotalEtutorAccountsprops{
+  user:any
+}
+
+function TotalEtutorAccounts({user}:TotalEtutorAccountsprops) {
+
+  const totalteacher = user.filter((user:any) => user?.role === "teacher").length;
   return (
     <div>
       <div>
@@ -16,7 +23,7 @@ function TotalEtutorAccounts() {
 
           
               <h1 className="text-3xl md:text-4xl custom-lg:text-[90px]   custom-xl:leading-none text-[#b394fc] font-medium ">
-                1234
+                {totalteacher}
               </h1>
             </div>
           </div>

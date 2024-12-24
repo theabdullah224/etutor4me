@@ -9,6 +9,8 @@ import unfilledStar from "../../../../public/unfilledStar.svg";
 import Image from "next/image";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useTeacher } from "../hooks/useTeacher";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 const a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const options = [
   { value: "students", label: "Student Accounts" },
@@ -37,7 +39,10 @@ function Etutors() {
     key: "",
     direction: "ascending",
   });
-
+  const router = useRouter();
+  const { data: session, status, update } = useSession();
+  const [loading, setloading] = useState<any | undefined>(null);
+  const [loadingIcon, setLoadingIcon] = useState<any | undefined>(null);
   const [isOpen2, setisOpen2] = useState(false);
   const toggleDropdown2 = () => {
     setisOpen2(!isOpen2);
@@ -45,6 +50,42 @@ function Etutors() {
 
   if (isLoading3 ) return <p>Loading...</p>;
   if (error3 ) return <p>Error loading students: {error3.message}</p>;
+
+
+
+
+   // handle impersonate to visit the particular studen/parent/teacher profile------------------------------------------------
+   const handleNavigate = async (role: string) => {
+    setTimeout(() => {
+      if (role === "student") {
+        router.push("/studentdashboard/studentprofile");
+      } else if (role === "parent") {
+        router.push("/parent/parentprofile");
+      } else if (role === "teacher") {
+        router.push("/etutor/profile");
+      }
+    }, 3000);
+  };
+  const handleImpersonate = async (
+    studentUserId: string,
+    StudentEmail: string,
+    role: string,
+    loadingIcon: any
+  ) => {
+    setloading(studentUserId);
+    setLoadingIcon(loadingIcon);
+    await update({
+      user: {
+        email: StudentEmail,
+        role: role,
+        id: studentUserId,
+        isParent: false,
+        isAdmin: true,
+      },
+    });
+  };
+
+
 
   const filteredTeacher = teacher
     .filter((teacher: any) =>
@@ -214,7 +255,7 @@ function Etutors() {
               (teacher: any, index: React.Key | null | undefined) => (
                 <div
                   className={`overflow-hidden transition-all duration-500 ${
-                    Expand === index
+                    Expand === teacher?.user?._id
                       ? "min-h-[7rem] sm:min-h-[8rem] bg-[#b4a5d7] rounded-md sm:rounded-xl  custom-lg:rounded-2xl "
                       : "min-h-[60px] sm:min-h-[92px]"
                   }`}
@@ -240,10 +281,51 @@ function Etutors() {
 
                     <div className="hidden custom-lg:flex items-center   ">
                       <div className="w-[10rem] flex items-center justify-center ">
-                        <Image src={ProfileLogo} alt="" />
+                      {loadingIcon === "profile" &&
+                            loading === teacher?.user?._id ? (
+                              <span className="text-white">Loading...</span>
+                            ) : (
+                              <Image
+                                onClick={() => {
+                                  handleImpersonate(
+                                    teacher?.user?._id,
+                                    teacher?.user?.email,
+                                    teacher?.user?.role,
+                                    "profile"
+                                  );
+                                  handleNavigate(teacher?.user?.role);
+                                }}
+                                src={ProfileLogo}
+                                alt=""
+                                className="hover:cursor-pointer"
+                              />
+                            )}
                       </div>
                       <div className="w-[8.2rem] flex items-center justify-center border-x">
-                        <Image src={Chat} alt="" />
+                      {loadingIcon === "chat" &&
+                            loading === teacher.user._id ? (
+                              <span className="text-white">Loading...</span>
+                            ) : (
+                              <Image
+                                onClick={() => {
+                                  handleImpersonate(
+                                    teacher.user._id,
+                                    teacher.user.email,
+                                    teacher.user.role,
+                                    "chat"
+                                  );
+                                  router.push("/etutor");
+                                  localStorage.setItem(
+                                    "ContactSupport",
+                                    "Support"
+                                  );
+                                  localStorage.setItem("history", "history");
+                                }}
+                                src={Chat}
+                                alt=""
+                                className="hover:cursor-pointer"
+                              />
+                            )}
                       </div>
                       <div className="w-[9.2rem] flex items-center justify-center ">
                         <Image src={Activity} alt="" />
@@ -254,25 +336,66 @@ function Etutors() {
                     <div
                       onClick={() => {
                         setExpand((prev: any) =>
-                          prev === index ? null : index
+                          prev === teacher?.user?._id ? null : teacher?.user?._id
                         );
                       }}
                       className="text-white block custom-lg:hidden"
                     >
-                      {Expand === index ? "Collapse" : "Expand"}
+                      {Expand === teacher?.user?._id ? "Collapse" : "Expand"}
                     </div>
                   </div>
 
                   <div
                     className={`transition-opacity duration-500 px-12 custom-lg:hidden items-center  w-full justify-between ${
-                      Expand != null ? "flex" : "hidden"
+                      Expand != teacher?.user?._id ? "hidden" : "flex"
                     }`}
                   >
                     <div className="">
-                      <Image src={ProfileLogo} alt="" />
+                    {loadingIcon === "profile" &&
+                            loading === teacher?.user?._id ? (
+                              <span className="text-white">Loading...</span>
+                            ) : (
+                              <Image
+                                onClick={() => {
+                                  handleImpersonate(
+                                    teacher?.user?._id,
+                                    teacher?.user?.email,
+                                    teacher?.user?.role,
+                                    "profile"
+                                  );
+                                  handleNavigate(teacher?.user?.role);
+                                }}
+                                src={ProfileLogo}
+                                alt=""
+                                className="hover:cursor-pointer"
+                              />
+                            )}
                     </div>
                     <div className="">
-                      <Image src={Chat} alt="" />
+                    {loadingIcon === "chat" &&
+                            loading === teacher.user._id ? (
+                              <span className="text-white">Loading...</span>
+                            ) : (
+                              <Image
+                                onClick={() => {
+                                  handleImpersonate(
+                                    teacher.user._id,
+                                    teacher.user.email,
+                                    teacher.user.role,
+                                    "chat"
+                                  );
+                                  router.push("/etutor");
+                                  localStorage.setItem(
+                                    "ContactSupport",
+                                    "Support"
+                                  );
+                                  localStorage.setItem("history", "history");
+                                }}
+                                src={Chat}
+                                alt=""
+                                className="hover:cursor-pointer"
+                              />
+                            )}
                     </div>
                     <div className=" ">
                       <Image src={Activity} alt="" />

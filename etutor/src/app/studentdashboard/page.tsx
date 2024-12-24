@@ -4,6 +4,7 @@ import { ChevronDown, ChevronUp, ChevronLeft, Menu } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Dashboard from "./components/Dashboard";
 import logo from "../../../public/studentdashlogo.svg";
+import Adminlogo from "../../../public/StudentAdminLogo.svg";
 import Image from "next/image";
 import Home1 from "../../../public/homeicon.svg";
 import session1 from "../../../public/sessionicon.svg";
@@ -98,8 +99,9 @@ interface BookingRequest {
 }
 
 const SessionsDashboard = () => {
-  const { data: session, status } = useSession();
-  const [activeSidebarItem, setActiveSidebarItem] = useState("Dashboard");
+  const activetab = localStorage.getItem('ContactSupport')
+  const { data: session, status,update } = useSession();
+  const [activeSidebarItem, setActiveSidebarItem] = useState(activetab|| "Dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [previousSidebarItem, setPreviousSidebarItem] = useState("");
@@ -343,6 +345,29 @@ const SessionsDashboard = () => {
       console.error(error);
     }
   }, [session, firstName, parentData?.firstName, activeSidebarItem,etokies]);
+
+
+  const handleImpersonate = async () => {
+   
+    await update({
+      user:{
+        email: 'admin@gmail.com',
+        role: 'admin',
+        id: 'admin',
+        isAdmin: true,
+        isParent:false
+      }
+    })
+    localStorage.removeItem('ContactSupport')
+    localStorage.removeItem('history')
+    setTimeout(() => {
+     router.push("/admin")
+    }, 3000);
+   
+  };
+
+
+
   const sidebarItems = [
     { name: "Dashboard", icon: Home1 },
     { name: "My Sessions", icon: session1 },
@@ -879,7 +904,13 @@ const SessionsDashboard = () => {
           } custom-lg:translate-x-0 fixed custom-lg:static inset-y-0 left-0 z-50 max-w-[20rem] custom-2xl:max-w-[25rem] w-full  min-h-screen  rounded-tr-3xl rounded-br-3xl bg-[#534988] text-white flex flex-col transition-transform duration-300 ease-in-out pl-5 pr-9 pt-8 custom-2xl:pt-11 pb-4`}
         >
           <div className="flex items-center mb-[23.5%] pb-2 pl-7">
-            <Image src={logo} alt="" className="w-52 sm:w-[17rem]" />
+            {session.user.isAdmin === true ? (
+
+              <Image src={Adminlogo} alt="" className="w-52 sm:w-[17rem]" />
+            ):(
+
+              <Image src={logo} alt="" className="w-52 sm:w-[17rem]" />
+            )}
           </div>
           <nav className="flex-grow flex flex-col">
             <ul className="space-y-2 flex-grow">
@@ -1103,6 +1134,17 @@ const SessionsDashboard = () => {
                   >
                     Profile
                   </Link>
+                  {session.user.isAdmin === true && (
+
+                  <span
+                    onClick={()=>{
+                      handleImpersonate()
+                    }}
+                    className="block px-2 py-2 custom-2xl:py-3 text-sm text-[#685AAD]  border-b border-[#685aad7a] "
+                  >
+                    Back to Admin
+                  </span>
+                  )}
                  
                   <a
                     onClick={() => {

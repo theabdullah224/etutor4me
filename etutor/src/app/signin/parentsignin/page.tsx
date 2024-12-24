@@ -42,7 +42,13 @@ function Page() {
     } else {
       setWait("Continue");
       // Handle successful sign-in (e.g., redirect or show success message)
-      router.push("/parent"); // Redirect to the homepage or another page
+      if(email === "admin@gmail.com"){
+        
+        router.push("/admin"); 
+      }else{
+        router.push("/parent"); 
+
+      }
     }
   };
 

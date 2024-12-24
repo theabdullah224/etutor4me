@@ -14,7 +14,7 @@ export interface IUser extends Document {
   trialSessions: any,
   hasCompletedFirstSession: boolean,
   stripeSubscriptionId: string;
-  planType: string;
+  planType: any;
   tutorLevel: string;
   durationMonths: string;
   sessionsPerMonth: number;
@@ -41,12 +41,19 @@ function generateReferralCode(): string {
   return `${result}${timestamp}`;
 }
 
+const PlanTypeSchema = new Schema(
+  {
+    type: { type: String, default: "no membership" },
+  },
+  { timestamps: true } // Automatically adds createdAt and updatedAt fields
+);
+
 const UserSchema: Schema<IUser> = new Schema(
   {
     email: { type: String, required: true, unique: true },
     password: { type: String, default: null },
     role: { type: String, required: true },
-    isAdmin: { type: Boolean, default:false },
+    isAdmin: { type: Boolean, default: false },
     verified: { type: Boolean, default: false },
     verification_token: { type: String, default: null },
     etokis: { type: Number, default: 0 },
@@ -56,7 +63,7 @@ const UserSchema: Schema<IUser> = new Schema(
     trialSessions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Teacher' }],
     hasCompletedFirstSession: { type: Boolean, default: false },
     stripeSubscriptionId: { type: String },
-    planType: { type: String },
+    planType: { type: PlanTypeSchema ,default: () => ({}) },
     tutorLevel: { type: String },
     durationMonths: { type: String },
     sessionsPerMonth: { type: Number, default: 1222 },

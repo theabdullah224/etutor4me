@@ -21,6 +21,7 @@ import translate from "../../../../public/translateicon.svg";
 import dark from "../../../../public/darkicon.svg";
 import rightarrow from "../../../../public/arrowwww.svg";
 import parentprofilelogo from "../../../../public/studentprofile logo.svg";
+import adminLogo from "../../../../public/StudentProfileAdminLogo.svg";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -29,12 +30,12 @@ import axios from "axios";
 const PersonalInfoForm = () => {
   const router = useRouter();
   const [editable, seteditable] = useState(false);
-  const { data: session, status } = useSession();
+  const { data: session, status,update } = useSession();
   const [activeSidebarItem, setActiveSidebarItem] = useState("Dashboard");
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [previousSidebarItem, setPreviousSidebarItem] = useState("");
   const targetRef = useRef<HTMLDivElement>(null);
-
+ 
   const [firstNames, setFirstName] = useState("Loading...");
   const [Lastname, setLastname] = useState("Loading...");
   const [Age, setAge] = useState("Loading...");
@@ -235,11 +236,34 @@ const PersonalInfoForm = () => {
     setSelectedSubjects(selectedSubjects.filter((item) => item !== subject));
   };
 
+  const handleImpersonate = async () => {
+   
+    await update({
+      user:{
+        email: 'admin@gmail.com',
+        role: 'admin',
+        id: 'admin',
+        isAdmin: true,
+        isParent:false
+      }
+    })
+    setTimeout(() => {
+     router.push("/admin")
+    }, 3000);
+   
+  };
+
   return (
     <div className="min-h-screen w-full flex flex-col items-center ">
       <header className="flex justify-between items-start mb-8  w-full  pr-8 pt-4">
         <div className="px-10 py-6 flex ">
+          {session?.user?.isAdmin === true ?(
+
+            <Image src={adminLogo} alt="" />
+          ):(
+
           <Image src={parentprofilelogo} alt="" />
+          )}
 
             <div className="hidden sm:block">
           <Link href="/studentdashboard">
@@ -314,6 +338,18 @@ const PersonalInfoForm = () => {
                 Profile
               </Link>
             
+              {session?.user?.isAdmin === true && (
+
+<span
+  onClick={()=>{
+    handleImpersonate()
+  }}
+  className="block px-2 py-2 custom-2xl:py-3 text-sm text-[#685AAD]  border-b border-[#685aad7a] "
+>
+  Back to Admin
+</span>
+)}
+
               <a
                 onClick={() => {
                   localStorage.setItem("activeSidebarItem", "Settings");

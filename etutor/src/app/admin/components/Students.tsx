@@ -10,8 +10,9 @@ import Image from "next/image";
 import { useStudents } from "../hooks/useStudents";
 import { useParent } from "../hooks/useParents";
 import { ChevronDown, ChevronUp } from "lucide-react";
-const a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+import { useSession } from "next-auth/react";
 
+import { useRouter } from "next/navigation";
 const options = [
   { value: "students", label: "Student Accounts" },
   { value: "parent", label: "Parent Accounts" },
@@ -27,9 +28,11 @@ const options2 = [
 
 
 function Students() {
+  const { data: session, status, update } = useSession();
+  const router = useRouter();
   const [Expand, setExpand] = useState<any>(null);
   const [managePricing, SetmanagePricing] = useState(false);
-  const [etutorPriceManagement, setetutorPriceManagement] = useState(true);
+  
   const { students, isLoading, error } = useStudents();
   const { parent, isLoading2, error2 } = useParent();
   const [isOpen, setIsOpen] = useState(false);
@@ -40,7 +43,8 @@ function Students() {
     key: "",
     direction: "ascending",
   });
-
+  const [loadingIcon, setLoadingIcon] = useState<any | undefined>(null);
+  const [loading, setloading] = useState<any | undefined>(null);
   const [isOpen2, setisOpen2] = useState(false);
   const toggleDropdown2 = () => {
     setisOpen2(!isOpen2);
@@ -48,6 +52,42 @@ function Students() {
 
   if (isLoading || isLoading2) return <p>Loading...</p>;
   if (error || error2) return <p>Error loading students: {error.message}</p>;
+
+
+
+
+   // handle impersonate to visit the particular studen/parent/teacher profile------------------------------------------------
+   const handleNavigate = async (role: string) => {
+    setTimeout(() => {
+      if (role === "student") {
+        router.push("/studentdashboard/studentprofile");
+      } else if (role === "parent") {
+        router.push("/parent/parentprofile");
+      } else if (role === "teacher") {
+        router.push("/etutor/profile");
+      }
+    }, 3000);
+  };
+  const handleImpersonate = async (
+    studentUserId: string,
+    StudentEmail: string,
+    role: string,
+    loadingIcon: any
+  ) => {
+    setloading(studentUserId);
+    setLoadingIcon(loadingIcon);
+    await update({
+      user: {
+        email: StudentEmail,
+        role: role,
+        id: studentUserId,
+        isParent: false,
+        isAdmin: true,
+      },
+    });
+  };
+
+
 
 
  const filteredStudents = students.filter((student: any) =>student.firstName.toLowerCase().includes(searchTerm.toLowerCase())).sort((a: any, b: any) => {
@@ -321,7 +361,7 @@ console.log(filteredStudents)
                 (student: any, index: React.Key | null | undefined) => (
                   <div
                     className={`overflow-hidden transition-all duration-500 ${
-                      Expand === index
+                      Expand === student.user._id
                         ? "min-h-[7rem] sm:min-h-[8rem] bg-[#b4a5d7] rounded-md sm:rounded-xl  custom-lg:rounded-2xl "
                         : "min-h-[60px] sm:min-h-[92px]"
                     }`}
@@ -347,10 +387,51 @@ console.log(filteredStudents)
 
                       <div className="hidden custom-lg:flex items-center   ">
                         <div className="w-[10rem] flex items-center justify-center ">
-                          <Image src={ProfileLogo} alt="" />
+                        {loadingIcon === "profile" &&
+                              loading === student.user._id ? (
+                                <span className="text-white">Loading...</span>
+                              ) : (
+                                <Image
+                                  onClick={() => {
+                                    handleImpersonate(
+                                      student.user._id,
+                                      student.user.email,
+                                      student.user.role,
+                                      "profile"
+                                    );
+                                    handleNavigate(student.user.role);
+                                  }}
+                                  src={ProfileLogo}
+                                  alt=""
+                                  className="hover:cursor-pointer"
+                                />
+                              )}
                         </div>
                         <div className="w-[8.2rem] flex items-center justify-center border-x">
-                          <Image src={Chat} alt="" />
+                        {loadingIcon === "chat" &&
+                              loading === student.user._id ? (
+                                <span className="text-white">Loading...</span>
+                              ) : (
+                                <Image
+                                  onClick={() => {
+                                    handleImpersonate(
+                                      student.user._id,
+                                      student.user.email,
+                                      student.user.role,
+                                      "chat"
+                                    );
+                                    router.push("/studentdashboard");
+                                    localStorage.setItem(
+                                      "ContactSupport",
+                                      "Contact Support"
+                                    );
+                                    localStorage.setItem("history", "history");
+                                  }}
+                                  src={Chat}
+                                  alt=""
+                                  className="hover:cursor-pointer"
+                                />
+                              )}
                         </div>
                         <div className="w-[9.2rem] flex items-center justify-center ">
                           <Image src={Activity} alt="" />
@@ -361,25 +442,66 @@ console.log(filteredStudents)
                       <div
                         onClick={() => {
                           setExpand((prev: any) =>
-                            prev === index ? null : index
+                            prev === student.user._id ? null : student.user._id
                           );
                         }}
                         className="text-white block custom-lg:hidden"
                       >
-                        {Expand === index ? "Collapse" : "Expand"}
+                        {Expand === student.user._id ? "Collapse" : "Expand"}
                       </div>
                     </div>
 
                     <div
                       className={`transition-opacity duration-500 px-12 custom-lg:hidden items-center  w-full justify-between ${
-                        Expand != null ? "flex" : "hidden"
+                        Expand != student.user._id ? "hidden" : "flex"
                       }`}
                     >
                       <div className="">
-                        <Image src={ProfileLogo} alt="" />
+                      {loadingIcon === "profile" &&
+                              loading === student.user._id ? (
+                                <span className="text-white">Loading...</span>
+                              ) : (
+                                <Image
+                                  onClick={() => {
+                                    handleImpersonate(
+                                      student.user._id,
+                                      student.user.email,
+                                      student.user.role,
+                                      "profile"
+                                    );
+                                    handleNavigate(student.user.role);
+                                  }}
+                                  src={ProfileLogo}
+                                  alt=""
+                                  className="hover:cursor-pointer"
+                                />
+                              )}
                       </div>
                       <div className="">
-                        <Image src={Chat} alt="" />
+                      {loadingIcon === "chat" &&
+                              loading === student.user._id ? (
+                                <span className="text-white">Loading...</span>
+                              ) : (
+                                <Image
+                                  onClick={() => {
+                                    handleImpersonate(
+                                      student.user._id,
+                                      student.user.email,
+                                      student.user.role,
+                                      "chat"
+                                    );
+                                    router.push("/studentdashboard");
+                                    localStorage.setItem(
+                                      "ContactSupport",
+                                      "Contact Support"
+                                    );
+                                    localStorage.setItem("history", "history");
+                                  }}
+                                  src={Chat}
+                                  alt=""
+                                  className="hover:cursor-pointer"
+                                />
+                              )}
                       </div>
                       <div className=" ">
                         <Image src={Activity} alt="" />
@@ -393,7 +515,7 @@ console.log(filteredStudents)
                 (parent: any, index: React.Key | null | undefined) => (
                   <div
                     className={`overflow-hidden transition-all duration-500 ${
-                      Expand === index
+                      Expand === parent?.user?._id
                         ? "min-h-[7rem] sm:min-h-[8rem] bg-[#b4a5d7] rounded-md sm:rounded-xl  custom-lg:rounded-2xl "
                         : "min-h-[60px] sm:min-h-[92px]"
                     }`}
@@ -419,10 +541,51 @@ console.log(filteredStudents)
 
                       <div className="hidden custom-lg:flex items-center   ">
                         <div className="w-[10rem] flex items-center justify-center ">
-                          <Image src={ProfileLogo} alt="" />
+                        {loadingIcon === "profile" &&
+                              loading === parent?.user?._id ? (
+                                <span className="text-white">Loading...</span>
+                              ) : (
+                                <Image
+                                  onClick={() => {
+                                    handleImpersonate(
+                                      parent?.user?._id,
+                                      parent?.user?.email,
+                                      parent?.user?.role,
+                                      "profile"
+                                    );
+                                    handleNavigate(parent?.user?.role);
+                                  }}
+                                  src={ProfileLogo}
+                                  alt=""
+                                  className="hover:cursor-pointer"
+                                />
+                              )}
                         </div>
                         <div className="w-[8.2rem] flex items-center justify-center border-x">
-                          <Image src={Chat} alt="" />
+                        {loadingIcon === "chat" &&
+                              loading === parent.user._id ? (
+                                <span className="text-white">Loading...</span>
+                              ) : (
+                                <Image
+                                  onClick={() => {
+                                    handleImpersonate(
+                                      parent.user._id,
+                                      parent.user.email,
+                                      parent.user.role,
+                                      "chat"
+                                    );
+                                    router.push("/parent");
+                                    localStorage.setItem(
+                                      "ContactSupport",
+                                      "Contact Support"
+                                    );
+                                    localStorage.setItem("history", "history");
+                                  }}
+                                  src={Chat}
+                                  alt=""
+                                  className="hover:cursor-pointer"
+                                />
+                              )}
                         </div>
                         <div className="w-[9.2rem] flex items-center justify-center ">
                           <Image src={Activity} alt="" />
@@ -433,25 +596,66 @@ console.log(filteredStudents)
                       <div
                         onClick={() => {
                           setExpand((prev: any) =>
-                            prev === index ? null : index
+                            prev === parent?.user?._id ? null : parent?.user?._id
                           );
                         }}
                         className="text-white block custom-lg:hidden"
                       >
-                        {Expand === index ? "Collapse" : "Expand"}
+                        {Expand === parent?.user?._id ? "Collapse" : "Expand"}
                       </div>
                     </div>
 
                     <div
                       className={`transition-opacity duration-500 px-12 custom-lg:hidden items-center  w-full justify-between ${
-                        Expand != null ? "flex" : "hidden"
+                        Expand != parent?.user?._id ? "hidden" : "flex"
                       }`}
                     >
                       <div className="">
-                        <Image src={ProfileLogo} alt="" />
+                      {loadingIcon === "profile" &&
+                              loading === parent?.user?._id ? (
+                                <span className="text-white">Loading...</span>
+                              ) : (
+                                <Image
+                                  onClick={() => {
+                                    handleImpersonate(
+                                      parent?.user?._id,
+                                      parent?.user?.email,
+                                      parent?.user?.role,
+                                      "profile"
+                                    );
+                                    handleNavigate(parent?.user?.role);
+                                  }}
+                                  src={ProfileLogo}
+                                  alt=""
+                                  className="hover:cursor-pointer"
+                                />
+                              )}
                       </div>
                       <div className="">
-                        <Image src={Chat} alt="" />
+                      {loadingIcon === "chat" &&
+                              loading === parent.user._id ? (
+                                <span className="text-white">Loading...</span>
+                              ) : (
+                                <Image
+                                  onClick={() => {
+                                    handleImpersonate(
+                                      parent.user._id,
+                                      parent.user.email,
+                                      parent.user.role,
+                                      "chat"
+                                    );
+                                    router.push("/parent");
+                                    localStorage.setItem(
+                                      "ContactSupport",
+                                      "Contact Support"
+                                    );
+                                    localStorage.setItem("history", "history");
+                                  }}
+                                  src={Chat}
+                                  alt=""
+                                  className="hover:cursor-pointer"
+                                />
+                              )}
                       </div>
                       <div className=" ">
                         <Image src={Activity} alt="" />

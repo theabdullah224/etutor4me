@@ -28,13 +28,13 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: 'User already exists' }, { status: 422 });
         }
         let referredBy = null;
-        if (referId) {
+        if (false) {
             const referringUser = await UserModel.findById(referId);
             if (!referringUser) {
                 console.error('Invalid referral ID:', referId);
                 return NextResponse.json({ message: 'Invalid referral ID' }, { status: 422 });
             }
-            referredBy = referringUser._id;
+            // referredBy = referringUser._id;
         }
 
         const hashedPassword = await hash(password, 12);

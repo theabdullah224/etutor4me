@@ -17,10 +17,19 @@ import DemoGraphicReport from "./DemoGraphicReport";
 import ActiveEtutorOverview from "./ActiveEtutorOverview";
 import TotalEtutorAccounts from "./TotalEtutorAccounts";
 import SessionOverview from "./SessionOverview";
+import { useUsers } from "../hooks/useUser";
 
 function Activity() {
   const [generalOverview, setGeneralOverview] = useState(false);
   const [EtutorOverview, setEtutorOverview] = useState(false)
+  const { users, isLoading, error } = useUsers();
+
+  if(isLoading){
+    return <p>Loading...</p>
+  }
+  if(error){
+    return <p>{error.message}</p>
+  }
   return (
     <>
       {(generalOverview===false && EtutorOverview===false) && (
@@ -34,7 +43,7 @@ function Activity() {
                 }}
                 className=""
               >
-                <SubscriptionOverTime />
+                <SubscriptionOverTime user={users} />
               </div>
 
               <div className="  rounded-md sm:rounded-xl  custom-lg:rounded-3xl       px-3 custom-xl:px-6 py-3 custom-xl:py-6  bg-[#ede8fa] ">
@@ -110,7 +119,7 @@ function Activity() {
           </h1>
           <div className="grid grid-cols-1 custom-xl:grid-cols-2 gap-10 mt-12 pt-1">
             <ActiveEtutorOverview/>
-            <TotalEtutorAccounts/>
+            <TotalEtutorAccounts user={users}/>
           </div>
 
          

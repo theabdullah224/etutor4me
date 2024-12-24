@@ -4,6 +4,7 @@ import { ChevronDown, ChevronUp, ChevronLeft, Menu } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Dashboard from "./components/Dashboard";
 import logo from "../../../public/parentlogo.svg";
+import Adminlogo from "../../../public/adminParentLogo.svg";
 import Image from "next/image";
 import Home1 from "../../../public/homeicon.svg";
 import session1 from "../../../public/sessionicon.svg";
@@ -107,8 +108,9 @@ interface BookingRequest {
 
 const SessionsDashboard = () => {
   const { toast } = useToast();
-  const { data: session, status } = useSession();
-  const [activeSidebarItem, setActiveSidebarItem] = useState("Dashboard");
+  const activetab = localStorage.getItem('ContactSupport')
+  const { data: session, status,update } = useSession();
+  const [activeSidebarItem, setActiveSidebarItem] = useState(activetab|| "Dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [previousSidebarItem, setPreviousSidebarItem] = useState("");
@@ -484,8 +486,27 @@ const SessionsDashboard = () => {
     
   
 
+  const handleImpersonate = async () => {
+   
+    await update({
+      user:{
+        email: 'admin@gmail.com',
+        role: 'admin',
+        id: 'admin',
+        isAdmin: true,
+        isParent:false
+      }
+    })
+    localStorage.removeItem('ContactSupport')
+    localStorage.removeItem('history')
+    setTimeout(() => {
+     router.push("/admin")
+    }, 3000);
+   
+  };
 
 
+  
   const renderContent = () => {
     switch (activeSidebarItem) {
       // ---------------------------DashBoard--------------------------------------------------------------
@@ -934,7 +955,13 @@ const SessionsDashboard = () => {
           } custom-lg:translate-x-0 fixed custom-lg:static inset-y-0 left-0 z-50 max-w-[20rem] custom-2xl:max-w-[25rem] w-full  min-h-screen  rounded-tr-3xl rounded-br-3xl bg-darkpurple text-white flex flex-col transition-transform duration-300 ease-in-out pl-5 pr-9 pt-8 custom-2xl:pt-11 pb-4`}
         >
           <div className="flex items-center mb-[23.5%] pb-2 pl-7">
+            {session.user.isAdmin === true ? (
+
+              <Image src={Adminlogo} alt="" className="w-52 sm:w-[17rem]" />
+            ):(
+
             <Image src={logo} alt="" className="w-52 sm:w-[17rem]" />
+            )}
           </div>
           <nav className="flex-grow flex flex-col">
             <ul className="space-y-2 flex-grow">
@@ -952,7 +979,7 @@ const SessionsDashboard = () => {
                         if (item.name === "My Sessions") {
                           Setsetcomingvalue("upcoming");
                         }
-  
+
                         if (window.innerWidth < 1024) {
                           setIsSidebarOpen(false);
                         }
@@ -1020,7 +1047,9 @@ const SessionsDashboard = () => {
                       />
                       <p
                         className={`text-[#cac7d8] text-xl font-medium ${
-                          activeSidebarItem === item.name ? "text-customBlue" : ""
+                          activeSidebarItem === item.name
+                            ? "text-customBlue"
+                            : ""
                         }`}
                       >
                         {item.name}
@@ -1031,7 +1060,7 @@ const SessionsDashboard = () => {
             </ul>
           </nav>
         </aside>
-  
+
         {/* Main content */}
         <main className="flex-1 px-5 custom-lg:px-9 py-4 overflow-auto  bg-transparent   scrollbar-none">
           <header className="flex justify-between items-center mb-8">
@@ -1042,7 +1071,7 @@ const SessionsDashboard = () => {
               >
                 <Menu size={24} />
               </button>
-  
+
               {activeSidebarItem === "Dashboard" ? (
                 <></>
               ) : (
@@ -1058,20 +1087,20 @@ const SessionsDashboard = () => {
                     className="mr-2 cursor-pointer text-[#685AAD]"
                     size={24}
                   />
-  
+
                   <h1 className="text-[#685AAD] text-xs sm:text-sm custom-lg:text-xl custom-2xl:text-2xl hidden sm:block">
                     Back
                   </h1>
                 </div>
               )}
-  
+
               {activeSidebarItem === "My Sessions" && (
                 <h1 className="text-[#685AAD]  text-sm sm:text-md custom-lg:text-5xl  font-extrabold ml-0 sm:ml-6 absolute top-16 left-16 sm:relative sm:top-3 sm:left-8">
                   My&nbsp;Sessions
                 </h1>
               )}
             </div>
-  
+
             <div
               ref={targetRef}
               className="flex items-center space-x-4 relative -right-4 select-none "
@@ -1094,7 +1123,7 @@ const SessionsDashboard = () => {
                   className="w-5 h-5 custom-2xl:w-6 custom-2xl:h-6"
                 />
               </div>
-  
+
               {/* -------profile complete------- */}
               {activeSidebarItem === "Dashboard" && (
                 <div className=" absolute mb-28 custom-xl:mb-8 hidden sm:block right-4 top-48 custom-lg:top-[8.9rem] custom-xl:top-[6.5rem] max-w-[20.5rem]  custom-xl:max-w-[26.5rem]  ">
@@ -1111,12 +1140,14 @@ const SessionsDashboard = () => {
                       Profile Status
                     </span>
                     <div className="w-full bg-[#DBD8EF] h-2 rounded-full">
-                      <div className={`w-[${progress}%] h-full bg-[#00DAE5] rounded-full`}></div>
+                      <div
+                        className={`w-[${progress}%] h-full bg-[#00DAE5] rounded-full`}
+                      ></div>
                     </div>
                   </div>
                 </div>
               )}
-  
+
               <div
                 onClick={toggleProfile}
                 className={`flex bg-[#EDE8FA] hover:cursor-pointer  px-2 py-1 justify-between w-[9rem] custom-2xl:w-[12.5rem]   h-10 custom-2xl:h-11 items-center rounded-md ${
@@ -1125,7 +1156,7 @@ const SessionsDashboard = () => {
               >
                 <div className="w-6 custom-2xl:w-7 h-6 custom-2xl:h-7  rounded-full overflow-hidden">
                   <img
-                  // @ts-ignore
+                    // @ts-ignore
                     src={FetchedUserData?.profilePicture}
                     alt=""
                     className="h-full w-full"
@@ -1137,7 +1168,7 @@ const SessionsDashboard = () => {
                 <span className="text-sm custom-2xl:text-base font-bold text-[#685AAD]">
                   {firstName}
                 </span>
-  
+
                 {isProfileOpen ? (
                   <ChevronUp
                     size={18}
@@ -1158,7 +1189,16 @@ const SessionsDashboard = () => {
                   >
                     Profile
                   </Link>
-                 
+                  {session?.user?.isAdmin === true && (
+                    <span
+                      onClick={() => {
+                        handleImpersonate();
+                      }}
+                      className="block px-2 py-2 custom-2xl:py-3 text-sm text-[#685AAD]  border-b border-[#685aad7a] "
+                    >
+                      Back to Admin
+                    </span>
+                  )}
                   <a
                     onClick={() => {
                       setActiveSidebarItem("Settings");

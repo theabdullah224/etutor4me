@@ -13,7 +13,7 @@ import reportIcon from "../../../../public/newReportIcon.svg";
 import reportIconActive from "../../../../public/reportIconActive.svg";
 import crossIcon from "../../../../public/crossIcon.svg";
 import keyIcon from "../../../../public/keyIcon.svg";
-
+import { useBookings } from "../hooks/useBookings";
 const options = [
   { value: "nameAsc", label: "Student Name (A-Z)" },
   { value: "nameDesc", label: "Student Name (Z-A)" },
@@ -26,19 +26,71 @@ const options = [
 
 const a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 function PaidSessions() {
+  const { booking, isLoadingbooking, errorbooking } = useBookings();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
   const [hover1, sethover1] = useState<number | null>(null);
   const [hover, setHover] = useState<number | null>(null);
   const [ispopupopen, setispopupopen] = useState(false);
   const [activetab, setActivetab] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({
     key: "",
     direction: "ascending",
   });
 
+  if(isLoadingbooking){
+    return <p>loading...</p>
+  }else if(errorbooking){
+    return <p>{errorbooking.message}</p>
+  }
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
+  };
+
+
+  const filteredBookings = booking.filter((booking:any) => {
+    const studentName = booking.student?.firstName?.toLowerCase() || "";
+    const teacherName =
+      booking.teacher?.contactInformation?.firstName?.toLowerCase() || "";
+    const search = searchTerm.toLowerCase();
+
+    return (
+      studentName.includes(search) || teacherName.includes(search)
+    );
+  });
+
+  // Sort bookings based on sortConfig
+  const sortedBookings = [...filteredBookings].sort((a, b) => {
+    if (!sortConfig.key) return 0; // No sorting if key is not set
+
+    if (sortConfig.key.includes("name")) {
+      const studentA = a.student?.firstName?.toLowerCase() || "";
+      const studentB = b.student?.firstName?.toLowerCase() || "";
+      return sortConfig.direction === "ascending"
+        ? studentA.localeCompare(studentB)
+        : studentB.localeCompare(studentA);
+    }
+
+    if (sortConfig.key.includes("date")) {
+      const dateA:any = new Date(a.createdAt || "");
+      const dateB:any = new Date(b.createdAt || "");
+      return sortConfig.direction === "ascending"
+        ? dateA - dateB
+        : dateB - dateA;
+    }
+
+    return 0;
+  });
+
+  // Handle sort selection
+  const handleSortChange = (key:any) => {
+    const direction =
+      sortConfig.key === key && sortConfig.direction === "ascending"
+        ? "descending"
+        : "ascending";
+    setSortConfig({ key, direction });
   };
   return (
     <div className="mt-10 bg-[#ede8fa] rounded-md sm:rounded-xl  custom-lg:rounded-3xl h-fit  px-3 custom-xl:px-10  py-3 custom-xl:py-10  relative">
@@ -48,7 +100,7 @@ function PaidSessions() {
           Sessions
           </h1>
           <div className="border-2 custom-xl:border-8 border-[#b4a5d7] text-[#8376bc] rounded-md md:rounded-xl custom-xl:rounded-2xl text-base sm:text-lg md:text-2xl custom-lg:text-4xl font-bold px-5 py-0.5">
-            120
+          {booking.filter((booking:any) => booking?.IsTrialSession === false).length}
           </div>
         </div>
 
@@ -59,6 +111,8 @@ function PaidSessions() {
               type="text"
               placeholder="Search by name,or ID"
               className=" bg-[#a296cc] text-[#d1cbe6] truncate placeholder-[#d1cbe6] text-xl px-5  custom-lg:px-10  py-2 custom-lg:py-4 rounded-md border border-transparent w-full  custom-xl:w-[24.4rem] focus:outline-none focus:ring-0"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
             <Image
               src={searchicon}
@@ -77,8 +131,8 @@ function PaidSessions() {
               onClick={toggleDropdown}
             >
               <span className="text-xl pl-3 lowercase">
-                {options.find((option) => option.value === sortConfig.key)
-                  ?.label || "sort by"}
+              {options.find((option) => option.value === sortConfig.key)?.label ||
+              "Sort by"}
               </span>
               {isOpen ? (
                 <ChevronUp className="text-[#d1cbe6]" />
@@ -100,6 +154,7 @@ function PaidSessions() {
                 >
                   {options.map((option) => (
                     <li
+                    onClick={() => handleSortChange(option.value)}
                       key={option.value}
                       className={` first:pb-3 first:pt-0 py-3 cursor-pointer last:border-b-0 border-b border-[#e3dff0]  text-[#e3dff0] text-lg max-w-[14.9rem]   ${
                         selectedOption === option.value ? "" : ""
@@ -152,68 +207,77 @@ function PaidSessions() {
           id="style-3"
           className="items flex flex-col gap-2 sm:gap-3 custom-xl:gap-5 custom-xl:mt-6 overflow-y-scroll h-[40rem] custom-2xl:h-[45rem] pr-2 custom-xl:pr-10    "
         >
-          {a.map((index) => (
+          {sortedBookings.filter((booking:any) => booking.IsTrialSession === false).map((booking: any,index:any) => (
             <div
-              key={index}
+            key={booking._id}
               className={`bg-[#a296cc]  w-full rounded-md sm:rounded-xl  custom-lg:rounded-3xl transition-all transform duration-500  ${
-                hover === index
-                  ? "h-fit custom-xl:h-fit  hover:cursor-pointer"
-                  : "min-h-[60px] sm:min-h-[107px] overflow-hidden"
+                hover === booking._id
+                  ? "h-fit  hover:cursor-pointer"
+                  : "h-[60px] sm:h-[107px] overflow-hidden"
               } `}
             >
               <div className="h-[60px] sm:h-[107px] w-full rounded-md sm:rounded-xl  custom-lg:rounded-3xl flex items-center justify-between custom-xl:justify-normal  gap-2 sm:gap-5 px-4 custom-lg:px-14 ">
                 <div className="w-[14.4rem]  truncate">
                   <h1 className="text-white  text-sm sm:text-base md:text-xl custom-lg:text-2xl custom-xl:text-3xl font-">
-                    Same Jhonson
+                  {booking.student.firstName}
                   </h1>
                   <span className="text-white text-xs sm:text-sm custom-lg:text-lg custom-xl:text-xl leading-none">
-                    #8004939
+                  #{booking?.student?.user.substring(0, 6)}
                   </span>
                 </div>
 
                 <div className="w-[14.4rem]  truncate hidden sm:block">
                   <h1 className="text-white  text-sm sm:text-base md:text-xl custom-lg:text-2xl custom-xl:text-3xl font-">
-                    Same Jhonson
+                  {booking?.teacher?.contactInformation?.firstName}
                   </h1>
                   <span className="text-white text-xs sm:text-sm custom-lg:text-lg custom-xl:text-xl leading-none">
-                    #8004939
+                  #{booking.teacher.user.substring(0, 6)}
                   </span>
                 </div>
 
                 <div className="w-[14.4rem]  truncate hidden custom-2xl:block">
                   <h1 className="text-white  text-sm sm:text-base md:text-xl custom-lg:text-2xl custom-xl:text-3xl font-">
-                    Same Jhonson
+                  {booking?.subjects.join(",")}
                   </h1>
                   <span className="text-white text-xs sm:text-sm custom-lg:text-lg custom-xl:text-xl leading-none">
-                    #8004939
+                  {booking?.level}
                   </span>
                 </div>
 
                 <div className="w-[14.4rem]  truncate hidden custom-xl:block">
                   <h1 className="text-white  text-sm sm:text-base md:text-xl custom-lg:text-2xl custom-xl:text-3xl font-">
-                    Same Jhonson
+                  {new Date(booking?.date).toLocaleDateString('en-US', { weekday: 'long' })}
                   </h1>
                   <span className="text-white text-xs sm:text-sm custom-lg:text-lg custom-xl:text-xl leading-none">
-                    #8004939
+                  {new Date(booking?.date).toLocaleDateString('en-GB') }
                   </span>
                 </div>
 
                 <div className=" gap-4 items-center w-[14rem] hidden custom-lg:flex">
-                  <div className="bg-[#fc7777] h-[25px] w-[25px] rounded-sm">
+                <div className={`${booking.status === "pending" ? "bg-[#00dae5]":(booking.status === "accepted"&& booking.meetingCompleted === true)?"bg-[#7a6cb7]":booking.status === "rejected"?"bg-[#fc7777]":(booking.status === "accepted")?"bg-[#8653ff]":""} h-[25px] w-[25px] rounded-sm`}>
                     &nbsp;
                   </div>
-                  <h1 className="text-white  text-3xl font-medium">Payout</h1>
+                  <h1 className="text-white  text-3xl font-medium">
+
+                  {booking.status === "pending" ? "Unconfirmed":
+                    (booking.status === "accepted"&& booking.meetingCompleted === true)? "Completed":
+                    booking.status === "rejected" ? "Canceled":
+                    (booking.status === "accepted")?"Confirmed":"Unconfirmed"
+                    }
+                    
+
+                  </h1>
                 </div>
 
                 <div className="block custom-xl:hidden text-white">
                   <button
                     onClick={() => {
                       setHover((prevHover) =>
-                        prevHover === index ? null : index
+                        prevHover ===  booking._id ? null :  booking._id
                       );
                     }}
                   >
-                    {hover ? "Collapse" : "Expand"}
+                    {hover ===  booking._id ? "Collapse" : "Expand"}
                   </button>
                 </div>
               </div>
@@ -226,7 +290,7 @@ function PaidSessions() {
                     Students: <br />
                   </span>
                   <h1 className="text-white  text-xs sm:text-sm custom-lg:text-lg custom-xl:text-xl font-medium">
-                    $Same Jhonson
+                  {booking.student.firstName}
                   </h1>
                 </div>
                 <div className="">
@@ -234,7 +298,7 @@ function PaidSessions() {
                     eTutor: <br />
                   </span>
                   <h1 className="text-white  text-xs sm:text-sm custom-lg:text-lg custom-xl:text-xl font-medium">
-                    Same Jhonson
+                  {booking?.teacher?.contactInformation?.firstName}
                   </h1>
                 </div>
                 <div className="">
@@ -242,7 +306,7 @@ function PaidSessions() {
                     Subject: <br />
                   </span>
                   <h1 className="text-white  text-xs sm:text-sm custom-lg:text-lg custom-xl:text-xl font-medium">
-                    Same Jhonson
+                  {booking?.subjects.join(",")}
                   </h1>
                 </div>
                 <div className="">
@@ -250,7 +314,7 @@ function PaidSessions() {
                     Session date: <br />
                   </span>
                   <h1 className="text-white  text-xs sm:text-sm custom-lg:text-lg custom-xl:text-xl font-medium">
-                    Same Jhonson
+                  {new Date(booking?.date).toLocaleDateString('en-US', { weekday: 'long' })} <br />{new Date(booking?.date).toLocaleDateString('en-GB') }
                   </h1>
                 </div>
 
@@ -259,11 +323,15 @@ function PaidSessions() {
                     Status: <br />
                   </span>
                   <div className="flex items-center gap-2  ">
-                    <div className="bg-[#fc7777] h-3 custom-xl:h-4 w-3 custom-xl:w-4 rounded custom-xl:rounded-sm">
+                  <div className= {`${booking.status === "pending" ? "bg-[#00dae5]":(booking.status === "accepted"&& booking.meetingCompleted === true)?"bg-[#7a6cb7]":booking.status === "rejected"?"bg-[#fc7777]":(booking.status === "accepted")?"bg-[#8653ff]":""}   h-3 custom-xl:h-4 w-3 custom-xl:w-4 rounded custom-xl:rounded-sm`}>
                       &nbsp;
                     </div>
                     <h1 className="text-white  text-xs sm:text-sm custom-lg:text-lg custom-xl:text-xl font-medium">
-                      Payout
+                    {booking.status === "pending" ? "Unconfirmed":
+                    (booking.status === "accepted"&& booking.meetingCompleted === true)? "Completed":
+                    booking.status === "rejected" ? "Canceled":
+                    (booking.status === "accepted")?"Confirmed":"Unconfirmed"
+                    }
                     </h1>
                   </div>
                 </div>

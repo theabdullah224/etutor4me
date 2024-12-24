@@ -13,7 +13,7 @@ function ActiveUsers() {
       <div className="bg-[#00dae5] h-[25px] w-[25px] rounded-sm">
         &nbsp;
       </div>{" "}
-      Active eTutors
+      Active users
     </h1>
 
     <h1 className="text-base sm:text-lg custom-lg:text-2xl font-medium custom-xl:leading-none text-[#9085c4] flex items-center  gap-3 py-4">

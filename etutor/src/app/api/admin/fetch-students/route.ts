@@ -9,7 +9,10 @@ export async function GET() {
     await connectMongoDB();
 
     // Fetch all students and populate the 'user' field
-    const students = await StudentModel.find().populate('user');
+    const students = await StudentModel.find().populate({
+      path: 'user',
+      select: '-password', // Exclude the password field in the populated user
+    });
 
     return NextResponse.json({ success: true, data: students }, { status: 200 });
   } catch (error:any) {

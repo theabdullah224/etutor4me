@@ -8,7 +8,10 @@ export async function GET() {
     await connectMongoDB();
 
     // Fetch all students and populate the 'user' field
-    const teacher = await teachermodal.find().populate('user');
+    const teacher = await teachermodal.find().populate({
+      path: 'user',
+      select: '-password', // Exclude the password field in the populated user
+    });
 
     return NextResponse.json({ success: true, data: teacher }, { status: 200 });
   } catch (error:any) {

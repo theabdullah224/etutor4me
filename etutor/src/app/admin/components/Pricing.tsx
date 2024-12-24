@@ -10,87 +10,182 @@ import Image from "next/image";
 import { useStudents } from "../hooks/useStudents";
 import { useParent } from "../hooks/useParents";
 import { useTeacher } from "../hooks/useTeacher";
+import { useBookings } from "../hooks/useBookings";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 function Pricing() {
   const [Expand, setExpand] = useState<any>(null);
   const [managePricing, SetmanagePricing] = useState(false);
-  const [selectedstudent, setselectedstudent] = useState<any>([])
+  const [selectedstudent, setselectedstudent] = useState<any>([]);
   const [etutorPriceManagement, setetutorPriceManagement] = useState(false);
   const { students, isLoading, error } = useStudents();
   const { parent, isLoading2, error2 } = useParent();
   const { teacher, isLoading3, error3 } = useTeacher();
+  const { booking, isLoadingbooking, errorbooking } = useBookings();
   const [selectedOption, setSelectedOption] = useState("");
   const [sortConfig, setSortConfig] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedetutor, setSelectedetutor] = useState<any>([])
+  const [selectedetutor, setSelectedetutor] = useState<any>([]);
+  const { data: session, status, update } = useSession();
+  const router = useRouter();
+  const [loading, setloading] = useState<any | undefined>(null);
   const [sortConfig2, setsortConfig2] = useState({
     key: "",
     direction: "ascending",
   });
+  const [loadingIcon, setLoadingIcon] = useState<any | undefined>(null);
 
-  if (isLoading || isLoading2|| isLoading3) return <p>Loading...</p>;
-  if (error || error2|| error3) return <p>Error loading students: {error.message}</p>;
+  if (isLoading || isLoading2 || isLoading3 || isLoadingbooking)
+    return <p>Loading...</p>;
+  if (error || error2 || error3 || errorbooking)
+    return <p>Error loading students: {error.message}</p>;
 
+  const sessionscompleted = booking.filter(
+    (booking: any) =>
+      booking.student === selectedstudent?.user?._id &&
+      booking.meetingCompleted === true
+  );
+  const BookedSession = booking.filter(
+    (booking: any) =>
+      booking.student === selectedstudent?.user?._id &&
+      booking.status === "accepted"
+  );
+  const FreeTrialCompleted = booking.filter(
+    (booking: any) =>
+      booking.student === selectedstudent?.user?._id &&
+      booking.status === "accepted" &&
+      booking.IsTrialSession === true &&
+      booking.meetingCompleted === true
+  );
+  const eTutorFreeTrialCompleted = booking.filter(
+    (booking: any) =>
+      booking.teacher === selectedetutor?._id &&
+      booking.status === "accepted" &&
+      booking.IsTrialSession === true &&
+      booking.meetingCompleted === true
+  );
+  const eTutorFreeTrialBooked = booking.filter(
+    (booking: any) =>
+      booking.teacher === selectedetutor?._id &&
+      booking.status === "accepted" &&
+      booking.IsTrialSession === true &&
+      booking.meetingCompleted === false
+  );
+  const eTutorSessionBooked = booking.filter(
+    (booking: any) =>
+      booking.teacher === selectedetutor?._id &&
+      booking.status === "accepted" 
+  );
+  const eTutorSessionCompleted = booking.filter(
+    (booking: any) =>
+      booking.teacher === selectedetutor?._id &&
+      booking.status === "accepted"  &&
+      booking.meetingCompleted === true
+  );
 
 
   
- const filteredStudents = students.filter((student: any) =>student.firstName.toLowerCase().includes(searchTerm.toLowerCase())).sort((a: any, b: any) => {
-  if (sortConfig2.key === "nameAsc") {
-    return a.firstName.localeCompare(b.firstName);
-  } else if (sortConfig2.key === "nameDesc") {
-    return b.firstName.localeCompare(a.firstName);
-  } else if (sortConfig2.key === "dateAsc") {
-    // @ts-ignore
-    return new Date(a.user.createdAt) - new Date(b.user.createdAt);
-  } else if (sortConfig2.key === "dateDesc") {
-    // @ts-ignore
-    return new Date(b.user.createdAt) - new Date(a.user.createdAt);
-  }
-  return 0; // Default (no sorting applied)
-});
+  const filteredStudents = students
+    .filter((student: any) =>
+      student.firstName.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a: any, b: any) => {
+      if (sortConfig2.key === "nameAsc") {
+        return a.firstName.localeCompare(b.firstName);
+      } else if (sortConfig2.key === "nameDesc") {
+        return b.firstName.localeCompare(a.firstName);
+      } else if (sortConfig2.key === "dateAsc") {
+        // @ts-ignore
+        return new Date(a.user.createdAt) - new Date(b.user.createdAt);
+      } else if (sortConfig2.key === "dateDesc") {
+        // @ts-ignore
+        return new Date(b.user.createdAt) - new Date(a.user.createdAt);
+      }
+      return 0; // Default (no sorting applied)
+    });
 
-const handleSort = (key:any) => {
-setsortConfig2({
-  key,
-  direction: key.includes("Asc") ? "ascending" : "descending",
-});
-};
+  const handleSort = (key: any) => {
+    setsortConfig2({
+      key,
+      direction: key.includes("Asc") ? "ascending" : "descending",
+    });
+  };
 
-const filteredParents = parent.filter((parent: any) =>parent.firstName.toLowerCase().includes(searchTerm.toLowerCase())).sort((a: any, b: any) => {
-  if (sortConfig2.key === "nameAsc") {
-    return a.firstName.localeCompare(b.firstName);
-  } else if (sortConfig2.key === "nameDesc") {
-    return b.firstName.localeCompare(a.firstName);
-  } else if (sortConfig2.key === "dateAsc") {
-    // @ts-ignore
-    return new Date(a.user.createdAt) - new Date(b.user.createdAt);
-  } else if (sortConfig2.key === "dateDesc") {
-    // @ts-ignore
-    return new Date(b.user.createdAt) - new Date(a.user.createdAt);
-  }
-  return 0; // Default (no sorting applied)
-});
-const filteredTeacher = teacher
-.filter((teacher: any) =>
-  teacher?.contactInformation?.firstName.toLowerCase().includes(searchTerm.toLowerCase())
-)
-.sort((a: any, b: any) => {
-  if (sortConfig2.key === "nameAsc") {
-    return a.contactInformation?.firstName.localeCompare(b.contactInformation?.firstName);
-  } else if (sortConfig2.key === "nameDesc") {
-    return b.contactInformation?.firstName.localeCompare(a.contactInformation?.firstName);
-  } else if (sortConfig2.key === "dateAsc") {
-    // @ts-ignore
-    return new Date(a.user.createdAt) - new Date(b.user.createdAt);
-  } else if (sortConfig2.key === "dateDesc") {
-    // @ts-ignore
-    return new Date(b.user.createdAt) - new Date(a.user.createdAt);
-  }
-  return 0; // Default (no sorting applied)
-});
+  const filteredParents = parent
+    .filter((parent: any) =>
+      parent.firstName.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a: any, b: any) => {
+      if (sortConfig2.key === "nameAsc") {
+        return a.firstName.localeCompare(b.firstName);
+      } else if (sortConfig2.key === "nameDesc") {
+        return b.firstName.localeCompare(a.firstName);
+      } else if (sortConfig2.key === "dateAsc") {
+        // @ts-ignore
+        return new Date(a.user.createdAt) - new Date(b.user.createdAt);
+      } else if (sortConfig2.key === "dateDesc") {
+        // @ts-ignore
+        return new Date(b.user.createdAt) - new Date(a.user.createdAt);
+      }
+      return 0; // Default (no sorting applied)
+    });
+  const filteredTeacher = teacher
+    .filter((teacher: any) =>
+      teacher?.contactInformation?.firstName
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+    )
+    .sort((a: any, b: any) => {
+      if (sortConfig2.key === "nameAsc") {
+        return a.contactInformation?.firstName.localeCompare(
+          b.contactInformation?.firstName
+        );
+      } else if (sortConfig2.key === "nameDesc") {
+        return b.contactInformation?.firstName.localeCompare(
+          a.contactInformation?.firstName
+        );
+      } else if (sortConfig2.key === "dateAsc") {
+        // @ts-ignore
+        return new Date(a.user.createdAt) - new Date(b.user.createdAt);
+      } else if (sortConfig2.key === "dateDesc") {
+        // @ts-ignore
+        return new Date(b.user.createdAt) - new Date(a.user.createdAt);
+      }
+      return 0; // Default (no sorting applied)
+    });
 
-
+  // handle impersonate to visit the particular studen/parent/teacher profile------------------------------------------------
+  const handleNavigate = async (role: string) => {
+    setTimeout(() => {
+      if (role === "student") {
+        router.push("/studentdashboard/studentprofile");
+      } else if (role === "parent") {
+        router.push("/parent/parentprofile");
+      } else if (role === "teacher") {
+        router.push("/etutor/profile");
+      }
+    }, 3000);
+  };
+  const handleImpersonate = async (
+    studentUserId: string,
+    StudentEmail: string,
+    role: string,
+    loadingIcon: any
+  ) => {
+    setloading(studentUserId);
+    setLoadingIcon(loadingIcon);
+    await update({
+      user: {
+        email: StudentEmail,
+        role: role,
+        id: studentUserId,
+        isParent: false,
+        isAdmin: true,
+      },
+    });
+  };
 
   return (
     <div
@@ -102,7 +197,7 @@ const filteredTeacher = teacher
     >
       {/* top search bar */}
 
-      {(managePricing === false && etutorPriceManagement === false) && (
+      {managePricing === false && etutorPriceManagement === false && (
         <>
           <div className="absolute top-16 sm:top-14 2xl:top-8 ">
             <div className="relative w-fit  h-fit truncate ">
@@ -167,236 +262,485 @@ const filteredTeacher = teacher
                 className=" max-h-[25rem] custom-lg:max-h-[39rem] flex flex-col gap-2 sm:gap-3 custom-xl:gap-5 overflow-y-auto pr-2 custom-xl:pr-6"
               >
                 {(sortConfig === "all" || sortConfig === "students") &&
-              filteredStudents.map(
-                (student: any, index: React.Key | null | undefined) => (
-                  <div
-                    onClick={()=>{
-                      setselectedstudent(student)
-                    }}
-                    className={`overflow-hidden transition-all duration-500 ${
-                      Expand === index
-                        ? "min-h-[7rem] sm:min-h-[8rem] bg-[#b4a5d7] rounded-md sm:rounded-xl  custom-lg:rounded-2xl "
-                        : "min-h-[60px] sm:min-h-[92px]"
-                    }`}
-                    key={index}
-                  >
-                    <div className="item min-h-[60px] sm:min-h-[92px] bg-[#b4a5d7] rounded-md sm:rounded-xl  custom-lg:rounded-2xl flex items-center px-4 custom-lg:px-7  justify-between">
-                      <div className="flex items-center gap-4 custom-lg:gap-0">
-                        <div className="img  rounded-full h-[40px] md:h-[68px] w-[40px] md:w-[68px] flex items-center justify-center overflow-hidden">
-                          <img src={student?.user?.profilePicture} alt="" />
-                        </div>
-                        <span
-                          onClick={() => {
-                            SetmanagePricing(true);
-                          }}
-                          className="name hover:cursor-pointer  text-white text-sm  sm:text-xl font-medium custom-lg:w-[17.7rem] custom-lg:border-r text-start custom-lg:pl-14 leading-none  truncate"
-                        >
-                          {student?.firstName}
-                        </span>
-                        <span className="name  text-white text-xl font-medium w-[12.5rem]  text-center leading-none truncate hidden custom-xl:block">
-                          {student?.user?._id.substring(0, 6)}
-                        </span>
-                      </div>
-
-                      <div className="hidden custom-lg:flex items-center   ">
-                        <div className="w-[10rem] flex items-center justify-center ">
-                          <Image src={ProfileLogo} alt="" />
-                        </div>
-                        <div className="w-[8.2rem] flex items-center justify-center border-x">
-                          <Image src={Chat} alt="" />
-                        </div>
-                        <div className="w-[9.2rem] flex items-center justify-center ">
-                          <Image src={Activity} alt="" />
-                        </div>
-                        <span className="w-[0.4rem] text-center leading-none"></span>
-                      </div>
-
+                  filteredStudents.map(
+                    (student: any, index: React.Key | null | undefined) => (
                       <div
                         onClick={() => {
-                          setExpand((prev: any) =>
-                            prev === index ? null : index
-                          );
+                          setselectedstudent(student);
                         }}
-                        className="text-white block custom-lg:hidden"
+                        className={`overflow-hidden transition-all duration-500 ${
+                          Expand === student.user._id
+                            ? "min-h-[7rem] sm:min-h-[8rem] bg-[#b4a5d7] rounded-md sm:rounded-xl  custom-lg:rounded-2xl "
+                            : "min-h-[60px] sm:min-h-[92px]"
+                        }`}
+                        key={student.user._id}
                       >
-                        {Expand === index ? "Collapse" : "Expand"}
-                      </div>
-                    </div>
+                        <div className="item min-h-[60px] sm:min-h-[92px] bg-[#b4a5d7] rounded-md sm:rounded-xl  custom-lg:rounded-2xl flex items-center px-4 custom-lg:px-7  justify-between">
+                          <div className="flex items-center gap-4 custom-lg:gap-0">
+                            <div className="img  rounded-full h-[40px] md:h-[68px] w-[40px] md:w-[68px] flex items-center justify-center overflow-hidden">
+                              <img src={student?.user?.profilePicture} alt="" />
+                            </div>
+                            <span
+                              onClick={() => {
+                                SetmanagePricing(true);
+                              }}
+                              className="name hover:cursor-pointer  text-white text-sm  sm:text-xl font-medium custom-lg:w-[17.7rem] custom-lg:border-r text-start custom-lg:pl-14 leading-none  truncate"
+                            >
+                              {student?.firstName}
+                            </span>
+                            <span className="name  text-white text-xl font-medium w-[12.5rem]  text-center leading-none truncate hidden custom-xl:block">
+                              {student?.user?._id.substring(0, 6)}
+                            </span>
+                          </div>
 
-                    <div
-                      className={`transition-opacity duration-500 px-12 custom-lg:hidden items-center  w-full justify-between ${
-                        Expand != null ? "flex" : "hidden"
-                      }`}
-                    >
-                      <div className="">
-                        <Image src={ProfileLogo} alt="" />
-                      </div>
-                      <div className="">
-                        <Image src={Chat} alt="" />
-                      </div>
-                      <div className=" ">
-                        <Image src={Activity} alt="" />
-                      </div>
-                    </div>
-                  </div>
-                )
-              )}
-               {(sortConfig === "all" || sortConfig === "parent") &&
-              filteredParents.map(
-                (parent: any, index: React.Key | null | undefined) => (
-                  <div
-                  onClick={()=>{
-                    setselectedstudent(parent)
-                  }}
-                    className={`overflow-hidden transition-all duration-500 ${
-                      Expand === index
-                        ? "min-h-[7rem] sm:min-h-[8rem] bg-[#b4a5d7] rounded-md sm:rounded-xl  custom-lg:rounded-2xl "
-                        : "min-h-[60px] sm:min-h-[92px]"
-                    }`}
-                    key={index}
-                  >
-                    <div className="item min-h-[60px] sm:min-h-[92px] bg-[#b4a5d7] rounded-md sm:rounded-xl  custom-lg:rounded-2xl flex items-center px-4 custom-lg:px-7  justify-between">
-                      <div className="flex items-center gap-4 custom-lg:gap-0">
-                        <div className="img  rounded-full h-[40px] md:h-[68px] w-[40px] md:w-[68px] flex items-center justify-center overflow-hidden">
-                          <img src={parent?.user?.profilePicture} alt="" />
+                          <div className="hidden custom-lg:flex items-center   ">
+                            <div className="w-[10rem] flex items-center justify-center ">
+                              {loadingIcon === "profile" &&
+                              loading === student.user._id ? (
+                                <span className="text-white">Loading...</span>
+                              ) : (
+                                <Image
+                                  onClick={() => {
+                                    handleImpersonate(
+                                      student.user._id,
+                                      student.user.email,
+                                      student.user.role,
+                                      "profile"
+                                    );
+                                    handleNavigate(student.user.role);
+                                  }}
+                                  src={ProfileLogo}
+                                  alt=""
+                                  className="hover:cursor-pointer"
+                                />
+                              )}
+                            </div>
+                            <div className="w-[8.2rem] flex items-center justify-center border-x">
+                              {loadingIcon === "chat" &&
+                              loading === student.user._id ? (
+                                <span className="text-white">Loading...</span>
+                              ) : (
+                                <Image
+                                  onClick={() => {
+                                    handleImpersonate(
+                                      student.user._id,
+                                      student.user.email,
+                                      student.user.role,
+                                      "chat"
+                                    );
+                                    router.push("/studentdashboard");
+                                    localStorage.setItem(
+                                      "ContactSupport",
+                                      "Contact Support"
+                                    );
+                                    localStorage.setItem("history", "history");
+                                  }}
+                                  src={Chat}
+                                  alt=""
+                                  className="hover:cursor-pointer"
+                                />
+                              )}
+                            </div>
+                            <div className="w-[9.2rem] flex items-center justify-center ">
+                              <Image src={Activity} alt="" />
+                            </div>
+                            <span className="w-[0.4rem] text-center leading-none"></span>
+                          </div>
+
+                          <div
+                            onClick={() => {
+                              setExpand((prev: any) =>
+                                prev === student.user._id
+                                  ? null
+                                  : student.user._id
+                              );
+                            }}
+                            className="text-white block custom-lg:hidden"
+                          >
+                            {Expand === student.user._id
+                              ? "Collapse"
+                              : "Expand"}
+                          </div>
                         </div>
-                        <span
-                          onClick={() => {
-                            SetmanagePricing(true);
-                          }}
-                          className="name hover:cursor-pointer  text-white text-sm  sm:text-xl font-medium custom-lg:w-[17.7rem] custom-lg:border-r text-start custom-lg:pl-14 leading-none  truncate"
+
+                        <div
+                          className={`transition-opacity duration-500 px-12 custom-lg:hidden items-center  w-full justify-between ${
+                            Expand != null ? "flex" : "hidden"
+                          }`}
                         >
-                          {parent?.firstName}
-                        </span>
-                        <span className="name  text-white text-xl font-medium w-[12.5rem]  text-center leading-none truncate hidden custom-xl:block">
-                          {parent?.user?._id.substring(0, 6)}
-                        </span>
+                          <div className="">
+                            {loadingIcon === "profile" &&
+                            loading === student.user._id ? (
+                              <span className="text-white">Loading...</span>
+                            ) : (
+                              <Image
+                                onClick={() => {
+                                  handleImpersonate(
+                                    student.user._id,
+                                    student.user.email,
+                                    student.user.role,
+                                    "profile"
+                                  );
+                                  handleNavigate(student.user.role);
+                                }}
+                                src={ProfileLogo}
+                                alt=""
+                                className="hover:cursor-pointer"
+                              />
+                            )}
+                          </div>
+                          <div className="">
+                            {loadingIcon === "chat" &&
+                            loading === student.user._id ? (
+                              <span className="text-white">Loading...</span>
+                            ) : (
+                              <Image
+                                onClick={() => {
+                                  handleImpersonate(
+                                    student.user._id,
+                                    student.user.email,
+                                    student.user.role,
+                                    "chat"
+                                  );
+                                  router.push("/studentdashboard");
+                                  localStorage.setItem(
+                                    "ContactSupport",
+                                    "Contact Support"
+                                  );
+                                  localStorage.setItem("history", "history");
+                                }}
+                                src={Chat}
+                                alt=""
+                                className="hover:cursor-pointer"
+                              />
+                            )}
+                          </div>
+                          <div className=" ">
+                            <Image src={Activity} alt="" />
+                          </div>
+                        </div>
                       </div>
+                    )
+                  )}
 
-                      <div className="hidden custom-lg:flex items-center   ">
-                        <div className="w-[10rem] flex items-center justify-center ">
-                          <Image src={ProfileLogo} alt="" />
-                        </div>
-                        <div className="w-[8.2rem] flex items-center justify-center border-x">
-                          <Image src={Chat} alt="" />
-                        </div>
-                        <div className="w-[9.2rem] flex items-center justify-center ">
-                          <Image src={Activity} alt="" />
-                        </div>
-                        <span className="w-[0.4rem] text-center leading-none"></span>
-                      </div>
-
+                {(sortConfig === "all" || sortConfig === "parent") &&
+                  filteredParents.map(
+                    (parent: any, index: React.Key | null | undefined) => (
                       <div
                         onClick={() => {
-                          setExpand((prev: any) =>
-                            prev === index ? null : index
-                          );
+                          setselectedstudent(parent);
                         }}
-                        className="text-white block custom-lg:hidden"
+                        className={`overflow-hidden transition-all duration-500 ${
+                          Expand === parent.user._id
+                            ? "min-h-[7rem] sm:min-h-[8rem] bg-[#b4a5d7] rounded-md sm:rounded-xl  custom-lg:rounded-2xl "
+                            : "min-h-[60px] sm:min-h-[92px]"
+                        }`}
+                        key={parent.user._id}
                       >
-                        {Expand === index ? "Collapse" : "Expand"}
-                      </div>
-                    </div>
+                        <div className="item min-h-[60px] sm:min-h-[92px] bg-[#b4a5d7] rounded-md sm:rounded-xl  custom-lg:rounded-2xl flex items-center px-4 custom-lg:px-7  justify-between">
+                          <div className="flex items-center gap-4 custom-lg:gap-0">
+                            <div className="img  rounded-full h-[40px] md:h-[68px] w-[40px] md:w-[68px] flex items-center justify-center overflow-hidden">
+                              <img src={parent?.user?.profilePicture} alt="" />
+                            </div>
+                            <span
+                              onClick={() => {
+                                SetmanagePricing(true);
+                              }}
+                              className="name hover:cursor-pointer  text-white text-sm  sm:text-xl font-medium custom-lg:w-[17.7rem] custom-lg:border-r text-start custom-lg:pl-14 leading-none  truncate"
+                            >
+                              {parent?.firstName}
+                            </span>
+                            <span className="name  text-white text-xl font-medium w-[12.5rem]  text-center leading-none truncate hidden custom-xl:block">
+                              {parent?.user?._id.substring(0, 6)}
+                            </span>
+                          </div>
 
-                    <div
-                      className={`transition-opacity duration-500 px-12 custom-lg:hidden items-center  w-full justify-between ${
-                        Expand != null ? "flex" : "hidden"
-                      }`}
-                    >
-                      <div className="">
-                        <Image src={ProfileLogo} alt="" />
-                      </div>
-                      <div className="">
-                        <Image src={Chat} alt="" />
-                      </div>
-                      <div className=" ">
-                        <Image src={Activity} alt="" />
-                      </div>
-                    </div>
-                  </div>
-                )
-              )}
+                          <div className="hidden custom-lg:flex items-center   ">
+                            <div className="w-[10rem] flex items-center justify-center ">
+                              {loadingIcon === "profile" &&
+                              loading === parent?.user?._id ? (
+                                <span className="text-white">Loading...</span>
+                              ) : (
+                                <Image
+                                  onClick={() => {
+                                    handleImpersonate(
+                                      parent?.user?._id,
+                                      parent?.user?.email,
+                                      parent?.user?.role,
+                                      "profile"
+                                    );
+                                    handleNavigate(parent?.user?.role);
+                                  }}
+                                  src={ProfileLogo}
+                                  alt=""
+                                  className="hover:cursor-pointer"
+                                />
+                              )}
+                            </div>
+                            <div className="w-[8.2rem] flex items-center justify-center border-x">
+                              {loadingIcon === "chat" &&
+                              loading === parent.user._id ? (
+                                <span className="text-white">Loading...</span>
+                              ) : (
+                                <Image
+                                  onClick={() => {
+                                    handleImpersonate(
+                                      parent.user._id,
+                                      parent.user.email,
+                                      parent.user.role,
+                                      "chat"
+                                    );
+                                    router.push("/parent");
+                                    localStorage.setItem(
+                                      "ContactSupport",
+                                      "Contact Support"
+                                    );
+                                    localStorage.setItem("history", "history");
+                                  }}
+                                  src={Chat}
+                                  alt=""
+                                  className="hover:cursor-pointer"
+                                />
+                              )}
+                            </div>
+                            <div className="w-[9.2rem] flex items-center justify-center ">
+                              <Image src={Activity} alt="" />
+                            </div>
+                            <span className="w-[0.4rem] text-center leading-none"></span>
+                          </div>
 
+                          <div
+                            onClick={() => {
+                              setExpand((prev: any) =>
+                                prev === parent.user._id
+                                  ? null
+                                  : parent.user._id
+                              );
+                            }}
+                            className="text-white block custom-lg:hidden"
+                          >
+                            {Expand === parent.user._id ? "Collapse" : "Expand"}
+                          </div>
+                        </div>
 
-{filteredTeacher.map(
-              (teacher: any, index: React.Key | null | undefined) => (
-                <div
-                onClick={()=>{
-                  
-                  setSelectedetutor(teacher)
-                }}
-                  className={`overflow-hidden transition-all duration-500 ${
-                    Expand === index
-                      ? "min-h-[7rem] sm:min-h-[8rem] bg-[#b4a5d7] rounded-md sm:rounded-xl  custom-lg:rounded-2xl "
-                      : "min-h-[60px] sm:min-h-[92px]"
-                  }`}
-                  key={index}
-                >
-                  <div className="item min-h-[60px] sm:min-h-[92px] bg-[#b4a5d7] rounded-md sm:rounded-xl  custom-lg:rounded-2xl flex items-center px-4 custom-lg:px-7  justify-between">
-                    <div className="flex items-center gap-4 custom-lg:gap-0">
-                      <div className="img  rounded-full h-[40px] md:h-[68px] w-[40px] md:w-[68px] flex items-center justify-center overflow-hidden">
-                        <img src={teacher?.user?.profilePicture} alt="" />
+                        <div
+                          className={`transition-opacity duration-500 px-12 custom-lg:hidden items-center  w-full justify-between ${
+                            Expand != null ? "flex" : "hidden"
+                          }`}
+                        >
+                          <div className="">
+                            {loadingIcon === "profile" &&
+                            loading === parent?.user?._id ? (
+                              <span className="text-white">Loading...</span>
+                            ) : (
+                              <Image
+                                onClick={() => {
+                                  handleImpersonate(
+                                    parent?.user?._id,
+                                    parent?.user?.email,
+                                    parent?.user?.role,
+                                    "profile"
+                                  );
+                                  handleNavigate(parent?.user?.role);
+                                }}
+                                src={ProfileLogo}
+                                alt=""
+                                className="hover:cursor-pointer"
+                              />
+                            )}
+                          </div>
+                          <div className="">
+                            {loadingIcon === "chat" &&
+                            loading === parent.user._id ? (
+                              <span className="text-white">Loading...</span>
+                            ) : (
+                              <Image
+                                onClick={() => {
+                                  handleImpersonate(
+                                    parent.user._id,
+                                    parent.user.email,
+                                    parent.user.role,
+                                    "chat"
+                                  );
+                                  router.push("/parent");
+                                  localStorage.setItem(
+                                    "ContactSupport",
+                                    "Contact Support"
+                                  );
+                                  localStorage.setItem("history", "history");
+                                }}
+                                src={Chat}
+                                alt=""
+                                className="hover:cursor-pointer"
+                              />
+                            )}
+                          </div>
+                          <div className=" ">
+                            <Image src={Activity} alt="" />
+                          </div>
+                        </div>
                       </div>
-                      <span
-                        onClick={() => {
-                          setetutorPriceManagement(true);
-                        }}
-                        className="name hover:cursor-pointer  text-white text-sm  sm:text-xl font-medium custom-lg:w-[17.7rem] custom-lg:border-r text-start custom-lg:pl-14 leading-none  truncate"
-                      >
-                        {teacher?.contactInformation?.firstName}
-                      </span>
-                      <span className="name  text-white text-xl font-medium w-[12.5rem]  text-center leading-none truncate hidden custom-xl:block">
-                        {teacher?.user?._id.substring(0, 6)}
-                      </span>
-                    </div>
+                    )
+                  )}
 
-                    <div className="hidden custom-lg:flex items-center   ">
-                      <div className="w-[10rem] flex items-center justify-center ">
-                        <Image src={ProfileLogo} alt="" />
-                      </div>
-                      <div className="w-[8.2rem] flex items-center justify-center border-x">
-                        <Image src={Chat} alt="" />
-                      </div>
-                      <div className="w-[9.2rem] flex items-center justify-center ">
-                        <Image src={Activity} alt="" />
-                      </div>
-                      <span className="w-[0.4rem] text-center leading-none"></span>
-                    </div>
-
+                {filteredTeacher.map(
+                  (teacher: any, index: React.Key | null | undefined) => (
                     <div
                       onClick={() => {
-                        setExpand((prev: any) =>
-                          prev === index ? null : index
-                        );
+                        setSelectedetutor(teacher);
                       }}
-                      className="text-white block custom-lg:hidden"
+                      className={`overflow-hidden transition-all duration-500 ${
+                        Expand === teacher.user._id
+                          ? "min-h-[7rem] sm:min-h-[8rem] bg-[#b4a5d7] rounded-md sm:rounded-xl  custom-lg:rounded-2xl "
+                          : "min-h-[60px] sm:min-h-[92px]"
+                      }`}
+                      key={teacher.user._id}
                     >
-                      {Expand === index ? "Collapse" : "Expand"}
+                      <div className="item min-h-[60px] sm:min-h-[92px] bg-[#b4a5d7] rounded-md sm:rounded-xl  custom-lg:rounded-2xl flex items-center px-4 custom-lg:px-7  justify-between">
+                        <div className="flex items-center gap-4 custom-lg:gap-0">
+                          <div className="img  rounded-full h-[40px] md:h-[68px] w-[40px] md:w-[68px] flex items-center justify-center overflow-hidden">
+                            <img src={teacher?.user?.profilePicture} alt="" />
+                          </div>
+                          <span
+                            onClick={() => {
+                              setetutorPriceManagement(true);
+                            }}
+                            className="name hover:cursor-pointer  text-white text-sm  sm:text-xl font-medium custom-lg:w-[17.7rem] custom-lg:border-r text-start custom-lg:pl-14 leading-none  truncate"
+                          >
+                            {teacher?.contactInformation?.firstName}
+                          </span>
+                          <span className="name  text-white text-xl font-medium w-[12.5rem]  text-center leading-none truncate hidden custom-xl:block">
+                            {teacher?.user?._id.substring(0, 6)}
+                          </span>
+                        </div>
+
+                        <div className="hidden custom-lg:flex items-center   ">
+                          <div className="w-[10rem] flex items-center justify-center ">
+                            {loadingIcon === "profile" &&
+                            loading === teacher?.user?._id ? (
+                              <span className="text-white">Loading...</span>
+                            ) : (
+                              <Image
+                                onClick={() => {
+                                  handleImpersonate(
+                                    teacher?.user?._id,
+                                    teacher?.user?.email,
+                                    teacher?.user?.role,
+                                    "profile"
+                                  );
+                                  handleNavigate(teacher?.user?.role);
+                                }}
+                                src={ProfileLogo}
+                                alt=""
+                                className="hover:cursor-pointer"
+                              />
+                            )}
+                          </div>
+                          <div className="w-[8.2rem] flex items-center justify-center border-x">
+                            {loadingIcon === "chat" &&
+                            loading === teacher.user._id ? (
+                              <span className="text-white">Loading...</span>
+                            ) : (
+                              <Image
+                                onClick={() => {
+                                  handleImpersonate(
+                                    teacher.user._id,
+                                    teacher.user.email,
+                                    teacher.user.role,
+                                    "chat"
+                                  );
+                                  router.push("/etutor");
+                                  localStorage.setItem(
+                                    "ContactSupport",
+                                    "Support"
+                                  );
+                                  localStorage.setItem("history", "history");
+                                }}
+                                src={Chat}
+                                alt=""
+                                className="hover:cursor-pointer"
+                              />
+                            )}
+                          </div>
+                          <div className="w-[9.2rem] flex items-center justify-center ">
+                            <Image src={Activity} alt="" />
+                          </div>
+                          <span className="w-[0.4rem] text-center leading-none"></span>
+                        </div>
+
+                        <div
+                          onClick={() => {
+                            setExpand((prev: any) =>
+                              prev === teacher.user._id
+                                ? null
+                                : teacher.user._id
+                            );
+                          }}
+                          className="text-white block custom-lg:hidden"
+                        >
+                          {Expand === teacher.user._id ? "Collapse" : "Expand"}
+                        </div>
+                      </div>
+
+                      <div
+                        className={`transition-opacity duration-500 px-12 custom-lg:hidden items-center  w-full justify-between ${
+                          Expand != null ? "flex" : "hidden"
+                        }`}
+                      >
+                        <div className="">
+                          {loadingIcon === "profile" &&
+                          loading === teacher?.user?._id ? (
+                            <span className="text-white">Loading...</span>
+                          ) : (
+                            <Image
+                              onClick={() => {
+                                handleImpersonate(
+                                  teacher?.user?._id,
+                                  teacher?.user?.email,
+                                  teacher?.user?.role,
+                                  "profile"
+                                );
+                                handleNavigate(teacher?.user?.role);
+                              }}
+                              src={ProfileLogo}
+                              alt=""
+                              className="hover:cursor-pointer"
+                            />
+                          )}
+                        </div>
+                        <div className="">
+                          {loadingIcon === "chat" &&
+                          loading === teacher.user._id ? (
+                            <span className="text-white">Loading...</span>
+                          ) : (
+                            <Image
+                              onClick={() => {
+                                handleImpersonate(
+                                  teacher.user._id,
+                                  teacher.user.email,
+                                  teacher.user.role,
+                                  "chat"
+                                );
+                                router.push("/etutor");
+                                localStorage.setItem(
+                                  "ContactSupport",
+                                  "Support"
+                                );
+                                localStorage.setItem("history", "history");
+                              }}
+                              src={Chat}
+                              alt=""
+                              className="hover:cursor-pointer"
+                            />
+                          )}
+                        </div>
+                        <div className=" ">
+                          <Image src={Activity} alt="" />
+                        </div>
+                      </div>
                     </div>
-                  </div>
-
-                  <div
-                    className={`transition-opacity duration-500 px-12 custom-lg:hidden items-center  w-full justify-between ${
-                      Expand != null ? "flex" : "hidden"
-                    }`}
-                  >
-                    <div className="">
-                      <Image src={ProfileLogo} alt="" />
-                    </div>
-                    <div className="">
-                      <Image src={Chat} alt="" />
-                    </div>
-                    <div className=" ">
-                      <Image src={Activity} alt="" />
-                    </div>
-                  </div>
-                </div>
-              )
-            )}
-
-
-
-
+                  )
+                )}
               </div>
               <style jsx>{`
                 #style-3::-webkit-scrollbar-track {
@@ -495,7 +839,7 @@ const filteredTeacher = teacher
           <div className=" mt-3 sm:mt-6 custom-lg:mt-8 custom-xl:mt-16 p-3 sm:p-6 custom-lg:p-8 custom-xl:p-16 rounded-md sm:rounded-xl  custom-lg:rounded-3xl bg-[#ede8fa]">
             <div className="flex gap-4 sm:gap-8 custom-lg:gap-16 custom-xl:gap-24 items-center ">
               <div className="img  rounded-full h-[70px] sm:h-[100px] custom-xl:h-[164px] w-[70px] sm:w-[100px] custom-xl:w-[164px] flex items-center justify-center overflow-hidden">
-              <img src={selectedstudent?.user?.profilePicture} alt="" />
+                <img src={selectedstudent?.user?.profilePicture} alt="" />
               </div>
 
               <div className="flex flex-col gap-1 custom-xl:gap-3">
@@ -506,7 +850,7 @@ const filteredTeacher = teacher
                   Student ID: {selectedstudent?.user?._id.substring(0, 6)}
                 </span>
                 <span className=" text-lg custom-lg:text-xl custom-xl:text-[26px] leading-none font-medium text-[#9486c2]">
-                  {selectedstudent.user.planType || "No Membership"} 
+                  {selectedstudent?.user?.planType?.type || "No Membership"}
                 </span>
               </div>
             </div>
@@ -519,7 +863,13 @@ const filteredTeacher = teacher
                 <input
                   type="text"
                   className="mt-2 sm:mt-4 px-9 py-2 sm:py-3 custom-xl:py-5 outline-none block w-full rounded-lg text-white bg-[#B4A5D7] text-base sm:text-lg custom-xl:text-2xl "
-                  value={selectedstudent.user.role === "student" ? selectedstudent.personalInformation.age :selectedstudent.user.role === "parent" ? selectedstudent.childInformation.age: "Not Available"}
+                  value={
+                    selectedstudent.user.role === "student"
+                      ? selectedstudent.personalInformation.age
+                      : selectedstudent.user.role === "parent"
+                      ? selectedstudent.childInformation.age
+                      : "Not Available"
+                  }
                   disabled
                 />
               </div>
@@ -541,7 +891,13 @@ const filteredTeacher = teacher
                 <input
                   type="text"
                   className="mt-2 sm:mt-4 px-9 py-2 sm:py-3 custom-xl:py-5 outline-none block w-full rounded-lg text-white bg-[#B4A5D7] text-base sm:text-lg custom-xl:text-2xl "
-                  value={selectedstudent.user.role === "student" ? selectedstudent.personalInformation.institution  :selectedstudent.user.role === "parent" ?selectedstudent.childInformation.institution : "Not Available"}
+                  value={
+                    selectedstudent.user.role === "student"
+                      ? selectedstudent.personalInformation.institution
+                      : selectedstudent.user.role === "parent"
+                      ? selectedstudent.childInformation.institution
+                      : "Not Available"
+                  }
                   disabled
                 />
               </div>
@@ -552,10 +908,12 @@ const filteredTeacher = teacher
                 <input
                   type="text"
                   className="mt-2 sm:mt-4 px-9 py-2 sm:py-3 custom-xl:py-5 outline-none block w-full rounded-lg text-white bg-[#B4A5D7] text-base sm:text-lg custom-xl:text-2xl "
-                  value={new Date(selectedstudent.user.createdAt).toLocaleDateString('en-GB', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
+                  value={new Date(
+                    selectedstudent.user.createdAt
+                  ).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
                   })}
                   disabled
                 />
@@ -567,6 +925,8 @@ const filteredTeacher = teacher
                 <input
                   type="text"
                   className="mt-2 sm:mt-4 px-9 py-2 sm:py-3 custom-xl:py-5 outline-none block w-full rounded-lg text-white bg-[#B4A5D7] text-base sm:text-lg custom-xl:text-2xl "
+                  value={sessionscompleted.length || "0"}
+                  disabled
                 />
               </div>
               <div className="">
@@ -576,7 +936,9 @@ const filteredTeacher = teacher
                 <input
                   type="text"
                   className="mt-2 sm:mt-4 px-9 py-2 sm:py-3 custom-xl:py-5 outline-none block w-full rounded-lg text-white bg-[#B4A5D7] text-base sm:text-lg custom-xl:text-2xl "
-                  value={selectedstudent.user.sessionsPerMonth || "Not Available"}
+                  value={
+                    selectedstudent.user.sessionsPerMonth || "Not Available"
+                  }
                   disabled
                 />
               </div>
@@ -587,6 +949,8 @@ const filteredTeacher = teacher
                 <input
                   type="text"
                   className="mt-2 sm:mt-4 px-9 py-2 sm:py-3 custom-xl:py-5 outline-none block w-full rounded-lg text-white bg-[#B4A5D7] text-base sm:text-lg custom-xl:text-2xl "
+                  value={BookedSession.length || "0"}
+                  disabled
                 />
               </div>
               <div className="">
@@ -596,7 +960,8 @@ const filteredTeacher = teacher
                 <input
                   type="text"
                   className="mt-2 sm:mt-4 px-9 py-2 sm:py-3 custom-xl:py-5 outline-none block w-full rounded-lg text-white bg-[#B4A5D7] text-base sm:text-lg custom-xl:text-2xl "
-                  
+                  value={FreeTrialCompleted.length || "0"}
+                  disabled
                 />
               </div>
               <div className="">
@@ -606,7 +971,9 @@ const filteredTeacher = teacher
                 <input
                   type="text"
                   className="mt-2 sm:mt-4 px-9 py-2 sm:py-3 custom-xl:py-5 outline-none block w-full rounded-lg text-white bg-[#B4A5D7] text-base sm:text-lg custom-xl:text-2xl "
-                  value={selectedstudent.user.TrialSessionLeft || "Not Available"}
+                  value={
+                    selectedstudent.user.TrialSessionLeft || "Not Available"
+                  }
                   disabled
                 />
               </div>
@@ -615,36 +982,31 @@ const filteredTeacher = teacher
               <label className="block text-lg sm:text-3xl font-medium text-[#8276bc]   custom-xl:gap-x-12 mt-2 sm:mt-4 custom-lg:mt-7 custom-xl:mt-10">
                 Subjects Needed
               </label>
-              {selectedstudent.user.role === "parent" ? 
-
-              selectedstudent.subjectChildNeeds.length > 0 && (
-                <div className="flex flex-wrap items-start justify-start gap-2 mt-6  max-w-[26rem]  min-h-[5rem]">
-                  {selectedstudent.subjectChildNeeds.map((subject:any) => (
-                    <span
-                      key={subject}
-                      className="bg-[#6C5BAA] text-white px-10 w-full flex items-center  text-base custom-lg:text-2xl max-w-[187px] py-2 rounded-full justify-center "
-                    >
-                      {subject}
-                     
-                    </span>
-                  ))}
-                </div>
-              )
-              :(
-                selectedstudent.subjects.length > 0 && (
-                  <div className="flex flex-wrap items-start justify-start gap-2 mt-6  max-w-[26rem]  min-h-[5rem]">
-                    {selectedstudent.subjects.map((subject:any) => (
-                      <span
-                        key={subject}
-                        className="bg-[#6C5BAA] text-white px-10 w-full flex items-center  text-base custom-lg:text-2xl max-w-[187px] py-2 rounded-full justify-center "
-                      >
-                        {subject}
-                       
-                      </span>
-                    ))}
-                  </div>
-                )
-              )}
+              {selectedstudent.user.role === "parent"
+                ? selectedstudent.subjectChildNeeds.length > 0 && (
+                    <div className="flex flex-wrap items-start justify-start gap-2 mt-6  max-w-[26rem]  min-h-[5rem]">
+                      {selectedstudent.subjectChildNeeds.map((subject: any) => (
+                        <span
+                          key={subject}
+                          className="bg-[#6C5BAA] text-white px-10 w-full flex items-center  text-base custom-lg:text-2xl max-w-[187px] py-2 rounded-full justify-center "
+                        >
+                          {subject}
+                        </span>
+                      ))}
+                    </div>
+                  )
+                : selectedstudent.subjects.length > 0 && (
+                    <div className="flex flex-wrap items-start justify-start gap-2 mt-6  max-w-[26rem]  min-h-[5rem]">
+                      {selectedstudent.subjects.map((subject: any) => (
+                        <span
+                          key={subject}
+                          className="bg-[#6C5BAA] text-white px-10 w-full flex items-center  text-base custom-lg:text-2xl max-w-[187px] py-2 rounded-full justify-center "
+                        >
+                          {subject}
+                        </span>
+                      ))}
+                    </div>
+                  )}
             </div>
           </div>
 
@@ -798,7 +1160,7 @@ const filteredTeacher = teacher
           </div>
         </div>
       )}
-      
+
       {etutorPriceManagement && (
         <div className=" py-3 sm:py-6 custom-xl:py-[72px] px-3 custom-xl:px-8 bg-[#f6f4fd] h-full rounded-md sm:rounded-xl  custom-lg:rounded-3xl">
           <div>
@@ -813,12 +1175,13 @@ const filteredTeacher = teacher
           <div className=" mt-3 sm:mt-6 custom-lg:mt-8 custom-xl:mt-16 p-3 sm:p-6 custom-lg:p-8 custom-xl:p-16 rounded-md sm:rounded-xl  custom-lg:rounded-3xl bg-[#ede8fa]">
             <div className="flex gap-4 sm:gap-8 custom-lg:gap-16 custom-xl:gap-24 items-center ">
               <div className="img  rounded-full h-[70px] sm:h-[100px] custom-xl:h-[164px] w-[70px] sm:w-[100px] custom-xl:w-[164px] flex items-center justify-center overflow-hidden">
-              <img src={selectedetutor?.user?.profilePicture} alt="" />
+                <img src={selectedetutor?.user?.profilePicture} alt="" />
               </div>
 
               <div className="flex flex-col gap-1 custom-xl:gap-3">
                 <span className=" text-2xl custom-lg:text-4xl custom-xl:text-[55px] leading-none font-bold  text-[#6c5baa]">
-                {selectedetutor?.contactInformation?.firstName}   {selectedetutor?.contactInformation?.lastName}
+                  {selectedetutor?.contactInformation?.firstName}{" "}
+                  {selectedetutor?.contactInformation?.lastName}
                 </span>
                 <span className=" text-lg custom-lg:text-xl custom-xl:text-[33px] leading-none   text-[#6c5baa]">
                   eTutor ID: {selectedetutor?.user?._id.substring(0, 6)}
@@ -841,9 +1204,13 @@ const filteredTeacher = teacher
                 <input
                   type="text"
                   className="mt-2 sm:mt-4 px-9 py-2 sm:py-3 custom-xl:py-5 outline-none block w-full rounded-lg uppercase text-white bg-[#B4A5D7] text-base sm:text-lg custom-xl:text-2xl "
-                  value={selectedetutor?.DOB?.day && selectedetutor?.DOB?.month && selectedetutor?.DOB?.year
-                    ? `${selectedetutor.DOB.day} / ${selectedetutor.DOB.month} / ${selectedetutor.DOB.year}`
-                    : "Not Available"}
+                  value={
+                    selectedetutor?.DOB?.day &&
+                    selectedetutor?.DOB?.month &&
+                    selectedetutor?.DOB?.year
+                      ? `${selectedetutor.DOB.day} / ${selectedetutor.DOB.month} / ${selectedetutor.DOB.year}`
+                      : "Not Available"
+                  }
                   disabled
                 />
               </div>
@@ -854,7 +1221,7 @@ const filteredTeacher = teacher
                 <input
                   type="text"
                   className="mt-2 sm:mt-4 px-9 py-2 sm:py-3 custom-xl:py-5 outline-none block w-full rounded-lg text-white bg-[#B4A5D7] text-base sm:text-lg custom-xl:text-2xl "
-                  value={selectedetutor?.TotalRegularSession + selectedetutor?.TotalGroupSession}
+                  value={eTutorSessionCompleted.length || 0}
                   disabled
                 />
               </div>
@@ -865,7 +1232,7 @@ const filteredTeacher = teacher
                 <input
                   type="text"
                   className="mt-2 sm:mt-4 px-9 py-2 sm:py-3 custom-xl:py-5 outline-none block w-full rounded-lg text-white bg-[#B4A5D7] text-base sm:text-lg custom-xl:text-2xl "
-                  value={selectedetutor?.totalbooking}
+                  value={eTutorSessionBooked.length || 0}
                   disabled
                 />
               </div>
@@ -876,12 +1243,13 @@ const filteredTeacher = teacher
                 <input
                   type="text"
                   className="mt-2 sm:mt-4 px-9 py-2 sm:py-3 custom-xl:py-5 outline-none block w-full rounded-lg text-white bg-[#B4A5D7] text-base sm:text-lg custom-xl:text-2xl "
-                  value={new Date(selectedetutor?.user?.createdAt).toLocaleDateString('en-GB', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
+                  value={new Date(
+                    selectedetutor?.user?.createdAt
+                  ).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
                   })}
-                  
                   disabled
                 />
               </div>
@@ -892,6 +1260,8 @@ const filteredTeacher = teacher
                 <input
                   type="text"
                   className="mt-2 sm:mt-4 px-9 py-2 sm:py-3 custom-xl:py-5 outline-none block w-full rounded-lg text-white bg-[#B4A5D7] text-base sm:text-lg custom-xl:text-2xl "
+                  value={eTutorFreeTrialCompleted.length || 0}
+                  disabled
                 />
               </div>
               <div className="">
@@ -901,91 +1271,90 @@ const filteredTeacher = teacher
                 <input
                   type="text"
                   className="mt-2 sm:mt-4 px-9 py-2 sm:py-3 custom-xl:py-5 outline-none block w-full rounded-lg text-white bg-[#B4A5D7] text-base sm:text-lg custom-xl:text-2xl "
+                  value={eTutorFreeTrialBooked.length || 0}
+                  disabled
                 />
               </div>
             </div>
 
-
             <div>
-                <div className="box mt-12">
+              <div className="box mt-12">
                 <div className="bg-[#b4a5d7] text-[#7f71ba] rounded-lg p-4 max-w-md  shadow-md flex flex-col">
-      {/* Profile Section */}
-      <div className="flex items-center mb-2">
-        {/* Profile Image */}
-        <img
-          src="https://via.placeholder.com/40"
-          alt="Profile"
-          className="rounded-full h-12 w-12 mr-2"
-        />
-        {/* Name */}
-        <span className="text-lg font-semibold text-purple-700">
-          Youssef Amir
-        </span>
-      </div>
-
-      {/* Star Rating */}
-      <div className="flex items-center mb-4">
-        {[...Array(4)].map((_, index) => (
-          <span key={index} className="text-yellow-500 text-xl">
-            ★
-          </span>
-        ))}
-        <span className="text-gray-300 text-xl">★</span>
-      </div>
-
-      {/* Review Content */}
-      <p className="text-white text-sm mb-2">
-        I love how interactive and fun my tutoring sessions are! It’s not just
-        about studying; my tutor makes learning exciting.
-      </p>
-
-      {/* Date */}
-      <div className="text-right text-white text-xs">04 Oct 2024</div>
-    </div>
-                </div>
-            </div>
-          {/* Tutor Pricing */}
-          <div className="  py-3 sm:py-6 custom-xl:py-12 px-3 custom-xl:px-12   rounded-md sm:rounded-xl  custom-lg:rounded-3xl">
-           
-            <div className="   mt-3 sm:mt-5 custom-lg:mt-14 ">
-              <div className="flex justify-between px-2 sm:px-4 custom-lg:px-12 items-center text-xs sm:text-lg custom-lg:text-xl font-medium text-[#7669b5]">
-                <span className="leading-none ">eTutors level</span>
-                <span className="leading-none ">Price per Session</span>
-                
-                <span className="leading-none "></span>
-              </div>
-
-
-              <div className="mt-3 sm:mt-5 custom-lg:mt-8  max-h-[24rem] overflow-y-auto overflow-auto scrollbar-none flex flex-col gap-2 sm:gap-3 custom-xl:gap-5">
-                <div className=" py-2 sm:py-4 custom-lg:py-0 custom-lg:h-[6.7rem] rounded-md sm:rounded-xl  custom-lg:rounded-3xl bg-[#b4a5d7] flex items-center justify-between gap-2 px-2 sm:px-4  custom-lg:px-0 custom-lg:pl-12 custom-lg:pr-7">
-                  <span>
-                    <h1 className="text-xs sm:text-lg custom-lg:text-3xl font-medium text-white ">
-                      Junior
-                    </h1>
-                    <span className=" text-white text-xs sm:text-base custom-lg:text-2xl leading-tight">
-                      etutor lvl
+                  {/* Profile Section */}
+                  <div className="flex items-center mb-2">
+                    {/* Profile Image */}
+                    <img
+                      src="https://via.placeholder.com/40"
+                      alt="Profile"
+                      className="rounded-full h-12 w-12 mr-2"
+                    />
+                    {/* Name */}
+                    <span className="text-lg font-semibold text-purple-700">
+                      Youssef Amir
                     </span>
-                  </span>
-                  <div className="flex gap-2 custom-lg:gap-4 items-center">
-                    <div className=" bg-[#cfc7e8] px-5 sm:px-9  py-1 sm:py-3 custom-lg:py-4  text-xs sm:text-lg custom-lg:text-2xl  font-medium rounded-sm sm:rounded-xl shadow-sm text-[#7f72b9]">
-                      $152.4
+                  </div>
+
+                  {/* Star Rating */}
+                  <div className="flex items-center mb-4">
+                    {[...Array(4)].map((_, index) => (
+                      <span key={index} className="text-yellow-500 text-xl">
+                        ★
+                      </span>
+                    ))}
+                    <span className="text-gray-300 text-xl">★</span>
+                  </div>
+
+                  {/* Review Content */}
+                  <p className="text-white text-sm mb-2">
+                    I love how interactive and fun my tutoring sessions are!
+                    It’s not just about studying; my tutor makes learning
+                    exciting.
+                  </p>
+
+                  {/* Date */}
+                  <div className="text-right text-white text-xs">
+                    04 Oct 2024
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Tutor Pricing */}
+            <div className="  py-3 sm:py-6 custom-xl:py-12 px-3 custom-xl:px-12   rounded-md sm:rounded-xl  custom-lg:rounded-3xl">
+              <div className="   mt-3 sm:mt-5 custom-lg:mt-14 ">
+                <div className="flex justify-between px-2 sm:px-4 custom-lg:px-12 items-center text-xs sm:text-lg custom-lg:text-xl font-medium text-[#7669b5]">
+                  <span className="leading-none ">eTutors level</span>
+                  <span className="leading-none ">Price per Session</span>
+
+                  <span className="leading-none "></span>
+                </div>
+
+                <div className="mt-3 sm:mt-5 custom-lg:mt-8  max-h-[24rem] overflow-y-auto overflow-auto scrollbar-none flex flex-col gap-2 sm:gap-3 custom-xl:gap-5">
+                  <div className=" py-2 sm:py-4 custom-lg:py-0 custom-lg:h-[6.7rem] rounded-md sm:rounded-xl  custom-lg:rounded-3xl bg-[#b4a5d7] flex items-center justify-between gap-2 px-2 sm:px-4  custom-lg:px-0 custom-lg:pl-12 custom-lg:pr-7">
+                    <span>
+                      <h1 className="text-xs sm:text-lg custom-lg:text-3xl font-medium text-white ">
+                        Junior
+                      </h1>
+                      <span className=" text-white text-xs sm:text-base custom-lg:text-2xl leading-tight">
+                        etutor lvl
+                      </span>
+                    </span>
+                    <div className="flex gap-2 custom-lg:gap-4 items-center">
+                      <div className=" bg-[#cfc7e8] px-5 sm:px-9  py-1 sm:py-3 custom-lg:py-4  text-xs sm:text-lg custom-lg:text-2xl  font-medium rounded-sm sm:rounded-xl shadow-sm text-[#7f72b9]">
+                        $152.4
+                      </div>
+                      <span className="text-xs sm:text-lg custom-lg:text-2xl text-white uppercase">
+                        usd
+                      </span>
                     </div>
-                    <span className="text-xs sm:text-lg custom-lg:text-2xl text-white uppercase">
-                      usd
-                    </span>
-                  </div>
-                  
 
-                  <div className="px-5 sm:px-7 custom-lg:px-[62px] py-1 sm:py-3 custom-lg:py-4 bg-[#fc7777] text-xs sm:text-lg custom-lg:text-2xl text-white font-medium rounded-sm sm:rounded-lg">
-                    EDIT
+                    <div className="px-5 sm:px-7 custom-lg:px-[62px] py-1 sm:py-3 custom-lg:py-4 bg-[#fc7777] text-xs sm:text-lg custom-lg:text-2xl text-white font-medium rounded-sm sm:rounded-lg">
+                      EDIT
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          </div>
-
-
         </div>
       )}
     </div>

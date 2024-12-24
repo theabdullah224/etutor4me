@@ -1,6 +1,6 @@
 
     import React, { useEffect, useState } from "react";
-import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp } from "lucide-react";
 
 const months = [
   "Jan",
@@ -19,8 +19,13 @@ const months = [
 
 const names = ["Total", "Daily", "Weekly", "Monthly", "Yearly"];
 
-function SubscriptionOverTime() {
+interface SubscriptionOverTimeprops{
+  user:any
+}
+
+function SubscriptionOverTime({user}:SubscriptionOverTimeprops) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [subscriptionData, setSubscriptionData] = useState<any>(null);
   const [currentName, setCurrentName] = useState(names[0]);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [storedDates, setStoredDates] = useState([currentDate]); // To store all visited dates
@@ -174,6 +179,102 @@ function SubscriptionOverTime() {
   useEffect(() => {
     setCurrentName(names[currentIndex]);
   }, [currentIndex]);
+
+
+
+  const premiumCount = user.filter((user:any) => user?.planType?.type === "Premium").length;
+
+// Count Standard memberships
+const standardCount = user.filter((user:any) => user?.planType?.type === "Standard").length;
+
+
+
+
+
+
+
+
+
+
+
+
+useEffect(() => {
+  const calculateSubscriptionTrends = (users: any[]) => {
+    // Current Date and Time Intervals
+    const currentDate = new Date();
+    const oneDayAgo = new Date(currentDate);
+    oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+
+    const oneWeekAgo = new Date(currentDate);
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+    const oneMonthAgo = new Date(currentDate);
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+    const oneYearAgo = new Date(currentDate);
+    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
+    // Filter users by planType and time intervals
+    const dailyUsers = users.filter(
+      (user: any) => user.planType && new Date(user.createdAt) >= oneDayAgo
+    );
+    const weeklyUsers = users.filter(
+      (user: any) => user.planType && new Date(user.createdAt) >= oneWeekAgo
+    );
+    const monthlyUsers = users.filter(
+      (user: any) => user.planType && new Date(user.createdAt) >= oneMonthAgo
+    );
+    const yearlyUsers = users.filter(
+      (user: any) => user.planType && new Date(user.createdAt) >= oneYearAgo
+    );
+
+    // Count the number of users
+    const dailyCount = dailyUsers.length;
+    const weeklyCount = weeklyUsers.length;
+    const monthlyCount = monthlyUsers.length;
+    const yearlyCount = yearlyUsers.length;
+
+    // Calculate average users per day over the past week, month, and year
+    const avgUsersPerDayLastWeek = weeklyCount / 7;
+    const avgUsersPerDayLastMonth = monthlyCount / 30; // Assuming 30 days in a month
+    const avgUsersPerDayLastYear = yearlyCount / 365; // Assuming 365 days in a year
+
+    // Calculate percentage changes
+    const dailyChange = avgUsersPerDayLastWeek
+      ? ((dailyCount - avgUsersPerDayLastWeek) / avgUsersPerDayLastWeek) * 100
+      : 0;
+
+    const weeklyChange = avgUsersPerDayLastMonth * 7
+      ? ((weeklyCount - avgUsersPerDayLastMonth * 7) / (avgUsersPerDayLastMonth * 7)) * 100
+      : 0;
+
+    const monthlyChange = avgUsersPerDayLastYear * 30
+      ? ((monthlyCount - avgUsersPerDayLastYear * 30) / (avgUsersPerDayLastYear * 30)) * 100
+      : 0;
+
+    const yearlyChange = yearlyCount
+      ? ((yearlyCount - avgUsersPerDayLastYear * 365) / (avgUsersPerDayLastYear * 365)) * 100
+      : 0;
+
+    // Cap the changes to 100% max
+    return {
+      dailyCount,
+      weeklyCount,
+      monthlyCount,
+      yearlyCount,
+      dailyChange: Math.min(dailyChange, 100).toFixed(2), // e.g., "12.34%"
+      weeklyChange: Math.min(weeklyChange, 100).toFixed(2),
+      monthlyChange: Math.min(monthlyChange, 100).toFixed(2),
+      yearlyChange: Math.min(yearlyChange, 100).toFixed(2),
+    };
+  };
+
+  const result = calculateSubscriptionTrends(user);
+  setSubscriptionData(result);
+}, [user]);
+
+
+
   return (
     <div className="h-full hover:cursor-pointer px-3 custom-xl:px-6 py-3 custom-xl:py-6  bg-[#ede8fa]  rounded-md sm:rounded-xl  custom-lg:rounded-3xl">
 
@@ -183,12 +284,74 @@ function SubscriptionOverTime() {
           Subscriptions over time 
           </h1>
           <h1 className="text-3xl md:text-4xl custom-lg:text-[44px]  mb-2 leading-none text-[#685AAD] font-medium py-2 custom-lg:py-6">
-          15 subscription
+          {(premiumCount + standardCount)} subscription
           </h1>
-          <h1 className="text-base sm:text-lg custom-lg:text-2xl font-bold leading-none text-[#a398cf] flex items-center  gap-3">
-            {" "}
-            <ChevronDown className="font-extrabold  " /> 12.4%
+          <div>
+      {subscriptionData ? (
+        <>
+          {/* Daily Trend */}
+
+            {currentName === "Daily"&&(
+
+          <h1 className="text-base sm:text-lg custom-lg:text-2xl font-bold leading-none text-[#a398cf] flex items-center gap-3">
+            {currentName === "Daily" && subscriptionData.dailyChange > 0 ? (
+              <ChevronUp className="font-extrabold" />
+            ) : (
+              <ChevronDown className="font-extrabold" />
+            )}
+            {Math.abs(subscriptionData.dailyChange)}%
           </h1>
+            )}
+
+          {/* Weekly Trend */}
+          {currentName === "Weekly"&&(
+
+          <h1 className="text-base sm:text-lg custom-lg:text-2xl font-bold leading-none text-[#a398cf] flex items-center gap-3">
+            {currentName === "Weekly"&& subscriptionData.weeklyChange > 0 ? (
+              <ChevronUp className="font-extrabold" />
+            ) : (
+              <ChevronDown className="font-extrabold" />
+            )}
+            {Math.abs(subscriptionData.weeklyChange)}%
+          </h1>
+          )}
+
+          {/* Monthly Trend */}
+          {true&& (
+
+          <h1 className="text-base sm:text-lg custom-lg:text-2xl font-bold leading-none text-[#a398cf] flex items-center gap-3">
+            {subscriptionData.monthlyChange > 0 ? (
+              <>
+              <ChevronUp className="font-extrabold text-[#8856fc]" />
+              <span className="text-[#8856fc]"> {Math.abs(subscriptionData.monthlyChange)}%</span>
+              </>
+            ) : (
+              <>
+              <ChevronDown className="font-extrabold" />
+              <span className=""> {Math.abs(subscriptionData.monthlyChange)}%</span>
+              </>
+            )}
+           
+          </h1>
+          )}
+
+          {/* Yearly Trend */}
+       {currentName === "Yearly"&&(
+
+          <h1 className="text-base sm:text-lg custom-lg:text-2xl font-bold leading-none text-[#a398cf] flex items-center gap-3">
+            {(currentName === "Yearly" || currentName === "total")&& subscriptionData.yearlyChange > 0 ? (
+              <ChevronUp className="font-extrabold" />
+            ) : (
+              <ChevronDown className="font-extrabold" />
+            )}
+            {Math.abs(subscriptionData.yearlyChange)}%
+          </h1>
+       )}
+        </>
+      ) : (
+        <div>Loading subscription data...</div>
+      )}
+    </div>
         </div>
 
         <div className=" flex flex-col justify-between   pt-3">
